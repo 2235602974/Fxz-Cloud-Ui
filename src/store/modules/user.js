@@ -1,11 +1,13 @@
+import Vue from 'vue'
 import storage from 'store'
 import { login, getInfo, logout } from '@/api/login'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 
 const user = {
   state: {
     token: '',
+    refresh_token: '',
     name: '',
     welcome: '',
     avatar: '',
@@ -14,6 +16,9 @@ const user = {
   },
 
   mutations: {
+    SET_REFRESH_TOKEN: (state, token) => {
+      state.refresh_token = token
+    },
     SET_TOKEN: (state, token) => {
       state.token = token
     },
@@ -37,9 +42,14 @@ const user = {
     Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
-          const result = response.result
-          storage.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
-          commit('SET_TOKEN', result.token)
+          const result = response
+          console.log('result:', result)
+          console.log('response:', response)
+          console.log('result.access_token:', result.access_token)
+          Vue.ls.set(ACCESS_TOKEN, result.access_token, result.expires_in)
+          Vue.ls.set(REFRESH_TOKEN, result.access_token)
+          commit('SET_TOKEN', result.access_token)
+          commit('SET_REFRESH_TOKEN', result.refresh_token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -51,28 +61,21 @@ const user = {
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const result = response.result
-
-          if (result.role && result.role.permissions.length > 0) {
-            const role = result.role
-            role.permissions = result.role.permissions
-            role.permissions.map(per => {
-              if (per.actionEntitySet != null && per.actionEntitySet.length > 0) {
-                const action = per.actionEntitySet.map(action => { return action.action })
-                per.actionList = action
-              }
-            })
-            role.permissionList = role.permissions.map(permission => { return permission.permissionId })
-            commit('SET_ROLES', result.role)
-            commit('SET_INFO', result)
-          } else {
-            reject(new Error('getInfo: roles must be a non-null array !'))
+          const result = response
+          const role = {
+            permissions: result.authorities
           }
 
-          commit('SET_NAME', { name: result.name, welcome: welcome() })
-          commit('SET_AVATAR', result.avatar)
+          Vue.ls.set('Roles', role)
+          Vue.ls.set('Info', result)
+          commit('SET_ROLES', role)
+          commit('SET_INFO', result)
+          Vue.ls.set('Name', { name: result.principal.username, welcome: welcome() })
+          Vue.ls.set('Avatar', result.principal.avatar)
+          commit('SET_NAME', { name: result.principal.username, welcome: welcome() })
+          commit('SET_AVATAR', result.principal.avatar)
 
-          resolve(response)
+          resolve(role)
         }).catch(error => {
           reject(error)
         })

@@ -1,6 +1,6 @@
+import Vue from 'vue'
 import router from './router'
 import store from './store'
-import storage from 'store'
 import NProgress from 'nprogress' // progress bar
 import '@/components/NProgress/nprogress.less' // progress bar custom style
 import notification from 'ant-design-vue/es/notification'
@@ -18,18 +18,19 @@ router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`))
   /* has token */
-  if (storage.get(ACCESS_TOKEN)) {
+  if (Vue.ls.get(ACCESS_TOKEN)) {
     if (to.path === loginRoutePath) {
       next({ path: defaultRoutePath })
       NProgress.done()
     } else {
       // check login user.roles is null
-      if (store.getters.roles.length === 0) {
+      if (store.getters.addRouters.length === 0) {
         // request login userInfo
         store
           .dispatch('GetInfo')
           .then(res => {
-            const roles = res.result && res.result.role
+            console.log('userInfo:', res)
+            const roles = res
             // generate dynamic router
             store.dispatch('GenerateRoutes', { roles }).then(() => {
               // 根据roles权限生成可访问的路由表

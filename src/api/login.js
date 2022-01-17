@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/auth/login',
+  Login: '/auth/oauth/token',
   Logout: '/auth/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
@@ -9,8 +9,8 @@ const userApi = {
   SendSms: '/account/sms',
   SendSmsErr: '/account/sms_err',
   // get my info
-  UserInfo: '/user/info',
-  UserMenu: '/user/nav'
+  UserInfo: '/auth/user/info',
+  UserMenu: '/system/menu/nav'
 }
 
 /**
@@ -25,10 +25,20 @@ const userApi = {
  * @returns {*}
  */
 export function login (parameter) {
+  // 密码模式
+  // eslint-disable-next-line camelcase
+  const grant_type = 'password'
+  const key = 77777439
+  const code = 4726
   return request({
     url: userApi.Login,
     method: 'post',
-    data: parameter
+    data: parameter,
+    headers: {
+      'Authorization': 'Basic c3dhZ2dlcjoxMjM0NTY=' // swagger:123456 避免验证验证码 http://localhost:8301/auth/captcha?key=77777439生成验证码
+      // fxz:123456  'Authorization': 'Basic Znh6OjEyMzQ1Ng=='
+    },
+    params: { grant_type, code, key, username: parameter.username, password: parameter.password }
   })
 }
 
@@ -43,10 +53,7 @@ export function getSmsCaptcha (parameter) {
 export function getInfo () {
   return request({
     url: userApi.UserInfo,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
+    method: 'get'
   })
 }
 
