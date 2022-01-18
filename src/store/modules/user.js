@@ -43,10 +43,8 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const result = response
-          console.log('result:', result)
-          console.log('response:', response)
-          console.log('result.access_token:', result.access_token)
-          Vue.ls.set(ACCESS_TOKEN, result.access_token, result.expires_in)
+          // Vue.ls.set(ACCESS_TOKEN, result.access_token)
+          Vue.ls.set(ACCESS_TOKEN, result.access_token, result.expires_in * 1000)
           Vue.ls.set(REFRESH_TOKEN, result.access_token)
           commit('SET_TOKEN', result.access_token)
           commit('SET_REFRESH_TOKEN', result.refresh_token)
@@ -92,6 +90,7 @@ const user = {
         }).finally(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          Vue.ls.remove(ACCESS_TOKEN)
           storage.remove(ACCESS_TOKEN)
         })
       })

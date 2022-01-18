@@ -12,24 +12,24 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['login', 'register', 'registerResult'] // no redirect whitelist
 const loginRoutePath = '/user/login'
-const defaultRoutePath = '/dashboard/workplace'
+const defaultRoutePath = '/welcome'
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`))
   /* has token */
   if (Vue.ls.get(ACCESS_TOKEN)) {
+    // 如果已经有了token 并且还访问登录页面 页面跳转到控制台
     if (to.path === loginRoutePath) {
       next({ path: defaultRoutePath })
       NProgress.done()
     } else {
-      // check login user.roles is null
+      // check login user.roles is null 如果没有路由信息 调后端接口获取路由菜单
       if (store.getters.addRouters.length === 0) {
         // request login userInfo
         store
           .dispatch('GetInfo')
           .then(res => {
-            console.log('userInfo:', res)
             const roles = res
             // generate dynamic router
             store.dispatch('GenerateRoutes', { roles }).then(() => {
@@ -58,6 +58,7 @@ router.beforeEach((to, from, next) => {
             })
           })
       } else {
+        // 如果登陆成功并且有路由菜单信息 直接放行
         next()
       }
     }
@@ -66,6 +67,7 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
+      // 没有token 页面跳转到登录
       next({ path: loginRoutePath, query: { redirect: to.fullPath } })
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }

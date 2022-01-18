@@ -82,8 +82,8 @@ const vueConfig = {
         modifyVars: {
           // less vars，customize fxz-cloud theme
 
-          // 'primary-color': '#F5222D',
-          // 'link-color': '#F5222D',
+          'primary-color': '#1890ff',
+          'link-color': '#1890ff',
           'border-radius-base': '2px'
         },
         // DO NOT REMOVE THIS LINE
@@ -117,7 +117,6 @@ const vueConfig = {
 
 // preview.pro.loacg.com only do not use in your production;
 if (process.env.VUE_APP_PREVIEW === 'true') {
-  console.log('VUE_APP_PREVIEW', true)
   // add `ThemeColorReplacer` plugin to webpack plugins
   vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
 }

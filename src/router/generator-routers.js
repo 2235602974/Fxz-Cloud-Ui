@@ -12,24 +12,38 @@ const constantRouterComponents = {
   PageView: PageView,
   '403': () => import(/* webpackChunkName: "error" */ '@/views/exception/403'),
   '404': () => import(/* webpackChunkName: "error" */ '@/views/exception/404'),
-  '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500')
+  '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500'),
+
+  'analysis': () => import('@/views/dashboard/Analysis'),
+  'workplace': () => import('@/views/dashboard/Workplace'),
+  'monitor': () => import('@/views/dashboard/Monitor')
 }
+
+/* const constRouter = [
+  {
+    path: '/welcome',
+    name: 'welcome',
+    component: 'index/welcome',
+    title: '首页',
+    hidden: '1'
+  }
+] */
 
 // 前端未找到页面路由（固定不用改）
 const notFoundRouter = {
-  path: '*', redirect: '/404', hidden: true
+  path: '*',
+  redirect: '/404',
+  hidden: '1',
+  title: '404'
 }
 
 // 根级菜单
 const rootRouter = {
-  key: '',
   name: 'index',
-  path: '',
+  path: '/',
   component: 'BasicLayout',
-  redirect: '/dashboard',
-  meta: {
-    title: '首页'
-  },
+  redirect: '/welcome',
+  title: 'welcome',
   children: []
 }
 
@@ -41,15 +55,12 @@ const rootRouter = {
 export const generatorDynamicRouter = (token) => {
   return new Promise((resolve, reject) => {
     loginService.getCurrentUserNav(token).then(res => {
-      console.log('res', res)
-      const { result } = res
+      // const { result } = res
       const menuNav = []
-      rootRouter.children = result
+      rootRouter.children = res.data.routes
       menuNav.push(rootRouter)
-      console.log('menuNav', menuNav)
       const routers = generator(menuNav)
       routers.push(notFoundRouter)
-      console.log('routers', routers)
       resolve(routers)
     }).catch(err => {
       reject(err)
@@ -61,41 +72,34 @@ export const generatorDynamicRouter = (token) => {
  * 格式化树形结构数据 生成 vue-router 层级路由表
  *
  * @param routerMap
- * @param parent
  * @returns {*}
  */
-export const generator = (routerMap, parent) => {
+export const generator = (routerMap) => {
   return routerMap.map(item => {
-    const { title, show, hideChildren, hiddenHeaderContent, target, icon } = item.meta || {}
     const currentRouter = {
       // 如果路由设置了 path，则作为默认 path，否则 路由地址 动态拼接生成如 /dashboard/workplace
-      path: item.path || `${parent && parent.path || ''}/${item.key}`,
+      path: item.path,
       // 路由名称，建议唯一
-      name: item.name || item.key || '',
+      name: item.name,
       // 该路由对应页面的 组件 :方案1
       // component: constantRouterComponents[item.component || item.key],
-      // 该路由对应页面的 组件 :方案2 (动态加载)
-      component: (constantRouterComponents[item.component || item.key]) || (() => import(`@/views/${item.component}`)),
+      // 该路由对应页面的 组件 :方案2 (动态加载) 注意此处组件路径包名
+      component: (constantRouterComponents[item.component]) || (() => import(`@/views/${item.component}`)),
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
-        title: title,
-        icon: icon || undefined,
-        hiddenHeaderContent: hiddenHeaderContent,
-        target: target,
+        icon: 'setting',
+        title: item.title,
         permission: item.name
       }
     }
     // 是否设置了隐藏菜单
-    if (show === false) {
+    if (item.hidden || !item.title) {
       currentRouter.hidden = true
     }
-    // 是否设置了隐藏子菜单
-    if (hideChildren) {
-      currentRouter.hideChildrenInMenu = true
-    }
+
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
-    if (!currentRouter.path.startsWith('http')) {
+    if (currentRouter.path && !currentRouter.path.startsWith('http')) {
       currentRouter.path = currentRouter.path.replace('//', '/')
     }
     // 重定向
