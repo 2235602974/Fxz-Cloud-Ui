@@ -10,8 +10,6 @@ import i18n from './locales'
 import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
-// mock
-// WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 
 import bootstrap from './core/bootstrap'
 
@@ -19,15 +17,19 @@ import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
 import './global.less'
-// eslint-disable-next-line no-undef
 
 import Storage from 'vue-ls'
+
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/index.css'
 
 Vue.config.productionTip = false
 
 // mount axios to `Vue.$http` and `this.$http`
 
 Vue.use(VueAxios)
+Vue.use(VXETable)
 
 Vue.component('pro-layout', ProLayout)
 Vue.component('page-header-wrapper', PageHeaderWrapper)

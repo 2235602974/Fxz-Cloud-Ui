@@ -88,9 +88,9 @@ export const generator = (routerMap) => {
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
-        icon: 'setting',
+        icon: 'reddit',
         title: item.title,
-        permission: item.name
+        permission: item.perms
       }
     }
     // 是否设置了隐藏菜单

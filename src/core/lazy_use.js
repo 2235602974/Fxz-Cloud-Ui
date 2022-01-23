@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 // base library
 import {
+  TreeSelect,
   ConfigProvider,
   Layout,
   Input,
@@ -49,13 +50,18 @@ import {
 import Viser from 'viser-vue'
 
 // ext library
+import VTable from '@/components/VxeTable'
 import VueCropper from 'vue-cropper'
 import Dialog from '@/components/Dialog'
 import MultiTab from '@/components/MultiTab'
 import PageLoading from '@/components/PageLoading'
 import PermissionHelper from '@/utils/helper/permission'
 import './directives/action'
+import BizCom from '@/components/BaseComp'
 
+Vue.use(BizCom)
+Vue.use(VTable)
+Vue.use(TreeSelect)
 Vue.use(ConfigProvider)
 Vue.use(Layout)
 Vue.use(Input)

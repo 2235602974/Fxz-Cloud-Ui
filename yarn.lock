@@ -6675,6 +6675,11 @@ jest@^24.9.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
+jquery@^3.5.1:
+  version "3.6.0"
+  resolved "https://registry.npmmirror.com/jquery/download/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
+  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
+
 js-beautify@^1.6.12, js-beautify@^1.6.14:
   version "1.11.0"
   resolved "https://registry.npm.taobao.org/js-beautify/download/js-beautify-1.11.0.tgz#afb873dc47d58986360093dcb69951e8bcd5ded2"
@@ -9793,6 +9798,11 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
+sortablejs@^1.10.2:
+  version "1.14.0"
+  resolved "https://registry.npmmirror.com/sortablejs/download/sortablejs-1.14.0.tgz#6d2e17ccbdb25f464734df621d4f35d4ab35b3d8"
+  integrity sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==
+
 source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/source-list-map/download/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
@@ -11018,6 +11028,11 @@ vuex@^3.1.1:
   resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.3.0.tgz#665b4630ea1347317139fcc5cb495aab3ec5e513"
   integrity sha1-ZltGMOoTRzFxOfzFy0laqz7F5RM=
 
+vxe-table@^2.9.9:
+  version "2.11.0"
+  resolved "https://registry.npmmirror.com/vxe-table/download/vxe-table-2.11.0.tgz#0000e5da80a518ae781fc18ad4a47a94da18f571"
+  integrity sha512-dDLV2Iiy/8Yiy14MX91TQb2HsW9K5ZYS3+xIjBmKc5JFMEHeuB8SxaFShSXhVk9GNTd+/u0GqvQhDoQ1WXAwnw==
+
 w3c-hr-time@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/w3c-hr-time/download/w3c-hr-time-1.0.2.tgz?cache=0&sync_timestamp=1583455604765&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fw3c-hr-time%2Fdownload%2Fw3c-hr-time-1.0.2.tgz#0a89cdf5cc15822df9c360543676963e0cc308cd"
@@ -11377,6 +11392,11 @@ ws@^7.0.0:
   version "7.2.5"
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.5.tgz#abb1370d4626a5a9cd79d8de404aa18b3465d10d"
   integrity sha1-q7E3DUYmpanNedjeQEqhizRl0Q0=
+
+xe-utils@^2.4.5:
+  version "2.8.3"
+  resolved "https://registry.npmmirror.com/xe-utils/download/xe-utils-2.8.3.tgz#b5cc9e871d1115a7ac3f2a9292c1dea5efe0f2d0"
+  integrity sha1-tcyehx0RFaesPyqSksHepe/g8tA=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

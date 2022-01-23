@@ -60,8 +60,13 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const result = response
+
+          const perms = []
+          if (result.authorities && result.authorities.length > 0) {
+            result.authorities.map(item => perms.push(item.authority))
+          }
           const role = {
-            permissions: result.authorities
+            permissions: perms
           }
 
           Vue.ls.set('Roles', role)
