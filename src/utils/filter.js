@@ -18,3 +18,11 @@ Vue.filter('dayjs', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
 Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
   return moment(dataStr).format(pattern)
 })
+
+Vue.filter('dictFilter', function (data, list = []) {
+  try {
+    return list.filter(item => Number(item.value) === Number(data))[0].label
+  } catch (e) {
+    return data
+  }
+})

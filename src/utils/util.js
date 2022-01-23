@@ -1,3 +1,22 @@
+export function treeDataTranslate (data, value = 'value', title = 'title', children = 'children') {
+  const temp = []
+  console.log('data:', data)
+  for (let i = 0; i < data.length; i++) {
+    const p = {
+      key: data[i][value],
+      title: data[i][title],
+      value: String(data[i][value])
+    }
+    console.log('p:', p)
+    if (data[i][children] && data[i][children].length > 0) {
+      p.children = treeDataTranslate(data[i][children], value, title, children)
+    }
+    temp.push(p)
+  }
+  console.log(temp)
+  return temp
+}
+
 export function timeFix () {
   const time = new Date()
   const hour = time.getHours()

@@ -56,6 +56,7 @@
           :width="column.width"
           :sortable="column.sortable || false"
           :tree-node="column.treeNode || false"
+          :align="column.align||'left'"
         >
           <template slot-scope="scope">
             <span v-if="column.slot != true && !column.type">

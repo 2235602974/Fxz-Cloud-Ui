@@ -94,7 +94,7 @@ export const generator = (routerMap) => {
       }
     }
     // 是否设置了隐藏菜单
-    if (item.hidden || !item.title) {
+    if (item.hidden && String(item.hidden) === '1' || !item.title) {
       currentRouter.hidden = true
     }
 

@@ -5,14 +5,15 @@
     :placeholder="placeholder"
     :readonly="readonly"
     :disabled="disabled"
-    @click.native="handleClick"
     @change="handleChange"
     :tree-data="netDic"
   >
+    <!--     @click.native="handleClick"-->
   </a-tree-select>
 </template>
 
 <script>
+import { axios } from '@/utils/request'
 import props from '../core/props'
 import event from '../core/event'
 import create from '../core/create'
@@ -41,8 +42,10 @@ export default create({
     console.log('select 运行请求', this.dic, this.dicUrl)
     if (this.dic.length === 0 && this.dicUrl) {
       this.loading = true
-      this.axios.get(this.dicUrl).then(res => {
+      axios.get(this.dicUrl).then(res => {
+        console.log('res：', res.data)
         this.netDic = treeDataTranslate(res.data, 'id', 'title')
+        console.log('netDic:', this.netDic)
       }).catch(err => {
         this.$message.error(err.msg)
       }).finally(_ => {

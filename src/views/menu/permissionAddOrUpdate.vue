@@ -26,8 +26,8 @@
           :wrapperCol="wrapperCol"
         >
           <biz-select-tree
-            :dicUrl="'/sys/permission/select'"
-            v-decorator="['parentId',{rules: [{required: true, message: '请选择菜单类型'}]}]"
+            :dicUrl="'/system/menu/getTreeSelect'"
+            v-decorator="['parentId',{rules: [{required: true, message: '请选择上级菜单!'}]}]"
           >
           </biz-select-tree>
         </a-form-item>
@@ -36,10 +36,14 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <biz-select
-            :dicUrl="'/sys/dict/type/menuType'"
+          <a-select
             @change="handleChangeMenu"
-            v-decorator="['type', {rules: [{required: true, message: '请选择菜单类型'}]}]" />
+            v-decorator="['type', { rules: [{ required: true, message: '请选择菜单类型!' }] }]"
+          >
+            <a-select-option :key="dict.value" v-for="dict in typeDict">
+              {{ dict.label }}
+            </a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
           label="名称"
@@ -48,27 +52,26 @@
         >
           <a-input
             :readonly="showable"
-            v-decorator="['title', {rules: [{required: true, message: '请输入名称'}]}]" />
+            v-decorator="['title', {rules: [{required: true, message: '请输入菜单名称!'}]}]" />
         </a-form-item>
         <a-form-item
           label="URL"
           :labelCol="labelCol"
-          v-if="menuType !== '2'"
           :wrapperCol="wrapperCol"
         >
           <a-input
             :readonly="showable"
-            v-decorator="['url', {rules: [{required: true, message: '请输入权限代码'}]}]" />
+            v-decorator="['path', {rules: [{required: true, message: '请输入访问路径!'}]}]" />
         </a-form-item>
         <a-form-item
           label="组件地址"
           :labelCol="labelCol"
-          v-if="menuType !== '2'"
+          v-if="menuType !== '1'"
           :wrapperCol="wrapperCol"
         >
           <a-input
             :readonly="showable"
-            v-decorator="['component', {rules: [{required: true, message: '请输入权限代码'}]}]" />
+            v-decorator="['component', {rules: [{required: true, message: '请输入组件地址!'}]}]" />
         </a-form-item>
         <a-form-item
           label="组件名称"
@@ -78,33 +81,36 @@
         >
           <a-input
             :readonly="showable"
-            v-decorator="['componentName', {rules: [{required: true, message: '请输入权限代码'}]}]" />
+            v-decorator="['name', {rules: [{required: true, message: '请输入组件名称!'}]}]" />
         </a-form-item>
         <a-form-item
           label="是否缓存"
           :labelCol="labelCol"
-          v-if="menuType !== '2'"
+          v-if="menuType !== '1'"
           :wrapperCol="wrapperCol"
         >
-          <a-radio-group :options="isOrNoList" v-decorator="['keepAlive', {rules: [{required: true, message: '请选择页面是否缓存'}]}]" />
+          <a-radio-group
+            :options="isOrNoList"
+            v-decorator="['keepAlive', {rules: [{required: true, message: '请选择页面是否缓存!'}]}]" />
         </a-form-item>
         <a-form-item
           label="是否隐藏"
-          v-if="menuType !== '2'"
+          v-if="menuType !== '1'"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-radio-group :options="isOrNoList" v-decorator="['hidden', {rules: [{required: true, message: '请选择页面是否隐藏'}]}]" />
+          <a-radio-group
+            :options="isOrNoList"
+            v-decorator="['hidden', {rules: [{required: true, message: '请选择页面是否隐藏!'}]}]" />
         </a-form-item>
         <a-form-item
           label="权限代码"
           :labelCol="labelCol"
-          v-if="menuType === '2'"
           :wrapperCol="wrapperCol"
         >
           <a-input
             :readonly="showable"
-            v-decorator="['perms', {rules: [{required: true, message: '请输入权限代码'}]}]" />
+            v-decorator="['perms', {rules: [{required: true, message: '请输入权限代码!'}]}]" />
         </a-form-item>
       </a-form>
     </a-spin>
@@ -122,6 +128,7 @@
 import pick from 'lodash.pick'
 import { addObj, putObj, getObj } from '@/api/sys/menu'
 import { FormMixin } from '@/mixins/FormMixin'
+
 const isOrNoList = [
   {
     label: '是',
@@ -132,6 +139,7 @@ const isOrNoList = [
     value: '0'
   }
 ]
+
 export default {
   name: 'PermissionAddOrUpdate',
   mixins: [FormMixin],
@@ -142,11 +150,23 @@ export default {
       confirmLoading: false,
       form: this.$form.createForm(this),
       treeData: [],
-      menuType: '0'
+      menuType: '0',
+      typeDict: [
+        {
+          label: '菜单',
+          value: '0'
+        },
+        {
+          label: '按钮',
+          value: '1'
+        }
+      ]
     }
   },
   methods: {
-
+    handleChangeMenu (e) {
+      this.menuType = e
+    },
     edit (tmpRecord, type, permsType) {
       this.visible = true
       const { form: { setFieldsValue, resetFields } } = this
@@ -157,20 +177,17 @@ export default {
           record.parentId = String(record.parentId)
           this.confirmLoading = false
           this.$nextTick(() => {
-            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'url', 'component', 'componentName', 'keepAlive', 'hidden']))
+            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden']))
           })
         })
       } else {
         resetFields()
       }
     },
-    handleChangeMenu (e) {
-      console.log(e, 'e')
-      this.menuType = e
-    },
     handleOk () {
       this.form.validateFields(async (err, values) => {
         if (!err) {
+          console.log(values)
           this.confirmLoading = true
           try {
             if (this.type === 'add') {

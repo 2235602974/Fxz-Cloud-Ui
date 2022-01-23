@@ -2,28 +2,21 @@ import { axios } from '@/utils/request'
 
 export function fetchList () {
   return axios({
-    url: '/sys/permission/tree',
+    url: '/system/menu/getAllMenuTree',
     msthod: 'GET'
-  })
-}
-
-export function fetchTree () {
-  return axios({
-    url: '/sys/permission/select',
-    method: 'GET'
   })
 }
 
 export function getObj (id) {
   return axios({
-    url: '/sys/permission/info/' + id,
+    url: '/system/menu/getMenuById/' + id,
     method: 'GET'
   })
 }
 
 export function addObj (obj) {
   return axios({
-    url: '/sys/permission/save',
+    url: '/system/menu/save',
     method: 'POST',
     data: obj
   })
@@ -31,7 +24,7 @@ export function addObj (obj) {
 
 export function putObj (obj) {
   return axios({
-    url: '/sys/permission/update',
+    url: '/system/menu/update',
     method: 'POST',
     data: obj
   })
@@ -39,7 +32,7 @@ export function putObj (obj) {
 
 export function delObj (id) {
   return axios({
-    url: '/sys/permission/delete/' + id,
+    url: '/system/menu/delete/' + id,
     method: 'DELETE'
   })
 }

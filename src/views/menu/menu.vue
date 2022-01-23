@@ -10,9 +10,8 @@
         <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menu'">新建</a-button>
       </template>
       <span slot="type" slot-scope="{ row,text }">
-        <span v-show="String(text) === '0'">目录</span>
-        <span v-show="String(text) === '1'">菜单</span>
-        <span v-show="String(text) === '2'">按钮</span>
+        <span v-show="String(text) === '0'">菜单</span>
+        <span v-show="String(text) === '1'">按钮</span>
       </span>
       <span slot="action" slot-scope="{ row }">
         <a href="javascript:;" @click="edit(row)">编辑</a>
@@ -25,15 +24,16 @@
     </v-table>
     <permission-add-or-update
       ref="modalForm"
-      @ok="handleOk"/>
+      @ok="handleOk" />
   </a-card>
 </template>
 
 <script>
-import { fetchList, delObj } from '@/api/sys/menu'
+import { delObj, fetchList } from '@/api/sys/menu'
 import permissionAddOrUpdate from './permissionAddOrUpdate'
 import { tableObj } from './template'
 import { TableMixin } from '@/mixins/TableMixin'
+
 export default {
   name: 'Menu',
   mixins: [TableMixin],
@@ -49,6 +49,7 @@ export default {
         return fetchList(
           Object.assign(parameter, this.queryParam)
         ).then(res => {
+          console.log('data:', res)
           return res.data
         })
       }

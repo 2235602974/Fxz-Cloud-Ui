@@ -12,7 +12,7 @@ export const tableObj = {
     {
       title: '权限代码',
       field: 'perms',
-      hidden: true
+      hidden: false
     },
     {
       title: '菜单类型',
@@ -21,16 +21,17 @@ export const tableObj = {
     },
     {
       title: 'URL',
-      field: 'url'
+      field: 'path'
     },
     {
-      title: '组件',
+      title: '组件路径',
       field: 'component'
     },
     {
       title: '组件名称',
-      field: 'componentName'
-    }, {
+      field: 'name'
+    },
+    {
       title: '是否缓存',
       field: 'keepAlive',
       type: 'dict',
