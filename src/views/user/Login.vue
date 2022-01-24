@@ -43,7 +43,7 @@
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
-            <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
+            <a-input :disabled="true" size="large" type="text" placeholder="开发中。。。" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
               <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
@@ -51,7 +51,7 @@
           <a-row :gutter="16">
             <a-col class="gutter-row" :span="16">
               <a-form-item>
-                <a-input size="large" type="text" placeholder="验证码" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
+                <a-input :disabled="true" size="large" type="text" placeholder="开发中。。。" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
                   <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                 </a-input>
               </a-form-item>
@@ -60,7 +60,7 @@
               <a-button
                 class="getCaptcha"
                 tabindex="-1"
-                :disabled="state.smsSendBtn"
+                :disabled="true"
                 @click.stop.prevent="getCaptcha"
                 v-text="!state.smsSendBtn && '获取验证码' || (state.time+' s')"
               ></a-button>
@@ -69,14 +69,14 @@
         </a-tab-pane>
       </a-tabs>
 
-      <a-form-item>
+      <!--      <a-form-item>
         <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">自动登录</a-checkbox>
         <router-link
           :to="{ name: 'recover', params: { user: 'aaa'} }"
           class="forge-password"
           style="float: right;"
         >忘记密码</router-link>
-      </a-form-item>
+      </a-form-item>-->
 
       <a-form-item style="margin-top:24px">
         <a-button
@@ -100,7 +100,7 @@
         <a>
           <a-icon class="item-icon" type="weibo-circle"></a-icon>
         </a>
-        <router-link class="register" :to="{ name: 'register' }">注册账户</router-link>
+        <!--        <router-link class="register" :to="{ name: 'register' }">注册账户</router-link>-->
       </div>
     </a-form>
 
@@ -114,11 +114,10 @@
 </template>
 
 <script>
-import md5 from 'md5'
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-import { getSmsCaptcha, get2step } from '@/api/login'
+import { getSmsCaptcha } from '@/api/login'
 
 export default {
   components: {
@@ -144,13 +143,13 @@ export default {
     }
   },
   created () {
-    get2step({ })
+   /* get2step({ })
       .then(res => {
         this.requiredTwoStepCaptcha = res.result.stepCode
       })
       .catch(() => {
         this.requiredTwoStepCaptcha = false
-      })
+      }) */
     // this.requiredTwoStepCaptcha = true
   },
   methods: {
@@ -189,7 +188,6 @@ export default {
           const loginParams = { ...values }
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
-          loginParams.password = md5(values.password)
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
@@ -259,7 +257,7 @@ export default {
         })
       })
       */
-      this.$router.push({ path: '/' })
+      this.$router.push({ name: 'welcome' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({

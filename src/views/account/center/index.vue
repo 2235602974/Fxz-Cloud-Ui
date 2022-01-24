@@ -116,22 +116,47 @@ export default {
       tagInputVisible: false,
       tagInputValue: '',
 
-      teams: [],
+      teams: [{
+        id: 1,
+        name: '科学搬砖组',
+        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+      },
+        {
+          id: 2,
+          name: '程序员日常',
+          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png'
+        },
+        {
+          id: 1,
+          name: '设计天团',
+          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png'
+        },
+        {
+          id: 1,
+          name: '中二少女团',
+          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png'
+        },
+        {
+          id: 1,
+          name: '骗你学计算机',
+          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png'
+        }
+      ],
       teamSpinning: true,
 
       tabListNoTitle: [
-        {
+      /*  {
           key: 'article',
           tab: '文章(8)'
-        },
+        }, */
         {
           key: 'app',
           tab: '应用(8)'
-        },
-        {
+        }
+        /* {
           key: 'project',
           tab: '项目(8)'
-        }
+        } */
       ],
       noTitleKey: 'app'
     }
@@ -144,10 +169,7 @@ export default {
   },
   methods: {
     getTeams () {
-      this.$http.get('/workplace/teams').then(res => {
-        this.teams = res.result
         this.teamSpinning = false
-      })
     },
 
     handleTabChange (key, type) {

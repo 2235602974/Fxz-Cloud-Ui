@@ -16,7 +16,7 @@
         <a slot="title" href="https://vue.ant.design/">{{ item.title }}</a>
         <template slot="description">
           <span>
-            <a-tag>Ant Design</a-tag>
+            <a-tag>fxz-cloud</a-tag>
             <a-tag>设计语言</a-tag>
             <a-tag>蚂蚁金服</a-tag>
           </span>
@@ -53,7 +53,6 @@ export default {
   methods: {
     getList () {
       this.$http.get('/list/article').then(res => {
-        console.log('res', res)
         this.data = res.result
         this.loading = false
       })

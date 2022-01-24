@@ -3,7 +3,7 @@
     <a-row :gutter="16">
       <a-col :md="24" :lg="16">
 
-        <a-form layout="vertical">
+        <a-form layout="vertical" :form="form">
           <a-form-item
             label="昵称"
           >
@@ -77,6 +77,7 @@ export default {
   },
   data () {
     return {
+      form: {},
       // cropper
       preview: {},
       option: {
@@ -94,6 +95,11 @@ export default {
         fixed: true,
         fixedNumber: [1, 1]
       }
+    }
+  },
+  computed: {
+    userInfo () {
+      return this.$store.getters.userInfo
     }
   },
   methods: {

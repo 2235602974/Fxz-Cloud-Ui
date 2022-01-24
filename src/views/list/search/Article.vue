@@ -77,13 +77,18 @@
             <a slot="title" href="https://vue.ant.design/">{{ item.title }}</a>
             <template slot="description">
               <span>
-                <a-tag>Ant Design</a-tag>
+                <a-tag>fxz-cloud</a-tag>
                 <a-tag>设计语言</a-tag>
                 <a-tag>蚂蚁金服</a-tag>
               </span>
             </template>
           </a-list-item-meta>
-          <article-list-content :description="item.description" :owner="item.owner" :avatar="item.avatar" :href="item.href" :updateAt="item.updatedAt" />
+          <article-list-content
+            :description="item.description"
+            :owner="item.owner"
+            :avatar="item.avatar"
+            :href="item.href"
+            :updateAt="item.updatedAt" />
         </a-list-item>
         <div slot="footer" v-if="data.length > 0" style="text-align: center; margin-top: 16px;">
           <a-button @click="loadMore" :loading="loadingMore">加载更多</a-button>
@@ -96,6 +101,7 @@
 <script>
 import { TagSelect, StandardFormRow, ArticleListContent } from '@/components'
 import IconText from './components/IconText'
+
 const TagSelectOption = TagSelect.Option
 
 const owners = [

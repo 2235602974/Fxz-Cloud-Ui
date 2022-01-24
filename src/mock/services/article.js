@@ -4,8 +4,8 @@ import { builder, getQueryParameters } from '../util'
 const titles = [
   'Alipay',
   'Angular',
-  'Ant Design',
-  'Ant Design Pro',
+  'fxz-cloud',
+  'fxz-cloud Pro',
   'Bootstrap',
   'React',
   'Vue',
@@ -40,7 +40,6 @@ const href = 'https://ant.design'
 
 const article = (options) => {
   const queryParameters = getQueryParameters(options)
-  console.log('queryParameters', queryParameters)
   if (queryParameters && !queryParameters.count) {
     queryParameters.count = 5
   }

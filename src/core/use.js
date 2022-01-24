@@ -13,9 +13,12 @@ import PageLoading from '@/components/PageLoading'
 import PermissionHelper from '@/utils/helper/permission'
 // import '@/components/use'
 import './directives/action'
+import VTable from '@/components/VxeTable'
+import BizCom from '@/components/BaseComp'
 
 VueClipboard.config.autoSetContainer = true
-
+Vue.use(BizCom)
+Vue.use(VTable)
 Vue.use(Antd)
 Vue.use(Viser)
 Vue.use(MultiTab)

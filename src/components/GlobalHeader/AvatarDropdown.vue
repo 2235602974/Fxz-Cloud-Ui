@@ -1,7 +1,10 @@
 <template>
   <a-dropdown v-if="currentUser && currentUser.name" placement="bottomRight">
     <span class="ant-pro-account-avatar">
-      <a-avatar size="small" src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" class="antd-pro-global-header-index-avatar" />
+      <a-avatar
+        size="small"
+        :src="currentUser.principal.avatar"
+        class="antd-pro-global-header-index-avatar" />
       <span>{{ currentUser.name }}</span>
     </span>
     <template v-slot:overlay>
@@ -47,12 +50,12 @@ export default {
       this.$router.push({ path: '/account/center' })
     },
     handleToSettings () {
-      this.$router.push({ path: '/account/settings' })
+      this.$router.push({ path: '/account/settings/base' })
     },
     handleLogout (e) {
       Modal.confirm({
-        title: this.$t('layouts.usermenu.dialog.title'),
-        content: this.$t('layouts.usermenu.dialog.content'),
+        title: '注销登录?',
+        content: '你确定要退出登录吗,小老弟?',
         onOk: () => {
           // return new Promise((resolve, reject) => {
           //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
@@ -61,7 +64,8 @@ export default {
             this.$router.push({ name: 'login' })
           })
         },
-        onCancel () {}
+        onCancel () {
+        }
       })
     }
   }
@@ -73,6 +77,7 @@ export default {
   /deep/ .action {
     margin-right: 8px;
   }
+
   /deep/ .ant-dropdown-menu-item {
     min-width: 160px;
   }

@@ -1,7 +1,7 @@
 <template>
   <div :class="wrpCls">
     <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
-    <select-lang :class="prefixCls" />
+    <!--    <select-lang :class="prefixCls" />-->
   </div>
 </template>
 
@@ -49,9 +49,7 @@ export default {
   },
   mounted () {
     setTimeout(() => {
-      this.currentUser = {
-        name: 'Serati Ma'
-      }
+      this.currentUser = this.$store.getters.userInfo
     }, 1500)
   }
 }
