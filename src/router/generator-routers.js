@@ -33,8 +33,7 @@ const constantRouterComponents = {
 const notFoundRouter = {
   path: '*',
   redirect: '/404',
-  hidden: '1',
-  title: '404'
+  hidden: '1'
 }
 
 // 根级菜单
@@ -43,7 +42,7 @@ const rootRouter = {
   path: '/',
   component: 'BasicLayout',
   redirect: '/welcome',
-  title: 'welcome',
+  title: '首页',
   children: []
 }
 
@@ -109,6 +108,7 @@ export const generator = (routerMap) => {
       // Recursion
       currentRouter.children = generator(item.children, currentRouter)
     }
+
     return currentRouter
   })
 }
