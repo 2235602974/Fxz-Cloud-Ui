@@ -7,7 +7,7 @@
       ref="table"
     >
       <template v-slot:buttons>
-        <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menu'">新建</a-button>
+        <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menu:save'">新建</a-button>
       </template>
       <span slot="type" slot-scope="{ row,text }">
         <span v-show="String(text) === '0'">菜单</span>

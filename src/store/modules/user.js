@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import storage from 'store'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
@@ -95,8 +94,7 @@ const user = {
         }).finally(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
-          Vue.ls.remove(ACCESS_TOKEN)
-          storage.remove(ACCESS_TOKEN)
+          Vue.ls.clear()
         })
       })
     }
