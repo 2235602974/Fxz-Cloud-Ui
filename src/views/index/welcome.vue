@@ -22,7 +22,7 @@
     name: 'Welcome',
     data () {
       return {
-        htmlUrl: 'static/1.html'
+        htmlUrl: 'static/2.html'
       }
     },
     mounted () {

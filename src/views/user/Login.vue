@@ -261,7 +261,7 @@ export default {
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
-          message: '欢迎',
+          message: '嘿嘿 来啦',
           description: `${timeFix()}，欢迎回来`
         })
       }, 500)
