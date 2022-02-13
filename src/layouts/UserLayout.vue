@@ -12,9 +12,7 @@
           fxz-cloud 致力于打造全球最牛逼的后台权限管理框架
         </div>
       </div>
-
       <router-view />
-
       <div class="footer">
         <div class="links"></div>
         <div class="copyright">
