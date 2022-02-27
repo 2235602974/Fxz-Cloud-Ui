@@ -3,6 +3,11 @@ import { ACCESS_TOKEN } from '@/store/mutation-types'
 export const TableMixin = {
   data () {
     return {
+      // 分页参数
+      pages: {
+        size: 10,
+        current: 1
+      },
       alert: {
         clear: true
       },

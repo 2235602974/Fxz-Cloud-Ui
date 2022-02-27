@@ -49,7 +49,7 @@ export default {
         return fetchList(
           Object.assign(parameter, this.queryParam)
         ).then(res => {
-          console.log('data:', res)
+          console.log('res', res)
           return res.data
         })
       }

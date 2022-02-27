@@ -3,11 +3,12 @@ export const FormMixin = {
     return {
       title: '新增',
       labelCol: {
-        span: 5
+        sm: { span: 7 }
       },
       wrapperCol: {
-        span: 18
+        sm: { span: 13 }
       },
+      confirmLoading: false,
       visible: false,
       editable: false,
       addable: false,
@@ -17,19 +18,18 @@ export const FormMixin = {
   },
   methods: {
     init (id, type, ...vars) { // 初始化表单
+      this.visible = true
+      this.type = type
       if (type && type === 'add') {
         this.addable = true
-        this.type = type
         this.title = '新增'
       }
       if (type === 'edit') {
         this.editable = true
-        this.type = type
         this.title = '修改'
       }
       if (type === 'show') {
         this.showable = true
-        this.type = type
         this.title = '查看'
       }
       this.edit(id, type, ...vars)

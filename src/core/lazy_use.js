@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 // base library
 import {
+  FormModel,
   TreeSelect,
   ConfigProvider,
   Layout,
@@ -61,6 +62,7 @@ import BizCom from '@/components/BaseComp'
 
 Vue.use(BizCom)
 Vue.use(VTable)
+Vue.use(FormModel)
 Vue.use(TreeSelect)
 Vue.use(ConfigProvider)
 Vue.use(Layout)

@@ -222,7 +222,6 @@ export default {
         }
       )
       const result = this.data(parameter)
-
       if ((typeof result === 'object' || typeof result === 'function') && typeof result.then === 'function') {
         result.then(r => {
           if (this.showPagination) {
