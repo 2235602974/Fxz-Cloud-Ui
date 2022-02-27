@@ -94,6 +94,7 @@ export const generator = (routerMap) => {
     }
     // 是否设置了隐藏菜单
     if (item.hidden && String(item.hidden) === '1' || !item.title) {
+      console.log('隐藏', item)
       currentRouter.hidden = true
     }
 

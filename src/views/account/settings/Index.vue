@@ -51,10 +51,11 @@
 <script>
 import { RouteView } from '@/layouts'
 import { baseMixin } from '@/store/app-mixin'
-
+import BaseSetting from '@/views/account/settings/BaseSetting'
 export default {
   components: {
-    RouteView
+    RouteView,
+    BaseSetting
   },
   mixins: [baseMixin],
   data () {
