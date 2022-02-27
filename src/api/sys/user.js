@@ -22,3 +22,11 @@ export function updateById (data) {
     data: data
   })
 }
+
+export function addUser (data) {
+  return axios({
+    url: '/system/user',
+    method: 'POST',
+    data: data
+  })
+}

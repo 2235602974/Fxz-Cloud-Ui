@@ -24,50 +24,32 @@
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
-      <template v-slot:avatar="{row}" >
-        <a-avatar size="large" :src="row.avatar" v-if="row.avatar"/>
-        <a-avatar size="large" icon="user" v-else/>
+      <template v-slot:buttons>
+        <a-button type="primary" icon="plus" @click="add">新建</a-button>
+      </template>
+      <template v-slot:avatar="{row}">
+        <a-avatar size="large" :src="row.avatar" v-if="row.avatar" />
+        <a-avatar size="large" icon="user" v-else />
       </template>
       <template v-slot:action="{row}">
         <a href="javascript:" @click="show(row)">查看</a>
-        <a-divider type="vertical"/>
+        <a-divider type="vertical" />
         <a href="javascript:" @click="edit(row)">编辑</a>
-        <a-divider type="vertical"/>
-        <a-dropdown>
-          <a class="ant-dropdown-link">
-            更多 <a-icon type="down" />
-          </a>
-          <a-menu>
-            <!--            <a-menu-item>
-              <a @click="assignRoles(row)">角色分配</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a @click="assignDept(row)">部门分配</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a @click="assignDataScope(row)">数据权限分配</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a @click="resetPwd(row)">重置密码</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a v-if="row.status === 1 " @click="lockUserConfirm(row.id,true)">锁定账号</a>
-              <a v-if="row.status === 3 " @click="lockUserConfirm(row.id,false)">解锁账号</a>
-            </a-menu-item>-->
-          </a-menu>
-        </a-dropdown>
       </template>
     </v-table>
 
+    <!--  添加用户  -->
+    <user-add @ok="resetQuery" ref="userAdd" />
     <!-- 编辑用户  -->
-    <user-edit @ok="init" ref="userEdit" />
+    <user-edit @ok="resetQuery" ref="userEdit" />
     <!-- 查看用户详情-->
-    <user-show @ok="resetQuery" ref="userShow"/>
+    <user-show @ok="resetQuery" ref="userShow" />
 
   </a-card>
 </template>
 
 <script>
+import UserAdd from '@/views/modules/system/user/UserAdd'
 import UserEdit from '@/views/modules/system/user/UserEdit'
 import UserShow from '@/views/modules/system/user/UserShow'
 import { TableMixin } from '@/mixins/TableMixin'
@@ -77,8 +59,9 @@ import { fetchList } from '@/api/sys/user'
 export default {
   name: 'UserList',
   components: {
-     UserEdit,
-    UserShow
+    UserEdit,
+    UserShow,
+    UserAdd
   },
   mixins: [TableMixin],
   data () {
@@ -107,7 +90,10 @@ export default {
       this.$refs.userShow.init(record, 'show')
     },
     edit (record) {
-       this.$refs.userEdit.init(record.userId, 'edit')
+      this.$refs.userEdit.init(record.userId, 'edit')
+    },
+    add () {
+      this.$refs.userAdd.init('', 'add')
     }
   },
   created () {

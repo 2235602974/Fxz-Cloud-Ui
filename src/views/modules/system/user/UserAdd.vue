@@ -13,8 +13,8 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :rules="rules">
-        <a-form-model-item label="用户名" prop="username">
-          <a-input placeholder="请输入用户账号" v-model="form.username" disabled />
+        <a-form-model-item label="用户账号" prop="username">
+          <a-input placeholder="请输入用户账号" v-model="form.username" />
         </a-form-model-item>
         <a-form-model-item label="手机号" prop="mobile">
           <a-input placeholder="请输入用户手机号" v-model="form.mobile" />
@@ -22,7 +22,7 @@
         <a-form-model-item label="邮箱" prop="email">
           <a-input placeholder="请输入用户邮箱" v-model="form.email" />
         </a-form-model-item>
-        <a-form-model-item label="描述" prop="email">
+        <a-form-model-item label="描述" prop="description">
           <a-input placeholder="请输入描述" v-model="form.description" />
         </a-form-model-item>
         <a-form-model-item label="性别" prop="sex">
@@ -49,7 +49,6 @@
             checkable
             :tree-data="treeData"
             @check="onCheck"
-            defaultExpandAll
             v-model="tempDeptId"
           >
           </a-tree>
@@ -65,33 +64,35 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { getById, updateById } from '@/api/sys/user'
-import { validateEmail, validateMobile } from '@/utils/validate'
-import { getDeptTree } from '@/api/sys/dept'
 import { getAllRole } from '@/api/sys/role'
+import { addUser } from '@/api/sys/user'
+import { getDeptTree } from '@/api/sys/dept'
+import { validateEmail, validateMobile } from '@/utils/validate'
 
 export default {
-  name: 'UserEdit',
+  name: 'UserAdd',
   mixins: [FormMixin],
   data () {
     return {
+      confirmDirty: false,
       roleList: [],
       deptList: [],
       treeData: [],
-      tempDeptId: { halfChecked: [], checked: [] },
+      tempDeptId: undefined,
       form: {
-        id: '',
-        name: '',
         username: '',
-        phone: '',
+        mobile: '',
         email: '',
-        avatar: ''
+        sex: '',
+        description: '',
+        roleId: undefined,
+        deptId: undefined
       },
       rules: {
         username: [{ required: true, message: '请输入用户名' }, { validator: this.validateUsername, trigger: 'blur' }],
         mobile: [{ required: true, message: '请输入手机号' }, { validator: this.validatePhone, trigger: 'blur' }],
         email: [{ required: true, message: '请输入邮箱' }, { validator: this.validateEmail, trigger: 'blur' }],
-        description: [{ required: true, message: '请输入描述' }]
+        sex: [{ required: true, message: '性别' }]
       }
     }
   },
@@ -104,84 +105,27 @@ export default {
     })
   },
   methods: {
-    onCheck () {
-      if (this.tempDeptId && this.tempDeptId.checked.length > 1) {
-        this.tempDeptId.checked.shift()
-      }
-    },
-    edit (id) {
-      this.confirmLoading = true
-      getById(id).then(res => {
-        this.form = res.data
-        this.tempDeptId = { halfChecked: [], checked: [] }
-        if (this.form.deptId || this.form.deptId === 0) {
-          this.tempDeptId.checked.push(this.form.deptId)
-        }
-        if (this.form.roleId) {
-          this.form.roleId = this.form.roleId.split(',')
-          this.form.roleId = this.form.roleId.map((item) => {
-            return Number(item)
-          })
+    validateEmail (rule, value, callback) {
+      if (!value) {
+        callback()
+      } else {
+        if (validateEmail(value)) {
+          callback()
         } else {
-          this.form.roleId = undefined
+          // eslint-disable-next-line standard/no-callback-literal
+          callback('请输入正确格式的邮箱!')
         }
-        delete this.form.password
-        this.rawForm = { ...this.form }
-        this.confirmLoading = false
-      })
-    },
-    buildTree (res) {
-      if (res) {
-        const v = {
-          title: res.deptName,
-          key: res.deptId
-        }
-        if (res.children && res.children.length > 0) {
-          v.children = res.children.map((item) => {
-            return this.buildTree(item)
-          })
-        }
-        return v
       }
-      return res
-    },
-    handleChange (v) {
-    },
-    handleOk () {
-      this.$refs.form.validate(async valid => {
-        if (valid) {
-          this.confirmLoading = true
-          if (this.form.roleId) {
-            this.form.roleId = this.form.roleId.join()
-          }
-          if (this.tempDeptId && this.tempDeptId.checked) {
-            this.form.deptId = this.tempDeptId.checked[0]
-          }
-         /* const newForm = {
-            userId: this.form.userId,
-            username: this.form.username,
-            mobile: this.form.mobile,
-            email: this.form.email,
-            description: this.form.description
-          } */
-          await updateById(this.form)
-          setTimeout(() => {
-            this.confirmLoading = false
-            this.$emit('ok')
-            this.visible = false
-          }, 200)
-        } else {
-          return false
-        }
-      })
     },
     validateUsername (rule, value, callback) {
       if (!value) {
         callback()
       } else {
         if (value.length > 10) {
+          // eslint-disable-next-line standard/no-callback-literal
           callback('用户名过长!')
         } else if (value.length < 3) {
+          // eslint-disable-next-line standard/no-callback-literal
           callback('用户名过短!')
         } else {
           callback()
@@ -200,16 +144,55 @@ export default {
         }
       }
     },
-    validateEmail (rule, value, callback) {
-      if (!value) {
-        callback()
-      } else {
-        if (validateEmail(value)) {
-          callback()
-        } else {
-          callback('请输入正确格式的邮箱!')
-        }
+    onCheck () {
+      if (this.tempDeptId && this.tempDeptId.checked.length > 1) {
+        this.tempDeptId.checked.shift()
       }
+    },
+    buildTree (res) {
+      if (res) {
+        const v = {
+          title: res.deptName,
+          key: res.deptId
+        }
+        if (res.children && res.children.length > 0) {
+          v.children = res.children.map((item) => {
+            return this.buildTree(item)
+          })
+        }
+        return v
+      }
+      return res
+    },
+    handleChange (v) {
+    },
+    edit () {
+      this.tempDeptId = undefined
+      this.confirmLoading = false
+      this.confirmDirty = false
+      this.resetForm()
+    },
+    handleOk () {
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          if (this.form.roleId) {
+            this.form.roleId = this.form.roleId.join()
+          }
+          if (this.tempDeptId && this.tempDeptId.checked) {
+            this.form.deptId = this.tempDeptId.checked[0]
+          }
+          console.log('form', this.form)
+          this.confirmLoading = true
+          await addUser(this.form)
+          setTimeout(() => {
+            this.confirmLoading = false
+            this.$emit('ok')
+            this.visible = false
+          }, 200)
+        } else {
+          return false
+        }
+      })
     },
     resetForm () {
       this.$nextTick(() => {
@@ -220,6 +203,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less">
 
 </style>
