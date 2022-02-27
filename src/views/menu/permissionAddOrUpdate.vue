@@ -104,6 +104,15 @@
             v-decorator="['hidden', {rules: [{required: true, message: '请选择页面是否隐藏!'}]}]" />
         </a-form-item>
         <a-form-item
+          label="排序"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-input-number
+            :readonly="showable"
+            v-decorator="['orderNum', {rules: [{required: true, message: '排序!'}]}]"></a-input-number>
+        </a-form-item>
+        <a-form-item
           label="权限代码"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -176,8 +185,9 @@ export default {
           const record = res.data
           record.parentId = String(record.parentId)
           this.confirmLoading = false
+          console.log('record', record)
           this.$nextTick(() => {
-            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden']))
+            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden', 'orderNum']))
           })
         })
       } else {

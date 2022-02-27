@@ -3,7 +3,7 @@ import { axios } from '@/utils/request'
 export function fetchList () {
   return axios({
     url: '/system/menu/getAllMenuTree',
-    msthod: 'GET'
+    method: 'GET'
   })
 }
 
