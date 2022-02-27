@@ -11,21 +11,35 @@
     :i18nRender="i18nRender"
     v-bind="settings"
   >
-
     <ads v-if="isProPreviewSite && !collapsed"/>
-    <!-- Ads end -->
+    <!-- 设置-->
     <setting-drawer :settings="settings" @change="handleSettingChange" />
+
+    <!-- layout content -->
+    <a-layout-content :style="{ height: '100%', margin: '0 0 40px 0', paddingTop: fixedHeader ? '64px' : '0' }">
+      <multi-tab v-if="multiTab"></multi-tab>
+      <transition name="page-transition">
+      </transition>
+    </a-layout-content>
+
+    <!-- 页面头-->
     <template v-slot:rightContentRender>
       <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
     </template>
+
+    <!-- 页面内容-->
+    <router-view />
+
+    <!-- 页面脚-->
     <template v-slot:footerRender>
       <global-footer />
     </template>
-    <router-view />
+
   </pro-layout>
 </template>
 
 <script>
+import MultiTab from '@/components/MultiTab'
 import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
@@ -43,13 +57,16 @@ export default {
     SettingDrawer,
     RightContent,
     GlobalFooter,
-    Ads
+    Ads,
+    MultiTab
   },
   data () {
     return {
       // preview.pro.antdv.com only use.
       isProPreviewSite: process.env.VUE_APP_PREVIEW === 'true' && process.env.NODE_ENV !== 'development',
       // end
+      multiTab: defaultSettings.multiTab,
+      fixedHeader: defaultSettings.fixedHeader, // sticky header
 
       // base
       menus: [],
