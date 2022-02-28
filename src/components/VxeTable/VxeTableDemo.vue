@@ -27,7 +27,7 @@
       :loading="localLoading"
       highlight-current-row
       height="500px"
-      :tree-config="{children: 'children'}"
+      :tree-config="{children: 'children',expandAll: true}"
       :keyboard-config="{isArrow: true}"
       :row-style="rowStyle"
       :cell-class-name="cellClassName"

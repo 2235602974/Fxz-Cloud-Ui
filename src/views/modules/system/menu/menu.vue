@@ -14,6 +14,8 @@
         <span v-show="String(text) === '1'">按钮</span>
       </span>
       <span slot="action" slot-scope="{ row }">
+        <a href="javascript:;" @click="show(row)">查看</a>
+        <a-divider type="vertical" />
         <a href="javascript:;" @click="edit(row)">编辑</a>
         <a-divider type="vertical" />
         <a-popconfirm title="是否删除权限" @confirm="deleteItem(row)" okText="是" cancelText="否">
@@ -67,6 +69,9 @@ export default {
     edit (row) {
       this.$refs.modalForm.init(row, 'edit')
     },
+   show (row) {
+     this.$refs.modalForm.init(row, 'show')
+   },
     handleOk () {
       this.queryPage()
     }

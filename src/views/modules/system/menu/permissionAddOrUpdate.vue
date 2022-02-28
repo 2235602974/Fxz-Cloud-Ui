@@ -26,6 +26,7 @@
           :wrapperCol="wrapperCol"
         >
           <biz-select-tree
+            :disabled="showable"
             :dicUrl="'/system/menu/getTreeSelect'"
             v-decorator="['parentId',{rules: [{required: true, message: '请选择上级菜单!'}]}]"
           >
@@ -37,6 +38,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-select
+            :disabled="showable"
             @change="handleChangeMenu"
             v-decorator="['type', { rules: [{ required: true, message: '请选择菜单类型!' }] }]"
           >
@@ -51,7 +53,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :readonly="showable"
+            :disabled="showable"
             v-decorator="['title', {rules: [{required: true, message: '请输入菜单名称!'}]}]" />
         </a-form-item>
         <a-form-item
@@ -60,7 +62,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :readonly="showable"
+            :disabled="showable"
             v-decorator="['path', {rules: [{required: true, message: '请输入访问路径!'}]}]" />
         </a-form-item>
         <a-form-item
@@ -70,7 +72,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :readonly="showable"
+            :disabled="showable"
             v-decorator="['component', {rules: [{required: true, message: '请输入组件地址!'}]}]" />
         </a-form-item>
         <a-form-item
@@ -80,7 +82,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :readonly="showable"
+            :disabled="showable"
             v-decorator="['name', {rules: [{required: true, message: '请输入组件名称!'}]}]" />
         </a-form-item>
         <a-form-item
@@ -90,6 +92,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-radio-group
+            :disabled="showable"
             :options="isOrNoList"
             v-decorator="['keepAlive', {rules: [{required: true, message: '请选择页面是否缓存!'}]}]" />
         </a-form-item>
@@ -100,6 +103,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-radio-group
+            :disabled="showable"
             :options="isOrNoList"
             v-decorator="['hidden', {rules: [{required: true, message: '请选择页面是否隐藏!'}]}]" />
         </a-form-item>
@@ -109,7 +113,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input-number
-            :readonly="showable"
+            :disabled="showable"
             v-decorator="['orderNum', {rules: [{required: true, message: '排序!'}]}]"></a-input-number>
         </a-form-item>
         <a-form-item
@@ -118,7 +122,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :readonly="showable"
+            :disabled="showable"
             v-decorator="['perms', {rules: [{required: true, message: '请输入权限代码!'}]}]" />
         </a-form-item>
       </a-form>

@@ -40,7 +40,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :read-only="showable"
+            :disabled="showable"
             v-decorator="['deptName', {rules: [{required: true, message: '请输入部门名称!'}]}]" />
         </a-form-item>
         <a-form-item
@@ -49,7 +49,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input-number
-            :read-only="showable"
+            :disabled="showable"
             v-decorator="['orderNum', {rules: [{required: true, message: '排序!'}]}]"></a-input-number>
         </a-form-item>
       </a-form>

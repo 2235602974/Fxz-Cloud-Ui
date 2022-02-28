@@ -10,6 +10,8 @@
         <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menu:save'">新建</a-button>
       </template>
       <template v-slot:action="{row}">
+        <a href="javascript:;" @click="show(row)">查看</a>
+        <a-divider type="vertical" />
         <a href="javascript:;" @click="edit(row)">编辑</a>
         <a-divider type="vertical" />
         <a-popconfirm title="是否删除权限" @confirm="deleteItem(row)" okText="是" cancelText="否">
@@ -54,6 +56,9 @@ export default {
     }
   },
   methods: {
+    show (row) {
+      this.$refs.modalForm.init(row.deptId, 'show')
+    },
     edit (row) {
       this.$refs.modalForm.init(row.deptId, 'edit')
     },
