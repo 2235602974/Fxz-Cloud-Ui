@@ -4,13 +4,8 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-form-item label="用户名">
-              <a-input v-model="queryParam.username" placeholder="用户名" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="手机号码">
-              <a-input v-model="queryParam.mobile" placeholder="手机号码" />
+            <a-form-item label="角色名称">
+              <a-input v-model="queryParam.roleName" placeholder="角色名称" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
@@ -35,33 +30,32 @@
         <a href="javascript:" @click="show(row)">查看</a>
         <a-divider type="vertical" />
         <a href="javascript:" @click="edit(row)">编辑</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="是否删除权限" @confirm="deleteItem(row)" okText="是" cancelText="否">
+          <a-icon slot="icon" type="question-circle-o" style="color: red" />
+          <a href="javascript:;" style="color: red">删除</a>
+        </a-popconfirm>
       </template>
     </v-table>
 
-    <!--  添加用户  -->
-    <user-add @ok="resetQuery" ref="userAdd" />
-    <!-- 编辑用户  -->
-    <user-edit @ok="resetQuery" ref="userEdit" />
-    <!-- 查看用户详情-->
-    <user-show @ok="resetQuery" ref="userShow" />
+    <role-add-or-update
+      ref="modalForm"
+      @ok="handleOk"/>
 
   </a-card>
 </template>
 
 <script>
-import UserAdd from '@/views/modules/system/user/UserAdd'
-import UserEdit from '@/views/modules/system/user/UserEdit'
-import UserShow from '@/views/modules/system/user/UserShow'
+
 import { TableMixin } from '@/mixins/TableMixin'
 import { tableObj } from './template'
-import { fetchList } from '@/api/sys/user'
+import { PageRole, deleteRoleById } from '@/api/sys/role'
+import RoleAddOrUpdate from './RoleAddOrUpdate'
 
 export default {
-  name: 'UserList',
+  name: 'RoleList',
   components: {
-    UserEdit,
-    UserShow,
-    UserAdd
+    RoleAddOrUpdate
   },
   mixins: [TableMixin],
   data () {
@@ -72,7 +66,8 @@ export default {
         mobile: ''
       },
       loadData: (parameter) => {
-        return fetchList(
+        console.log('param:', this.queryParam)
+        return PageRole(
           Object.assign(parameter, this.queryParam)
         ).then(res => {
           return res.data
@@ -81,18 +76,29 @@ export default {
     }
   },
   methods: {
+    deleteItem (record) {
+      deleteRoleById(record.roleId).then(_ => {
+        this.$message.info('删除成功')
+        this.queryPage()
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    handleOk () {
+      this.queryPage()
+    },
     resetQuery () {
       this.queryParam = {}
       this.queryPage()
     },
     show (record) {
-      this.$refs.userShow.init(record, 'show')
+      this.$refs.modalForm.init(record.roleId, 'show')
     },
     edit (record) {
-      this.$refs.userEdit.init(record.userId, 'edit')
+      this.$refs.modalForm.init(record.roleId, 'edit')
     },
     add () {
-      this.$refs.userAdd.init('', 'add')
+      this.$refs.modalForm.init('', 'add')
     }
   },
   created () {

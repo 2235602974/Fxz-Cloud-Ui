@@ -81,7 +81,7 @@ const isOrNoList = [
 ]
 
 export default {
-  name: 'PermissionAddOrUpdate',
+  name: 'DeptAddOrUpdate',
   mixins: [FormMixin],
   data () {
     return {

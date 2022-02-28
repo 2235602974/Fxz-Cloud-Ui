@@ -7,7 +7,8 @@ export const tableObj = {
       type: 'input',
       placeholder: '',
       search: false,
-      treeNode: true
+      treeNode: true,
+      width: 180
     },
     {
       title: '权限代码',

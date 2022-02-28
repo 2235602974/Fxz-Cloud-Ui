@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/sys/menu'
+import { delObj, getAllMenuTree } from '@/api/sys/menu'
 import permissionAddOrUpdate from './permissionAddOrUpdate'
 import { tableObj } from './template'
 import { TableMixin } from '@/mixins/TableMixin'
@@ -48,7 +48,7 @@ export default {
       loading: false,
       tableData: [],
       loadData: (parameter) => {
-        return fetchList(
+        return getAllMenuTree(
           Object.assign(parameter, this.queryParam)
         ).then(res => {
           console.log('res', res)

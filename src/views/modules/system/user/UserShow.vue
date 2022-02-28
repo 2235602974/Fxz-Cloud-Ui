@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     edit (row) {
-      console.log('row', row)
       this.form = row
       if (row.roleName) {
         this.roles = row.roleName && row.roleName.split(',')

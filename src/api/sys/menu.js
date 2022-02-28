@@ -1,6 +1,6 @@
 import { axios } from '@/utils/request'
 
-export function fetchList () {
+export function getAllMenuTree () {
   return axios({
     url: '/system/menu/getAllMenuTree',
     method: 'GET'
