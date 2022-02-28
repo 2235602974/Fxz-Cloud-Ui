@@ -1,6 +1,11 @@
 export function treeDataTranslate (data, value = 'value', title = 'title', children = 'children') {
   const temp = []
   console.log('data:', data)
+  if (data.constructor !== Array) {
+    const arr = []
+    arr.push(data)
+    data = arr
+  }
   for (let i = 0; i < data.length; i++) {
     const p = {
       key: data[i][value],
@@ -13,6 +18,7 @@ export function treeDataTranslate (data, value = 'value', title = 'title', child
     }
     temp.push(p)
   }
+
   console.log(temp)
   return temp
 }
@@ -43,7 +49,8 @@ export function handleScrollHeader (callback) {
   let timer = 0
 
   let beforeScrollTop = window.pageYOffset
-  callback = callback || function () {}
+  callback = callback || function () {
+  }
   window.addEventListener(
     'scroll',
     event => {

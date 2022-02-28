@@ -21,6 +21,16 @@ import { treeDataTranslate } from '@/utils/util'
 export default create({
   name: 'select-tree',
   mixins: [props(), event()],
+  props: {
+    keykey: {
+      type: String,
+      default: 'id'
+    },
+    val: {
+      type: String,
+      default: 'title'
+    }
+  },
   watch: {
     dic: {
       handler (val) {
@@ -44,7 +54,7 @@ export default create({
       this.loading = true
       axios.get(this.dicUrl).then(res => {
         console.log('res：', res.data)
-        this.netDic = treeDataTranslate(res.data, 'id', 'title')
+        this.netDic = treeDataTranslate(res.data, this.keykey, this.val)
         console.log('netDic:', this.netDic)
       }).catch(err => {
         this.$message.error(err.msg)

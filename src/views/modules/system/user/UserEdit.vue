@@ -157,13 +157,6 @@ export default {
           if (this.tempDeptId && this.tempDeptId.checked) {
             this.form.deptId = this.tempDeptId.checked[0]
           }
-         /* const newForm = {
-            userId: this.form.userId,
-            username: this.form.username,
-            mobile: this.form.mobile,
-            email: this.form.email,
-            description: this.form.description
-          } */
           await updateById(this.form)
           setTimeout(() => {
             this.confirmLoading = false
@@ -180,8 +173,10 @@ export default {
         callback()
       } else {
         if (value.length > 10) {
+          // eslint-disable-next-line standard/no-callback-literal
           callback('用户名过长!')
         } else if (value.length < 3) {
+          // eslint-disable-next-line standard/no-callback-literal
           callback('用户名过短!')
         } else {
           callback()
@@ -207,6 +202,7 @@ export default {
         if (validateEmail(value)) {
           callback()
         } else {
+          // eslint-disable-next-line standard/no-callback-literal
           callback('请输入正确格式的邮箱!')
         }
       }
