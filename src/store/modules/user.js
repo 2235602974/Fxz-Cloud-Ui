@@ -93,6 +93,9 @@ const user = {
         }).finally(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          commit('SET_AVATAR', '')
+          commit('SET_REFRESH_TOKEN', '')
+          commit('SET_ROUTERS', [])
           Vue.ls.clear()
         })
       })
