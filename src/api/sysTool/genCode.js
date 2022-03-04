@@ -23,3 +23,15 @@ export function codeGenPreview (tableName) {
     params: { tableName: tableName }
   })
 }
+
+/**
+ * 下载
+ */
+export function genCodeZip (tableName) {
+  return axios({
+    url: '/system/gen/code/genCodeZip',
+    method: 'GET',
+    responseType: 'blob',
+    params: { tableName: tableName }
+  })
+}

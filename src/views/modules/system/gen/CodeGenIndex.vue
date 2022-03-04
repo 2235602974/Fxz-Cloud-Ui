@@ -22,12 +22,7 @@
       <template v-slot:action="{row}">
         <a href="javascript:" @click="showCode(row)">预览</a>
         <a-divider type="vertical" />
-        <!--        <a href="javascript:" @click="createCode(row)">生成</a>-->
-        <a-divider type="vertical" />
-        <a-popconfirm title="是否删除权限" @confirm="deleteItem(row)" okText="是" cancelText="否">
-          <a-icon slot="icon" type="question-circle-o" style="color: red" />
-          <a href="javascript:;" style="color: red">删除</a>
-        </a-popconfirm>
+        <a href="javascript:" @click="createCode(row)">生成</a>
       </template>
     </v-table>
 
@@ -43,9 +38,8 @@
 import ShowCode from './ShowCode'
 import { TableMixin } from '@/mixins/TableMixin'
 import { tableObj } from './template'
-import { deleteRoleById } from '@/api/sys/role'
 import RoleAddOrUpdate from '../role/RoleAddOrUpdate'
-import { PageDataTable } from '@/api/sysTool/genCode'
+import { genCodeZip, PageDataTable } from '@/api/sysTool/genCode'
 
 export default {
   name: 'GenCodeIndex',
@@ -71,12 +65,26 @@ export default {
     }
   },
   methods: {
-    deleteItem (record) {
-      deleteRoleById(record.roleId).then(_ => {
-        this.$message.info('删除成功')
-        this.queryPage()
-      }).catch(err => {
-        this.$message.error(err.msg)
+    createCode (row) {
+      genCodeZip(row.tableName).then(response => {
+        if (response.type === 'application/octet-stream') {
+          // 获取http头部的文件名信息，若无需重命名文件，将下面这行删去
+          const fileName = row.tableName + '.zip'
+          /* 兼容ie内核，360浏览器的兼容模式 */
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            const blob = new Blob([response], { type: 'application/zip' })
+            window.navigator.msSaveOrOpenBlob(blob, fileName)
+          } else {
+            /* 火狐谷歌的文件下载方式 */
+            const blob = new Blob([response], { type: 'application/zip' })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a') // 创建a标签
+            link.href = url
+            link.download = fileName // 文件重命名，若无需重命名，将该行删去
+            link.click()
+            URL.revokeObjectURL(url) // 释放内存
+          }
+        }
       })
     },
     handleOk () {
