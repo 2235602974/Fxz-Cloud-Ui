@@ -9,7 +9,7 @@
     :footer="null"
   >
     <a-tabs>
-      <a-tab-pane v-for="(item, index) in tableData" :key="index" :tab="item.name+''">
+      <a-tab-pane v-for="(item, index) in tableData" :key="index" :tab="item.name">
         <pre ><code v-html="item.content"></code></pre>
       </a-tab-pane>
     </a-tabs>
