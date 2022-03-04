@@ -8,6 +8,7 @@ export const FormMixin = {
       wrapperCol: {
         sm: { span: 13 }
       },
+      modalWidth: 640,
       confirmLoading: false,
       visible: false,
       editable: false,

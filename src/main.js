@@ -19,15 +19,11 @@ import './utils/filter' // global filter
 import './global.less'
 
 import Storage from 'vue-ls'
-
 import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
 
-Vue.config.productionTip = false
-
-// mount axios to `Vue.$http` and `this.$http`
-
+Vue.config.productionTip = false // 这里有多个样式，自己可以根据需要切换
 Vue.use(VueAxios)
 Vue.use(VXETable)
 

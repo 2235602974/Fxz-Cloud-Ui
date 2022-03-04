@@ -10,13 +10,14 @@
   >
     <a-tabs>
       <a-tab-pane v-for="(item, index) in tableData" :key="index" :tab="item.name+''">
-        <pre><code class="hljs" v-html="item.content"></code></pre>
+        <pre ><code v-html="item.content"></code></pre>
       </a-tab-pane>
     </a-tabs>
   </a-modal>
 
 </template>
 <script>
+import 'highlight.js/styles/github-gist.css'
 import { FormMixin } from '@/mixins/FormMixin'
 import { codeGenPreview } from '@/api/sysTool/genCode'
 
