@@ -31,12 +31,12 @@
           <a-input v-model="form.description" disabled />
         </a-form-model-item>
         <a-form-model-item label="性别" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <span v-if="form.sex==='0'" >男 <a-icon type="man" /></span>
-          <span v-if="form.sex==='1'" >女 <a-icon type="woman" /></span>
+          <span v-if="form.sex==='0'">男 <a-icon type="man" /></span>
+          <span v-if="form.sex==='1'">女 <a-icon type="woman" /></span>
         </a-form-model-item>
         <a-form-model-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
           <a-tag v-if="form.status==='0'" color="#f50">锁定</a-tag>
-          <a-tag v-if="form.status==='1'"color="green">正常</a-tag>
+          <a-tag v-if="form.status==='1'" color="green">正常</a-tag>
         </a-form-model-item>
         <a-form-model-item label="角色列表">
           <a-tag color="green" v-for="o in roles" :key="o">{{ o }}</a-tag>
@@ -51,9 +51,6 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-/*
-import { get, getRoles, getDeptList, getDataScopes } from '@/api/system/user'
-*/
 
 export default {
   name: 'UserShow',
