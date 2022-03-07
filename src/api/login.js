@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const userApi = {
   Login: '/auth/oauth/token',
-  Logout: '/auth/logout',
+  Logout: '/auth/myLogout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',
@@ -67,10 +67,7 @@ export function getCurrentUserNav () {
 export function logout () {
   return request({
     url: userApi.Logout,
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
+    method: 'DELETE'
   })
 }
 

@@ -84,9 +84,9 @@ const user = {
     },
 
     // 登出
-    Logout ({ commit, state }) {
+   async Logout ({ commit, state }) {
       return new Promise((resolve) => {
-        logout(state.token).then(() => {
+         logout(state.token).then(() => {
           resolve()
         }).catch(() => {
           resolve()
