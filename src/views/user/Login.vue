@@ -53,8 +53,7 @@
                   size="large"
                   type="text"
                   placeholder="请输入验证码"
-                  v-decorator="[ 'validateCode', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'} ]"
-                  @keyup.enter.native="handleSubmit" >
+                  v-decorator="[ 'validateCode', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'} ]">
                   <a-icon
                     slot="prefix"
                     type="safety-certificate"
