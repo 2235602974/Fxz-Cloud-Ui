@@ -10,7 +10,8 @@ const userApi = {
   SendSmsErr: '/account/sms_err',
   // get my info
   UserInfo: '/auth/user/info',
-  UserMenu: '/system/menu/nav'
+  UserMenu: '/system/menu/nav',
+  getCaptcha: 'captcha'
 }
 
 /**
@@ -27,18 +28,24 @@ const userApi = {
 export function login (parameter) {
   // 密码模式
   // eslint-disable-next-line camelcase
-  const grant_type = 'password'
-  const key = 77777439
-  const code = 4726
+  const grant_type = 'captcha'
   return request({
     url: userApi.Login,
     method: 'post',
     data: parameter,
     headers: {
-      'Authorization': 'Basic c3dhZ2dlcjoxMjM0NTY=' // swagger:123456 避免验证验证码 http://localhost:8301/auth/captcha?key=77777439生成验证码
-      // fxz:123456  'Authorization': 'Basic Znh6OjEyMzQ1Ng=='
+      // 'Authorization': 'Basic c3dhZ2dlcjoxMjM0NTY=' // swagger:123456 避免验证验证码 http://localhost:8301/auth/captcha?key=77777439生成验证码
+      // fxz:123456
+      'Authorization': 'Basic Znh6OjEyMzQ1Ng=='
     },
-    params: { grant_type, code, key, username: parameter.username, password: parameter.password }
+    params: { grant_type, validateCode: parameter.validateCode, uuid: parameter.uuid, username: parameter.username, password: parameter.password }
+  })
+}
+
+export function getCaptcha () {
+  return request({
+    url: userApi.getCaptcha,
+    method: 'GET'
   })
 }
 

@@ -8,6 +8,8 @@
           </a-tooltip>
           <div>
             <trend flag="up" style="margin-right: 16px;">
+
+              {{ $route.params.pageNo }}
               <span slot="term">周同比</span>
               12%
             </trend>

@@ -13,7 +13,12 @@
         @change="handleTabClick"
       >
         <a-tab-pane key="tab1" tab="账号密码登录">
-          <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" message="账户或密码错误（admin/ant.design )" />
+          <a-alert
+            v-if="isLoginError"
+            type="error"
+            showIcon
+            style="margin-bottom: 24px;"
+            message="请检查账户、密码、验证码是否正确" />
           <a-form-item>
             <a-input
               size="large"
@@ -24,7 +29,7 @@
                 {rules: [{ required: true, message: '请输入帐户名或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
               ]"
             >
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-item>
 
@@ -37,22 +42,54 @@
                 {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
               ]"
             >
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input-password>
+          </a-form-item>
+
+          <a-form-item>
+            <a-row :gutter="8">
+              <a-col :span="16">
+                <a-input
+                  size="large"
+                  type="text"
+                  placeholder="请输入验证码"
+                  v-decorator="[ 'validateCode', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'} ]"
+                  @keyup.enter.native="handleSubmit" >
+                  <a-icon
+                    slot="prefix"
+                    type="safety-certificate"
+                    :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                  >
+
+                </a-input></a-col>
+              <a-col :span="8">
+                <img class="login-code-img" :src="captchaUrl" @click="getValidateCode" />
+              </a-col>
+            </a-row>
           </a-form-item>
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
-            <a-input :disabled="true" size="large" type="text" placeholder="开发中。。。" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
-              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+            <a-input
+              :disabled="true"
+              size="large"
+              type="text"
+              placeholder="开发中。。。"
+              v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
+              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-item>
 
           <a-row :gutter="16">
             <a-col class="gutter-row" :span="16">
               <a-form-item>
-                <a-input :disabled="true" size="large" type="text" placeholder="开发中。。。" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
-                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                <a-input
+                  :disabled="true"
+                  size="large"
+                  type="text"
+                  placeholder="开发中。。。"
+                  v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
+                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
                 </a-input>
               </a-form-item>
             </a-col>
@@ -86,7 +123,8 @@
           class="login-button"
           :loading="state.loginBtn"
           :disabled="state.loginBtn"
-        >确定</a-button>
+        >确定
+        </a-button>
       </a-form-item>
 
       <div class="user-login-other">
@@ -117,7 +155,7 @@
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-import { getSmsCaptcha } from '@/api/login'
+import { getSmsCaptcha, getCaptcha } from '@/api/login'
 
 export default {
   components: {
@@ -125,6 +163,7 @@ export default {
   },
   data () {
     return {
+      captchaUrl: '',
       customActiveKey: 'tab1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
@@ -133,6 +172,7 @@ export default {
       requiredTwoStepCaptcha: false,
       stepCaptchaVisible: false,
       form: this.$form.createForm(this),
+      uuid: undefined,
       state: {
         time: 60,
         loginBtn: false,
@@ -143,18 +183,17 @@ export default {
     }
   },
   created () {
-   /* get2step({ })
-      .then(res => {
-        this.requiredTwoStepCaptcha = res.result.stepCode
-      })
-      .catch(() => {
-        this.requiredTwoStepCaptcha = false
-      }) */
-    // this.requiredTwoStepCaptcha = true
+    this.getValidateCode()
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
-    // handler
+    getValidateCode () {
+      getCaptcha().then(res => {
+        const { img, uuid } = res.data
+        this.captchaUrl = 'data:image/gif;base64,' + img
+        this.uuid = uuid
+      })
+    },
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
       const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
@@ -180,17 +219,20 @@ export default {
 
       state.loginBtn = true
 
-      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password'] : ['mobile', 'captcha']
+      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password', 'validateCode'] : ['mobile', 'captcha']
 
       validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
-          console.log('login form', values)
           const loginParams = { ...values }
+          loginParams.uuid = this.uuid
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
-            .catch(err => this.requestFailed(err))
+            .catch(err => {
+              this.requestFailed(err)
+              this.getValidateCode()
+            })
             .finally(() => {
               state.loginBtn = false
             })
@@ -245,18 +287,6 @@ export default {
       })
     },
     loginSuccess (res) {
-      console.log(res)
-      // check res.homePage define, set $router.push name res.homePage
-      // Why not enter onComplete
-      /*
-      this.$router.push({ name: 'analysis' }, () => {
-        console.log('onComplete')
-        this.$notification.success({
-          message: '欢迎',
-          description: `${timeFix()}，欢迎回来`
-        })
-      })
-      */
       this.$router.push({ name: 'welcome' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
@@ -280,6 +310,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.login-code-img {
+  /*margin-top: 2px;*/
+  width: 100px;
+  height: 40px;
+  background-color: #fdfdfd;
+  border: 1px solid #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  line-height: 40px;
+  text-indent: 5px;
+  text-align: center;
+}
+
 .user-layout-login {
   label {
     font-size: 14px;
