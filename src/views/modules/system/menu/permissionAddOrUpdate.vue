@@ -194,6 +194,7 @@ export default {
     edit (tmpRecord, type, permsType) {
       this.visible = true
       const { form: { setFieldsValue, resetFields } } = this
+      resetFields()
       if (['edit', 'show'].includes(type)) {
         this.confirmLoading = true
         getObj(tmpRecord.id).then(res => {
@@ -205,8 +206,6 @@ export default {
             setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden', 'redirect', 'orderNum']))
           })
         })
-      } else {
-        resetFields()
       }
     },
     handleOk () {
