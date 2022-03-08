@@ -58,6 +58,7 @@
         </a-form-item>
         <a-form-item
           label="URL"
+          v-if="menuType !== '1'"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
@@ -84,6 +85,16 @@
           <a-input
             :disabled="showable"
             v-decorator="['name', {rules: [{required: true, message: '请输入组件名称!'}]}]" />
+        </a-form-item>
+        <a-form-item
+          label="重定向"
+          :labelCol="labelCol"
+          v-if="menuType !== '1'"
+          :wrapperCol="wrapperCol"
+        >
+          <a-input
+            :disabled="showable"
+            v-decorator="['redirect', {rules: [{required: false, message: '请输入默认跳转地址redirect!'}]}]" />
         </a-form-item>
         <a-form-item
           label="是否缓存"
@@ -191,7 +202,7 @@ export default {
           this.confirmLoading = false
           console.log('record', record)
           this.$nextTick(() => {
-            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden', 'orderNum']))
+            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden', 'redirect', 'orderNum']))
           })
         })
       } else {
