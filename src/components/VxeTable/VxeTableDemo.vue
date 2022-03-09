@@ -27,7 +27,7 @@
       :loading="localLoading"
       highlight-current-row
       height="500px"
-      :tree-config="{children: 'children',expandAll: true}"
+      :tree-config="{children: 'children',expandAll: expandAllTree}"
       :keyboard-config="{isArrow: true}"
       :row-style="rowStyle"
       :cell-class-name="cellClassName"
@@ -116,6 +116,10 @@ export default {
     }
   },
   props: {
+    expandAllTree: {
+      type: Boolean,
+      default: true
+    },
     checkbox: {
       type: Boolean,
       default: false

@@ -4,6 +4,7 @@
       :columns="tableObj.columns"
       :data="loadData"
       :showPagination="false"
+      :expandAllTree="false"
       ref="table"
     >
       <template v-slot:buttons>
