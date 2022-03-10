@@ -8,7 +8,8 @@ import { ACCESS_TOKEN } from '@/store/mutation-types'
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
-  baseURL: '/api',
+  baseURL: process.env.VUE_APP_API_BASE_URL,
+  // baseURL: 'http://127.0.0.1:8301',
   timeout: 6000 // 请求超时时间
 })
 
@@ -26,8 +27,8 @@ const errorHandler = (error) => {
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
       notification.error({
-        message: 'Unauthorized',
-        description: 'Authorization verification failed'
+        message: '未经授权',
+        description: '授权验证失败'
       })
       if (token) {
         store.dispatch('Logout').then(() => {
@@ -36,6 +37,12 @@ const errorHandler = (error) => {
           }, 1500)
         })
       }
+    }
+    if (error.response.status === 509) {
+      const html = error.response.data
+      const verifyWindow = window.open('', '_blank', 'height=400,width=560')
+      verifyWindow.document.write(html)
+      verifyWindow.document.getElementById('baseUrl').value = ' http://localhost:8000/api/system'
     }
   }
   return Promise.reject(error)
@@ -47,7 +54,6 @@ request.interceptors.request.use(config => {
   // 如果 token 存在
   // 让每个请求携带自定义 token 请根据实际情况自行修改
   if (token) {
-    console.log('token:', token)
     config.headers['Authorization'] = 'Bearer ' + token
   }
   return config
@@ -55,6 +61,7 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
+  if (response.data.code && response.data.code === 509) { return Promise.reject(response.data) }
   return response.data
 }, errorHandler)
 

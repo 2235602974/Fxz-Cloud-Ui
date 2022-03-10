@@ -54,7 +54,7 @@ export default {
         ).then(res => {
           console.log('res', res)
           return res.data
-        })
+        }).catch(e => {})
       }
     }
   },
