@@ -42,7 +42,7 @@ const errorHandler = (error) => {
       const html = error.response.data
       const verifyWindow = window.open('', '_blank', 'height=400,width=560')
       verifyWindow.document.write(html)
-      verifyWindow.document.getElementById('baseUrl').value = ' http://localhost:8000/api/system'
+      verifyWindow.document.getElementById('baseUrl').value = 'http://localhost:8000/api/system'
     }
   }
   return Promise.reject(error)

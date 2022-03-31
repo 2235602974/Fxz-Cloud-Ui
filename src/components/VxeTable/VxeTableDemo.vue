@@ -238,7 +238,7 @@ export default {
             // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
             if (r.records.length === 0 && this.localPagination.currentPage !== 1) {
               this.localPagination.currentPage--
-              this.loadData()
+            //  this.loadData()
               return
             }
             this.localDataSource = r.records // 返回结果中的数组数据

@@ -54,7 +54,6 @@ export default {
         tableName: ''
       },
       loadData: (parameter) => {
-        console.log('param:', this.queryParam)
         return PageDataTable(
           Object.assign(parameter, this.queryParam)
         ).then(res => {
