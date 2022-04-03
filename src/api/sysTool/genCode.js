@@ -16,22 +16,22 @@ export function editRole (data) {
   })
 }
 
-export function codeGenPreview (tableName) {
+export function codeGenPreview (queryInfo) {
   return axios({
     url: '/generate/gen/code/codeGenPreview',
     method: 'GET',
-    params: { tableName: tableName }
+    params: { tableName: queryInfo.tableName, dsName: queryInfo.dsName }
   })
 }
 
 /**
  * 下载
  */
-export function genCodeZip (tableName) {
+export function genCodeZip (queryInfo) {
   return axios({
     url: '/generate/gen/code/genCodeZip',
     method: 'GET',
     responseType: 'blob',
-    params: { tableName: tableName }
+    params: { tableName: queryInfo.tableName, dsName: queryInfo.dsName }
   })
 }

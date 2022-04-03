@@ -4,6 +4,15 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
+            <a-form-item label="数据源">
+              <a-select v-model="queryParam.dsName" @change="queryPage">
+                <a-select-option v-for="item in dsList" :value="item.name" :label="item.name" :key="item.id">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="8" :sm="24">
             <a-form-item label="表名称">
               <a-input v-model="queryParam.tableName" placeholder="表名称" />
             </a-form-item>
@@ -39,6 +48,7 @@ import { TableMixin } from '@/mixins/TableMixin'
 import { tableObj } from './template'
 import RoleAddOrUpdate from '../role/RoleAddOrUpdate'
 import { genCodeZip, PageDataTable } from '@/api/sysTool/genCode'
+import { listDs } from '@/api/sysTool/datasourceConf'
 
 export default {
   name: 'GenCodeIndex',
@@ -50,8 +60,10 @@ export default {
   data () {
     return {
       tableObj,
+      dsList: [],
       queryParam: {
-        tableName: ''
+        tableName: '',
+        dsName: ''
       },
       loadData: (parameter) => {
         return PageDataTable(
@@ -64,7 +76,8 @@ export default {
   },
   methods: {
     createCode (row) {
-      genCodeZip(row.tableName).then(response => {
+      row.dsName = this.queryParam.dsName
+      genCodeZip(row).then(response => {
         if (response.type === 'application/octet-stream') {
           // 获取http头部的文件名信息，若无需重命名文件，将下面这行删去
           const fileName = row.tableName + '.zip'
@@ -93,17 +106,23 @@ export default {
       this.queryPage()
     },
     showCode (record) {
-      this.$refs.modalForm.init(record.tableName, 'show')
+      record.dsName = this.queryParam.dsName
+      this.$refs.modalForm.init(record, 'show')
     },
     edit (record) {
       this.$refs.modalForm.init(record.roleId, 'edit')
     },
     add () {
       this.$refs.modalForm.init('', 'add')
+    },
+    getDsList () {
+      listDs().then(res => {
+        this.dsList = res.data
+      })
     }
   },
   created () {
-
+    this.getDsList()
   }
 }
 </script>

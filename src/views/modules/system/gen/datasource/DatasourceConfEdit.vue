@@ -108,6 +108,7 @@ export default {
   },
   methods: {
     edit (id, type) {
+      this.$refs['form'].resetFields()
       if (['edit', 'show'].includes(type)) {
         this.confirmLoading = true
         get(id).then(res => {
@@ -115,8 +116,6 @@ export default {
           this.confirmLoading = false
           if (type === 'edit') this.form.password = ''
         })
-      } else {
-        this.confirmLoading = false
       }
     },
     handleOk () {

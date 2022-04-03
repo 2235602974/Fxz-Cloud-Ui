@@ -98,6 +98,7 @@ export default {
     handleChange (v) {
     },
     edit (id, type) {
+      this.$refs['form'].resetFields()
       this.tempMenuId = undefined
       this.confirmLoading = false
       this.confirmDirty = false
@@ -114,12 +115,6 @@ export default {
           }
           this.confirmLoading = false
         })
-      } else {
-        this.form = {
-          roleName: '',
-          remark: '',
-          menuId: ''
-        }
       }
     },
     handleOk () {

@@ -31,8 +31,8 @@ export default {
     }
   },
   methods: {
-    edit (tableName) {
-      codeGenPreview(tableName).then(res => {
+    edit (queryInfo) {
+      codeGenPreview(queryInfo).then(res => {
         this.tableData = res.data
       })
     }

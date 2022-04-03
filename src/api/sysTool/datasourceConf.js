@@ -1,6 +1,16 @@
 import { axios } from '@/utils/request'
 
 /**
+ * cha
+ */
+export function listDs () {
+  return axios({
+    url: '/generate/datasourceConf/listDs',
+    method: 'GET'
+  })
+}
+
+/**
  * 分页
  */
 export function page (params) {
