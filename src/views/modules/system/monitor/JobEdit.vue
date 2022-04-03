@@ -18,16 +18,20 @@
         <a-input v-model="form.jobId" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item label="任务名称" prop="jobName">
-        <a-input v-model="form.jobName" :disabled="showable" />
+        <a-input v-model="form.jobName" v-if="!showable" />
+        <span v-else>form.jobName</span>
       </a-form-model-item>
       <a-form-model-item label="任务分组" prop="jobGroup">
-        <a-input v-model="form.jobGroup" :disabled="showable"/>
+        <a-input v-model="form.jobGroup" v-if="!showable"/>
+        <span v-else>form.jobGroup</span>
       </a-form-model-item>
       <a-form-model-item label="调用方法" prop="invokeTarget">
-        <a-input v-model="form.invokeTarget" :disabled="showable"/>
+        <a-input v-model="form.invokeTarget" v-if="!showable"/>
+        <span v-else>form.invokeTarget</span>
       </a-form-model-item>
       <a-form-model-item label="corn表达式" prop="cronExpression">
-        <a-input v-model="form.cronExpression" :disabled="showable"/>
+        <a-input v-model="form.cronExpression" v-if="!showable"/>
+        <span v-else>form.cronExpression</span>
       </a-form-model-item>
       <a-form-model-item label="执行策略" prop="misfirePolicy">
         <a-radio-group default-value="0" button-style="solid" v-model="form.misfirePolicy" v-if="!showable">
