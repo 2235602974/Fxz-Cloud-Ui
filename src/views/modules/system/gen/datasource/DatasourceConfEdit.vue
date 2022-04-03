@@ -27,7 +27,7 @@
         label="jdbcUrl"
         prop="url"
       >
-        <a-input v-model="form.url" :disabled="showable" />
+        <a-textarea v-model="form.url" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item
         label="用户名"
@@ -108,7 +108,9 @@ export default {
   },
   methods: {
     edit (id, type) {
-      this.$refs['form'].resetFields()
+      this.$nextTick(() => {
+        this.$refs['form'].resetFields()
+      })
       if (['edit', 'show'].includes(type)) {
         this.confirmLoading = true
         get(id).then(res => {

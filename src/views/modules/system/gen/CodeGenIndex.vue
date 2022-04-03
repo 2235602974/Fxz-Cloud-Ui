@@ -5,7 +5,7 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="数据源">
-              <a-select v-model="queryParam.dsName" @change="queryPage">
+              <a-select v-model="queryParam.dsName" @change="queryPage" placeholder="数据源">
                 <a-select-option v-for="item in dsList" :value="item.name" :label="item.name" :key="item.id">
                   {{ item.name }}
                 </a-select-option>
