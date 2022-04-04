@@ -119,9 +119,7 @@ export default {
   },
   methods: {
     edit (id, type) {
-      this.$nextTick(() => {
-        this.$refs['form'].resetFields()
-      })
+      this.resetForm()
       if (['edit', 'show'].includes(type)) {
         this.confirmLoading = true
         get(id).then(res => {
