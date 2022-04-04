@@ -87,7 +87,7 @@ export const generator = (routerMap) => {
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
-        icon: 'reddit',
+        icon: item.icon,
         title: item.title,
         permission: item.perms
       }

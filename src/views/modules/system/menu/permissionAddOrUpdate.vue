@@ -87,6 +87,22 @@
             v-decorator="['name', {rules: [{required: true, message: '请输入组件名称!'}]}]" />
         </a-form-item>
         <a-form-item
+          label="图标"
+          :labelCol="labelCol"
+          v-if="menuType !== '2'"
+          :wrapperCol="wrapperCol"
+        >
+          <a-input
+            :disabled="showable"
+            v-decorator="['icon', {rules: [{required: true, message: '请选择图标!'}]}]" >
+            <template v-slot:addonAfter>
+              <a-icon
+                type="setting"
+                @click="selectIcons" />
+            </template>
+          </a-input>
+        </a-form-item>
+        <a-form-item
           label="重定向"
           :labelCol="labelCol"
           v-if="menuType !== '1'"
@@ -139,6 +155,18 @@
       </a-form>
     </a-spin>
 
+    <a-modal
+      :width="850"
+      :visible="visibleIcon"
+      @cancel="handleCancelIcon"
+      footer=""
+      :mask="false"
+      :closable="false"
+      :destroyOnClose="true"
+    >
+      <icon-selector v-model="form.icon" @change="handleIconChange"/>
+    </a-modal>
+
     <template slot="footer">
       <div v-show="!showable">
         <a-button key="cancel" @click="handleCancel">取消</a-button>
@@ -152,6 +180,7 @@
 import pick from 'lodash.pick'
 import { addObj, putObj, getObj } from '@/api/sys/menu'
 import { FormMixin } from '@/mixins/FormMixin'
+import IconSelector from '@/components/IconSelector'
 
 const isOrNoList = [
   {
@@ -167,10 +196,12 @@ const isOrNoList = [
 export default {
   name: 'PermissionAddOrUpdate',
   mixins: [FormMixin],
+  components: { IconSelector },
   data () {
     return {
       isOrNoList,
       visible: false,
+      visibleIcon: false,
       confirmLoading: false,
       form: this.$form.createForm(this),
       treeData: [],
@@ -188,6 +219,26 @@ export default {
     }
   },
   methods: {
+    // 选择图标
+    handleIconChange (icon) {
+      this.visibleIcon = false
+      console.log(icon)
+      const iconData = { icon }
+      const { form: { setFieldsValue } } = this
+      this.$nextTick(() => {
+        setFieldsValue(pick(iconData, ['icon']))
+      })
+    },
+    // 选择图标弹出
+    selectIcons () {
+      if (!this.showable) {
+        this.visibleIcon = true
+      }
+    },
+    // 取消选择图标
+    handleCancelIcon () {
+      this.visibleIcon = false
+    },
     handleChangeMenu (e) {
       this.menuType = e
     },
@@ -203,7 +254,7 @@ export default {
           this.confirmLoading = false
           console.log('record', record)
           this.$nextTick(() => {
-            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'keepAlive', 'hidden', 'redirect', 'orderNum']))
+            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'icon', 'keepAlive', 'hidden', 'redirect', 'orderNum']))
           })
         })
       }
