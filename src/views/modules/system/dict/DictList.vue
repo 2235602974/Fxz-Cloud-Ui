@@ -10,7 +10,7 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="字典类型">
-              <a-select v-model="queryParam.systemFlag">
+              <a-select v-model="queryParam.systemFlag" @change="queryPage">
                 <a-select-option
                   v-for="item in dictTypes"
                   :key="item.id"

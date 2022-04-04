@@ -33,6 +33,10 @@ export const TableMixin = {
       e.preventDefault()
       this.queryPage()
     },
+    restQuery () {
+      this.queryParam = {}
+      this.queryPage()
+    },
     queryPage (bool = false) {
       this.$refs.table.refresh(bool)
     },

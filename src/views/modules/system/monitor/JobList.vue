@@ -10,7 +10,7 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <a-button type="primary" @click="queryPage">查询</a-button>
-            <a-button style="margin-left: 8px" @click="queryPage">重置</a-button>
+            <a-button style="margin-left: 8px" @click="restQuery">重置</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -30,10 +30,27 @@
         <a-divider type="vertical" />
         <a href="javascript:;" @click="edit(row)">编辑</a>
         <a-divider type="vertical" />
-        <a-popconfirm title="是否删除权限" @confirm="remove(row)" okText="是" cancelText="否">
-          <a-icon slot="icon" type="question-circle-o" style="color: red" />
-          <a href="javascript:;" style="color: red">删除</a>
-        </a-popconfirm>
+        <a-dropdown>
+          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+            更多
+            <a-icon type="down" />
+          </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a-popconfirm :title="`确定执行一次${row.jobName}任务?`" @confirm="handleRun(row)" okText="是" cancelText="否">
+                <a href="javascript:;">执行一次</a>
+              </a-popconfirm>
+            </a-menu-item>
+            <a-menu-item>
+              <a @click="handleJobLog(row)">执行日志</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a-popconfirm title="是否删除权限" @confirm="remove(row)" okText="是" cancelText="否">
+                <a href="javascript:;" style="color: red">删除</a>
+              </a-popconfirm>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </template>
     </v-table>
     <Job-edit
@@ -44,7 +61,7 @@
 
 <script>
 import { tableObj } from './template'
-import { changeStatus, del, page } from '@/api/sysMonitor/job'
+import { changeStatus, del, page, runJob } from '@/api/sysMonitor/job'
 import JobEdit from './JobEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 
@@ -62,12 +79,27 @@ export default {
       },
       loadData: (parameter) => {
         return page(Object.assign(parameter, this.queryParam)).then(res => {
+          console.log('res', res)
           return res.data
         })
       }
     }
   },
   methods: {
+    handleJobLog (row) {
+      this.$router.push({
+        path: '/sysMonitor/jobLog',
+        query: {
+          jobName: row.jobName,
+          jobGroup: row.jobGroup
+        }
+      })
+    },
+    handleRun (row) {
+      runJob(row).then(res => {
+        this.$message.success('执行成功')
+      })
+    },
     checkSwitch (row) {
       return row.status === '0'
     },

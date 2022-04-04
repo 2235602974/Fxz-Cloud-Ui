@@ -5,7 +5,7 @@ import { axios } from '@/utils/request'
  */
 export function page (params) {
   return axios({
-    url: '/schedule/job/page',
+    url: '/schedule/jobLog/page',
     method: 'GET',
     params: params
   })
@@ -16,9 +16,19 @@ export function page (params) {
  */
 export function get (id) {
   return axios({
-    url: '/schedule/job/findById',
+    url: '/schedule/jobLog/findById',
     method: 'GET',
     params: { id }
+  })
+}
+
+/**
+ * 获取全部
+ */
+export function findAll (id) {
+  return axios({
+    url: '/schedule/jobLog/findAll',
+    method: 'GET'
   })
 }
 
@@ -27,7 +37,7 @@ export function get (id) {
  */
 export function add (obj) {
   return axios({
-    url: '/schedule/job/add',
+    url: '/schedule/jobLog/add',
     method: 'POST',
     data: obj
   })
@@ -38,7 +48,7 @@ export function add (obj) {
  */
 export function update (obj) {
   return axios({
-    url: '/schedule/job/update',
+    url: '/schedule/jobLog/update',
     method: 'POST',
     data: obj
   })
@@ -49,28 +59,8 @@ export function update (obj) {
  */
 export function del (id) {
   return axios({
-    url: '/schedule/job/delete',
+    url: '/schedule/jobLog/delete',
     params: { id },
     method: 'DELETE'
-  })
-}
-
-/**
- * 状态改变
- */
-export function changeStatus (obj) {
-  return axios({
-    url: '/schedule/job/changeStatus',
-    method: 'PUT',
-    data: obj
-  })
-}
-
-// 定时任务立即执行一次
-export function runJob (data) {
-  return axios({
-    url: '/schedule/job/run',
-    method: 'put',
-    data: data
   })
 }
