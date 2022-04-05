@@ -42,6 +42,17 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
+        <a-form-model-item label="岗位" prop="postId">
+          <a-select
+            mode="multiple"
+            style="width: 200px"
+            v-model="form.postId"
+          >
+            <a-select-option v-for="item in postList" :key="item.postId">
+              {{ item.postName }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item label="部门" prop="deptId">
           <a-tree
             checkStrictly
@@ -68,17 +79,21 @@ import { getById, updateById } from '@/api/sys/user'
 import { validateEmail, validateMobile } from '@/utils/validate'
 import { getDeptTree } from '@/api/sys/dept'
 import { getAllRole } from '@/api/sys/role'
+import { findAll } from '@/api/sys/post'
 
 export default {
   name: 'UserEdit',
   mixins: [FormMixin],
   data () {
     return {
+      postList: [],
       roleList: [],
       deptList: [],
       treeData: [],
       tempDeptId: { halfChecked: [], checked: [] },
       form: {
+        roleId: '',
+        postId: '',
         id: '',
         name: '',
         username: '',
@@ -95,6 +110,9 @@ export default {
     }
   },
   created () {
+    findAll().then(res => {
+      this.postList = res.data
+    })
     getAllRole().then(res => {
       this.roleList = res.data
     })
@@ -109,6 +127,7 @@ export default {
       }
     },
     async edit (id) {
+      this.resetForm()
       this.confirmLoading = true
       await getById(id).then(res => {
         this.form = res.data
@@ -120,6 +139,11 @@ export default {
           this.form.roleId = this.form.roleId.split(',')
         } else {
           this.form.roleId = undefined
+        }
+        if (this.form.postId) {
+          this.form.postId = this.form.postId.split(',')
+        } else {
+          this.form.postId = undefined
         }
         delete this.form.password
         this.confirmLoading = false
@@ -144,6 +168,9 @@ export default {
       this.$refs.form.validate(async valid => {
         if (valid) {
           this.confirmLoading = true
+          if (this.form.postId) {
+            this.form.postId = this.form.postId.join()
+          }
           if (this.form.roleId) {
             this.form.roleId = this.form.roleId.join()
           }

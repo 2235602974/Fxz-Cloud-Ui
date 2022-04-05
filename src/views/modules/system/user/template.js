@@ -55,6 +55,10 @@ export const tableObj = {
       field: 'roleName'
     },
     {
+      title: '岗位',
+      field: 'postName'
+    },
+    {
       title: '操作',
       width: '200px',
       field: 'action',

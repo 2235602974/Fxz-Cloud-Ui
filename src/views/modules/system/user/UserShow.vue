@@ -13,22 +13,22 @@
         :wrapperCol="wrapperCol"
         :model="form">
         <a-form-model-item label="用户账号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <a-input v-model="form.username" disabled />
+          <span>{{ form.username }}</span>
         </a-form-model-item>
         <a-form-model-item label="部门" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <a-input v-model="form.deptName" disabled />
+          <span>{{ form.deptName }}</span>
         </a-form-model-item>
         <a-form-model-item label="邮箱" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <a-input v-model="form.email" disabled />
+          <span>{{ form.email }}</span>
         </a-form-model-item>
         <a-form-model-item label="手机号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <a-input v-model="form.mobile" disabled />
+          <span>{{ form.mobile }}</span>
         </a-form-model-item>
         <a-form-model-item label="注册时间" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <a-input v-model="form.createTime" disabled />
+          <span>{{ form.createTime }}</span>
         </a-form-model-item>
         <a-form-model-item label="描述" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
-          <a-input v-model="form.description" disabled />
+          <span>{{ form.description }}</span>
         </a-form-model-item>
         <a-form-model-item label="性别" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
           <span v-if="form.sex==='0'">男 <a-icon type="man" /></span>
@@ -36,13 +36,16 @@
         </a-form-model-item>
         <a-form-model-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="username">
           <a-tag v-if="form.status==='0'" color="#f50">锁定</a-tag>
-          <a-tag v-if="form.status==='1'" color="green">正常</a-tag>
+          <a-tag v-if="form.status==='1'" color="pink">正常</a-tag>
         </a-form-model-item>
         <a-form-model-item label="角色列表">
           <a-tag color="green" v-for="o in roles" :key="o">{{ o }}</a-tag>
         </a-form-model-item>
+        <a-form-model-item label="岗位列表">
+          <a-tag color="cyan" v-for="o in posts" :key="o">{{ o }}</a-tag>
+        </a-form-model-item>
         <a-form-model-item label="部门列表">
-          <a-tag color="green" v-for="o in deptList" :key="o">{{ o }}</a-tag>
+          <a-tag color="blue" v-for="o in deptList" :key="o">{{ o }}</a-tag>
         </a-form-model-item>
       </a-form-model>
     </a-spin>
@@ -60,6 +63,7 @@ export default {
       userStatusCode: 'UserStatusCode',
       form: {},
       roles: [],
+      posts: [],
       dataScopes: [],
       deptList: []
     }
@@ -70,6 +74,9 @@ export default {
 
       if (row.roleName) {
         this.roles = row.roleName && row.roleName.split(',')
+      }
+      if (row.postName) {
+        this.posts = row.postName && row.postName.split(',')
       }
       if (row.deptName) {
         this.deptList = row.deptName && row.deptName.split(',')

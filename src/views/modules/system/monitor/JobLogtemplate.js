@@ -21,8 +21,19 @@ export const tableObj = {
       field: 'jobMessage'
     },
     {
-      title: '执行状态（0正常 1失败）',
-      field: 'status'
+      title: '执行状态',
+      field: 'status',
+      type: 'dict',
+      options: [
+        {
+          label: '正常',
+          value: '0'
+        },
+        {
+          label: '失败',
+          value: '1'
+        }
+      ]
     },
     {
       title: '异常信息',

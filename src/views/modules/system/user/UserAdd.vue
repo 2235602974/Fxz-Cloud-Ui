@@ -43,6 +43,18 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
+        <a-form-model-item label="岗位" prop="postId">
+          <a-select
+            mode="multiple"
+            style="width: 200px"
+            @change="handleChange"
+            v-model="form.postId"
+          >
+            <a-select-option v-for="item in postList" :key="item.postId">
+              {{ item.postName }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item label="部门" prop="deptId">
           <a-tree
             checkStrictly
@@ -68,6 +80,7 @@ import { getAllRole } from '@/api/sys/role'
 import { addUser } from '@/api/sys/user'
 import { getDeptTree } from '@/api/sys/dept'
 import { validateEmail, validateMobile } from '@/utils/validate'
+import { findAll } from '@/api/sys/post'
 
 export default {
   name: 'UserAdd',
@@ -75,6 +88,7 @@ export default {
   data () {
     return {
       confirmDirty: false,
+      postList: [],
       roleList: [],
       deptList: [],
       treeData: [],
@@ -86,7 +100,8 @@ export default {
         sex: '',
         description: '',
         roleId: undefined,
-        deptId: undefined
+        deptId: undefined,
+        postId: undefined
       },
       rules: {
         username: [{ required: true, message: '请输入用户名' }, { validator: this.validateUsername, trigger: 'blur' }],
@@ -97,6 +112,9 @@ export default {
     }
   },
   created () {
+    findAll().then(res => {
+      this.postList = res.data
+    })
     getAllRole().then(res => {
       this.roleList = res.data
     })
@@ -175,13 +193,15 @@ export default {
     handleOk () {
       this.$refs.form.validate(async valid => {
         if (valid) {
+          if (this.form.postId) {
+            this.form.postId = this.form.postId.join()
+          }
           if (this.form.roleId) {
             this.form.roleId = this.form.roleId.join()
           }
           if (this.tempDeptId && this.tempDeptId.checked) {
             this.form.deptId = this.tempDeptId.checked[0]
           }
-          console.log('form', this.form)
           this.confirmLoading = true
           await addUser(this.form)
           setTimeout(() => {
