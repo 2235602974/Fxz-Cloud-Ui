@@ -12,8 +12,6 @@
     v-bind="settings"
   >
     <ads v-if="isProPreviewSite && !collapsed"/>
-    <!-- 设置-->
-    <!--    <setting-drawer :settings="settings" @change="handleSettingChange" />-->
 
     <!-- layout content -->
     <a-layout-content :style="{ height: '100%', margin: '0 0 40px 0', paddingTop: fixedHeader ? '64px' : '0' }">

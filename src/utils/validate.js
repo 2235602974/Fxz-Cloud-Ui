@@ -82,6 +82,18 @@ export const vaildatePc = function () {
  * @param email
  * @returns {boolean}
  */
+export function validateEmailRule (rule, value, callback) {
+  if (validateEmail(value)) {
+    callback()
+  }
+  callback(new Error('邮箱格式不正确'))
+}
+
+/**
+ * validate 邮件
+ * @param email
+ * @returns {boolean}
+ */
 export function validateEmail (email) {
   const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(email)
@@ -165,6 +177,26 @@ export function cardid (code) {
     msg = '证件号码不能为空'
   }
   return { result, msg }
+}
+
+/**
+ * 判断手机号码是否正确
+ */
+export function validateMobileRule (rule, value, callback) {
+  const isPhone = /^0\d{2,3}-?\d{7,8}$/
+  // 增加134 减少|1349[0-9]{7}，增加181,增加145，增加17[678]
+  if (!validatenull(value)) {
+    if (value.length === 11) {
+      if (isPhone.test(value)) {
+        callback(new Error('手机号码格式不正确'))
+      }
+    } else {
+      callback(new Error('手机号码长度不为11位'))
+    }
+  } else {
+    callback(new Error('手机号不能为空'))
+  }
+  callback()
 }
 
 /**

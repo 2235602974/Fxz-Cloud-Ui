@@ -1,8 +1,8 @@
 import { axios } from '@/utils/request'
+import { validatenull } from '@/utils/validate'
 
 export function treeDataTranslate (data, value = 'value', title = 'title', children = 'children') {
   const temp = []
-  console.log('data:', data)
   if (data.constructor !== Array) {
     const arr = []
     arr.push(data)
@@ -14,14 +14,12 @@ export function treeDataTranslate (data, value = 'value', title = 'title', child
       title: data[i][title],
       value: String(data[i][value])
     }
-    console.log('p:', p)
     if (data[i][children] && data[i][children].length > 0) {
       p.children = treeDataTranslate(data[i][children], value, title, children)
     }
     temp.push(p)
   }
 
-  console.log(temp)
   return temp
 }
 
@@ -124,4 +122,31 @@ export function downBlobFile (url, query, fileName) {
       document.body.removeChild(link)
     }, 0)
   })
+}
+
+/**
+ *  <img> <a> src 处理
+ * @returns {PromiseLike<T | never> | Promise<T | never>}
+ */
+export function handleImg (url, id) {
+  return validatenull(url)
+    ? null
+    : axios({
+      url: url,
+      method: 'get',
+      responseType: 'blob'
+    }).then(response => {
+      // 处理返回的文件流
+      const blob = response
+      const src = URL.createObjectURL(blob)
+
+      if (validatenull(id)) {
+        return src
+      }
+      const img = document.getElementById(id)
+      img.src = src
+      window.setTimeout(function () {
+        window.URL.revokeObjectURL(blob)
+      }, 0)
+    })
 }

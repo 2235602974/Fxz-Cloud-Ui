@@ -97,7 +97,11 @@ export default {
   },
   methods: {
     getLabel () {
-      return this.dictTypes.filter(item => item.value === this.form.systemFlag)[0].label
+      if (this.dictTypes && this.dictTypes.length > 0) {
+        const res = this.dictTypes.filter(item => item.value === this.form.systemFlag)
+        return res && res[0] && res[0].label
+      }
+      return ''
     },
     edit (id, type) {
       this.resetForm()

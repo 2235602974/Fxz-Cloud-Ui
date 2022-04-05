@@ -3,7 +3,7 @@
     <span class="ant-pro-account-avatar">
       <a-avatar
         size="small"
-        :src="currentUser.principal.avatar"
+        :src="$store.getters.avatar"
         class="antd-pro-global-header-index-avatar" />
       <span>{{ currentUser.name }}</span>
     </span>

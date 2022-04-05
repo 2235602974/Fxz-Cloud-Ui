@@ -2,7 +2,7 @@
   <a-drawer
     :title="title"
     :width="650"
-    :mask-closable="showable"
+    :mask-closable="true"
     @close="handleCancel"
     :visible="visible"
     :confirmLoading="confirmLoading">
@@ -35,10 +35,9 @@
           <a-select
             mode="multiple"
             style="width: 200px"
-            @change="handleChange"
             v-model="form.roleId"
           >
-            <a-select-option v-for="item in roleList" :key="item.roleId">
+            <a-select-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
               {{ item.roleName }}
             </a-select-option>
           </a-select>
@@ -109,9 +108,9 @@ export default {
         this.tempDeptId.checked.shift()
       }
     },
-    edit (id) {
+    async edit (id) {
       this.confirmLoading = true
-      getById(id).then(res => {
+      await getById(id).then(res => {
         this.form = res.data
         this.tempDeptId = { halfChecked: [], checked: [] }
         if (this.form.deptId || this.form.deptId === 0) {
@@ -119,14 +118,10 @@ export default {
         }
         if (this.form.roleId) {
           this.form.roleId = this.form.roleId.split(',')
-          this.form.roleId = this.form.roleId.map((item) => {
-            return Number(item)
-          })
         } else {
           this.form.roleId = undefined
         }
         delete this.form.password
-        this.rawForm = { ...this.form }
         this.confirmLoading = false
       })
     },
@@ -144,8 +139,6 @@ export default {
         return v
       }
       return res
-    },
-    handleChange (v) {
     },
     handleOk () {
       this.$refs.form.validate(async valid => {

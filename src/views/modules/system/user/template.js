@@ -51,11 +51,6 @@ export const tableObj = {
       ]
     },
     {
-      title: '头像',
-      field: 'avatar',
-      slot: true
-    },
-    {
       title: '角色',
       field: 'roleName'
     },

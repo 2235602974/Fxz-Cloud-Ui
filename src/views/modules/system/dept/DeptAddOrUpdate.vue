@@ -116,7 +116,6 @@ export default {
           const record = res.data
           record.parentId = String(record.parentId)
           this.confirmLoading = false
-          console.log('record', record)
           this.$nextTick(() => {
             setFieldsValue(pick(record, ['deptId', 'parentId', 'deptName', 'orderNum']))
           })
@@ -128,7 +127,6 @@ export default {
     handleOk () {
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          console.log(values)
           this.confirmLoading = true
           try {
             if (this.type === 'add') {

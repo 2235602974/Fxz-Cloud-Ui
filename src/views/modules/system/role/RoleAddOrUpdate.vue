@@ -2,7 +2,7 @@
   <a-drawer
     :title="title"
     :width="650"
-    :mask-closable="showable"
+    :mask-closable="true"
     @close="handleCancel"
     :visible="visible"
     :confirmLoading="confirmLoading">
@@ -67,18 +67,15 @@ export default {
   },
   created () {
     getAllMenuTree().then(res => {
-      console.log('res:', res)
       if (res.data && res.data.length > 0) {
         this.treeData = res.data.map(item => {
           return this.buildTree(item)
         })
       }
-      console.log('treeData:', this.treeData)
     })
   },
   methods: {
     onCheck () {
-      console.log('tempMenuId', this.tempMenuId)
     },
     buildTree (res) {
       if (res) {
@@ -98,7 +95,7 @@ export default {
     handleChange (v) {
     },
     edit (id, type) {
-      this.$refs['form'].resetFields()
+      this.resetForm()
       this.tempMenuId = undefined
       this.confirmLoading = false
       this.confirmDirty = false
@@ -106,7 +103,6 @@ export default {
       if (['edit', 'show'].includes(type)) {
         this.confirmLoading = true
         getRoleById(id).then(res => {
-          console.log('res:', res)
           this.form = res.data
           if (this.form.menuId) {
             this.tempMenuId = {
@@ -123,7 +119,6 @@ export default {
           if (this.tempMenuId && this.tempMenuId.checked) {
             this.form.menuId = this.tempMenuId.checked.join()
           }
-          console.log('form', this.form)
           this.confirmLoading = true
           if (this.type === 'add') {
             await addRole(this.form)

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/store/mutation-types'
-import { welcome } from '@/utils/util'
+import { handleImg, welcome } from '@/utils/util'
 
 const user = {
   state: {
@@ -10,6 +10,7 @@ const user = {
     name: '',
     welcome: '',
     avatar: '',
+    url: '',
     roles: [],
     info: {}
   },
@@ -27,6 +28,9 @@ const user = {
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
+    },
+    SET_URL: (state, url) => {
+      state.url = url
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
@@ -66,15 +70,19 @@ const user = {
           const role = {
             permissions: perms
           }
+          handleImg(result.principal.avatar).then(res => {
+            Vue.ls.set('Url', result.principal.avatar)
+            commit('SET_URL', result.principal.avatar)
+            Vue.ls.set('Avatar', res)
+            commit('SET_AVATAR', res)
+          })
 
+          Vue.ls.set('Name', { name: result.principal.username, welcome: welcome() })
           Vue.ls.set('Roles', role)
           Vue.ls.set('Info', result)
           commit('SET_ROLES', role)
           commit('SET_INFO', result)
-          Vue.ls.set('Name', { name: result.principal.username, welcome: welcome() })
-          Vue.ls.set('Avatar', result.principal.avatar)
           commit('SET_NAME', { name: result.principal.username, welcome: welcome() })
-          commit('SET_AVATAR', result.principal.avatar)
 
           resolve(role)
         }).catch(error => {
@@ -84,9 +92,9 @@ const user = {
     },
 
     // 登出
-   async Logout ({ commit, state }) {
+    async Logout ({ commit, state }) {
       return new Promise((resolve) => {
-         logout(state.token).then(() => {
+        logout(state.token).then(() => {
           resolve()
         }).catch(() => {
           resolve()

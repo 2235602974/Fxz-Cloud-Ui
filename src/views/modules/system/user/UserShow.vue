@@ -67,6 +67,7 @@ export default {
   methods: {
     edit (row) {
       this.form = row
+
       if (row.roleName) {
         this.roles = row.roleName && row.roleName.split(',')
       }

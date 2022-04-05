@@ -10,7 +10,7 @@
     <a-upload
       name="file"
       :multiple="false"
-      action="http://localhost:8301/system/file/add"
+      action="/api/system/file/add"
       :headers="headers"
       :fileList="fileList"
       @change="handleChange"
