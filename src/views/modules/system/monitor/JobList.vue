@@ -15,7 +15,7 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
@@ -52,7 +52,7 @@
           </a-menu>
         </a-dropdown>
       </template>
-    </v-table>
+    </f-table>
     <Job-edit
       ref="jobEdit"
       @ok="handleOk" />

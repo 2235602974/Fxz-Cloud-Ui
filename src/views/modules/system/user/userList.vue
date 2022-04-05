@@ -20,7 +20,7 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
@@ -36,7 +36,7 @@
         <a-divider type="vertical" />
         <a href="javascript:" @click="edit(row)">编辑</a>
       </template>
-    </v-table>
+    </f-table>
 
     <!--  添加用户  -->
     <user-add @ok="resetQuery" ref="userAdd" />

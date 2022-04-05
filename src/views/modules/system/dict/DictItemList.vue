@@ -8,7 +8,7 @@
     :closable="true"
     @close="handleCancel"
   >
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       ref="itemTable">
@@ -25,7 +25,7 @@
           <a href="javascript:;" style="color: red">删除</a>
         </a-popconfirm>
       </template>
-    </v-table>
+    </f-table>
     <dict-item-edit
       ref="dictItemEdit"
       @ok="init"

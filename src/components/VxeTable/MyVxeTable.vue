@@ -1,10 +1,11 @@
 <template>
   <div>
     <vxe-toolbar
-      custom
-      print
+      size="small"
+      import
       export
-      zoom
+      print
+      custom
       v-show="toolbarShow"
       :refresh="{query: loadData}"
     >
@@ -12,20 +13,20 @@
         <slot name="buttons"></slot>
       </template>
     </vxe-toolbar>
+
     <vxe-table
       ref="xTable"
-      border
+      border="full"
       show-header-overflow
       show-overflow
-      highlight-hover-row
-      resizable
-      row-key
-      column-key
-      export-config
+      :column-config="{resizable: true,isCurrent: true}"
+      :row-config="{isHover: true,isCurrent: true}"
+      :print-config="{}"
+      :export-config="{}"
       :data="localDataSource"
-      @sort-change="sortChangeEvent"
       :loading="localLoading"
-      highlight-current-row
+      @sort-change="sortChangeEvent"
+      @cell-click="cellClickEvent"
       height="500px"
       :tree-config="{children: 'children',expandAll: expandAllTree}"
       :keyboard-config="{isArrow: true}"
@@ -35,21 +36,20 @@
       @checkbox-change="selectChangeEvent"
       @checkbox-all="selectAllEvent"
     >
-      <vxe-table-column type="checkbox" width="60" v-if="checkbox"></vxe-table-column>
-      <vxe-table-column width="60" v-if="openRowDrop">
-        <template>
-          <span class="drag-btn">
-            <i class="vxe-icon--menu"></i>
-          </span>
-        </template>
-        <template v-slot:header>
-          <vxe-tooltip v-model="showHelpTip1" content="按住后可以上下拖动排序！" enterable>
-            <i class="vxe-icon--question" @click="showHelpTip1 = !showHelpTip1"></i>
-          </vxe-tooltip>
-        </template>
-      </vxe-table-column>
+
+      <!--复选框-->
+      <vxe-column type="checkbox" width="60" v-if="checkbox"></vxe-column>
+
+      <!--序号列-->
+      <vxe-column type="seq" width="60" fixed="left" v-if="seq" :title="seqTitle"></vxe-column>
+      <template #empty>
+        <span style="color: red;">
+          <img src="https://n.sinaimg.cn/sinacn17/w120h120/20180314/89fc-fyscsmv5911424.gif">
+          <p>不用再看了，没有更多数据了！</p>
+        </span>
+      </template>
       <template v-for="(column,index) in columns">
-        <vxe-table-column
+        <vxe-column
           :key="index"
           :field="column.field"
           :title="column.title"
@@ -57,36 +57,61 @@
           :sortable="column.sortable || false"
           :tree-node="column.treeNode || false"
           :align="column.align||'left'"
+          :fixed="columns.fixed"
         >
+
+          <!--该列是否开启插槽-->
           <template slot-scope="scope">
-            <span v-if="column.slot != true && !column.type">
+
+            <!--不开启插槽，也没有type，直接显示内容-->
+            <span v-if="column.slot !== true && !column.type">
               {{ scope.row[column.field] }}
             </span>
+
+            <!--开启了插槽，那么根据字典名生成一个插槽-->
             <slot
+              v-else-if="column.slot"
               :row="scope.row"
               :text="scope.row[column.field]"
-              v-else-if="column.slot"
               :name="column.field"
             >
             </slot>
+
+            <!--否则根据列的type显示内容-->
             <template v-else>
+
+              <!--input类型，直接显示内容-->
               <span v-if="['input'].includes(column.type)">
                 {{ scope.row[column.field] }}
               </span>
+
+              <!--如果是url类型，那么生成一个超链接-->
               <span v-if="['url'].includes(column.type)">
                 <a :href="scope.row[column.field]" :target="column.target || '_blank'">{{ scope.row[column.prop] }}</a>
               </span>
+
+              <!--如果是img类型，那么生成img标签-->
+              <span v-if="['url'].includes(column.type)">
+                <img :src="scope.row[column.field]" alt="FxzCloud" />
+              </span>
+
+              <!--如果是字典类型，那么过滤出字典内容-->
               <span v-if="['dict'].includes(column.type)">
                 <span>{{ scope.row[column.field] | dictFilter(column.options) }}</span>
               </span>
+
             </template>
+
           </template>
-        </vxe-table-column>
+        </vxe-column>
+
       </template>
     </vxe-table>
+
+    <!--如果显示分页-->
     <vxe-pager
-      border
       v-if="showPagination"
+      border
       size="medium"
       :loading="localLoading"
       :current-page="localPagination.currentPage"
@@ -103,83 +128,90 @@
 import Sortable from 'sortablejs'
 
 export default {
-  name: 'VTable',
+  name: 'FTable',
   data () {
     return {
-      localDataSource: [],
-      localLoading: false,
+      localDataSource: [], // 表格数据（与 loadData 行为一致，更新数据是不会重置状态）
+      localLoading: false, // 表格是否显示加载中
       localPagination: {
-        currentPage: 1,
-        pageSize: 50,
-        total: 0
+        currentPage: 1, // 当前页
+        pageSize: 50, // 每页记录数
+        total: 0 // 总条数
       }
     }
   },
   props: {
-    expandAllTree: {
-      type: Boolean,
-      default: true
-    },
-    checkbox: {
-      type: Boolean,
-      default: false
-    },
-    toolbarShow: {
-      type: Boolean,
-      default: true
-    },
-    openRowDrop: {
-      type: Boolean,
-      default: false
-    },
-    columns: {
+    columns: { // 表格的列数据
       type: Array,
       default: function () {
         return []
       }
     },
-    data: {
+    data: { // 加载表格数据的方法
       type: Function,
       required: true
     },
-    pageNum: {
+    cellClickEvent: { // 行点击事件
+      type: Function,
+      default: function () {
+        return () => {
+        }
+      }
+    },
+    expandAllTree: { // 是否展开全部树节点
+      type: Boolean,
+      default: true
+    },
+    seq: { // 是否开启序号列
+      type: Boolean,
+      default: true
+    },
+    seqTitle: { // 序号列title
+      type: String,
+      default: '序号'
+    },
+    checkbox: { // 是否开启复选框
+      type: Boolean,
+      default: false
+    },
+    toolbarShow: { // 是否显示工具栏
+      type: Boolean,
+      default: true
+    },
+    pageNum: { // 当前页
       type: Number,
       default: 1
     },
-    pageSize: {
+    pageSize: { // 每页记录数
       type: Number,
       default: 50
     },
-    bordered: {
+    showPagination: { // 是否显示分页
       type: Boolean,
       default: true
     },
-    showPagination: {
-      type: Boolean,
-      default: true
-    },
-    selectChangeEvent: {
+    selectChangeEvent: { // 只对 type=checkbox 有效，当手动勾选并且值发生改变时触发的事件
       type: Function,
       default: function () {
         return () => {
         }
       }
     },
-    rowStyle: {
+    selectAllEvent: { // 只对 type=checkbox 有效，当手动勾选全选时触发的事件
       type: Function,
       default: function () {
         return () => {
         }
       }
     },
-    cellClassName: {
+    rowStyle: { // 给行附加样式，也可以是函数
       type: Function,
       default: function () {
         return () => {
         }
       }
     },
-    selectAllEvent: {
+    cellClassName: { // 给单元格附加 className
       type: Function,
       default: function () {
         return () => {
@@ -188,6 +220,7 @@ export default {
     }
   },
   methods: {
+    // 当排序条件发生变化时会触发该事件
     sortChangeEvent ({ column, property, order }) {
       console.info(column, property, order, 'column, property, order')
       let orders = order
@@ -199,14 +232,16 @@ export default {
         order: orders
       })
     },
+    // 分页发生改变时会触发该事件
     handlePageChange ({ currentPage, pageSize }) {
-      console.log(currentPage, pageSize, 'currentPage, pageSize')
       this.loadData({ currentPage, pageSize })
     },
     loadData (pagination, filters, sorter) {
-      this.localLoading = true
-      let parameter = {}
-      if (this.showPagination) {
+      this.localLoading = true // 表格加载
+      let parameter = {} // 构造查询参数
+
+      if (this.showPagination) { // 如果显示分页
+        // 赋值分页查询数据
         parameter = Object.assign(parameter, {
           current: (pagination && pagination.currentPage) ||
             this.localPagination.currentPage || this.pageNum,
@@ -225,21 +260,23 @@ export default {
           ...filters
         }
       )
-      const result = this.data(parameter)
-      if ((typeof result === 'object' || typeof result === 'function') && typeof result.then === 'function') {
+
+      const result = this.data(parameter) // 传入构造好的参数 调用加载数据的方法
+
+      if ((typeof result === 'object' || typeof result === 'function') && typeof result.then === 'function') { // 处理返回值
         result.then(r => {
           if (this.showPagination) {
+            // 处理分页数据
             this.localPagination = Object.assign({}, this.localPagination, {
               currentPage: Number(r.current), // 返回结果中的当前分页数
               total: Number(r.total), // 返回结果中的总记录数
-              pageSize: (pagination && pagination.pageSize) ||
-                this.localPagination.pageSize
+              pageSize: (pagination && pagination.pageSize) || this.localPagination.pageSize // 每页记录数
             })
-            // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
+            // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页 此处要注意后端要返回正确的当前页数值 否则可能死循环
             if (r.records.length === 0 && this.localPagination.currentPage !== 1) {
               this.localPagination.currentPage--
-              //  this.loadData()
-              // return
+              this.loadData()
+              return
             }
             this.localDataSource = r.records // 返回结果中的数组数据
           } else {
@@ -290,7 +327,6 @@ export default {
         this.sortable = Sortable.create(xTable.$el.querySelector('.body--wrapper>.vxe-table--body tbody'), {
           handle: '.drag-btn',
           onEnd: ({ newIndex, oldIndex }) => {
-            console.log(newIndex, oldIndex, 'newIndex, oldIndex')
             const currRow = this.localDataSource.splice(oldIndex, 1)[0]
             this.localDataSource.splice(newIndex, 0, currRow)
             this.$emit('changeData', this.localDataSource)

@@ -15,13 +15,14 @@ const request = axios.create({
 
 // 异常拦截处理器
 const errorHandler = (error) => {
+  console.log('进入了异常拦截器:', error)
   if (error.response) {
     const data = error.response.data
     // 从 localstorage 获取 token
     const token = Vue.ls.get(ACCESS_TOKEN)
     if (error.response.status === 403) {
       notification.error({
-        message: 'Forbidden',
+        message: '禁止访问',
         description: data.message
       })
     }
@@ -31,18 +32,13 @@ const errorHandler = (error) => {
         description: '授权验证失败'
       })
       if (token) {
+        console.log('进入了异常拦截器 退出登录:', error)
         store.dispatch('Logout').then(() => {
           setTimeout(() => {
             window.location.reload()
           }, 1500)
         })
       }
-    }
-    if (error.response.status === 509) {
-      const html = error.response.data
-      const verifyWindow = window.open('', '_blank', 'height=400,width=560')
-      verifyWindow.document.write(html)
-      verifyWindow.document.getElementById('baseUrl').value = 'http://localhost:8000/api/system'
     }
   }
   return Promise.reject(error)
@@ -61,7 +57,6 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
-  if (response.data.code && response.data.code === 509) { return Promise.reject(response.data) }
   return response.data
 }, errorHandler)
 

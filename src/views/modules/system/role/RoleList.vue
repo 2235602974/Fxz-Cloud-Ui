@@ -15,7 +15,8 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
+      :cellClickEvent="show"
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
@@ -36,7 +37,7 @@
           <a href="javascript:;" style="color: red">删除</a>
         </a-popconfirm>
       </template>
-    </v-table>
+    </f-table>
 
     <role-add-or-update
       ref="modalForm"
@@ -92,7 +93,7 @@ export default {
       this.queryPage()
     },
     show (record) {
-      this.$refs.modalForm.init(record.roleId, 'show')
+      this.$refs.modalForm.init(record.roleId || record.row.roleId, 'show')
     },
     edit (record) {
       this.$refs.modalForm.init(record.roleId, 'edit')

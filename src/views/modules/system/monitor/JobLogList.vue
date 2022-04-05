@@ -20,14 +20,14 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
       <template v-slot:action="{row}">
         <a href="javascript:;" @click="show(row)">查看</a>
       </template>
-    </v-table>
+    </f-table>
     <JobLog-edit
       ref="jobLogEdit"
       @ok="handleOk" />

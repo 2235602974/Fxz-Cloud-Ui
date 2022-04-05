@@ -5,7 +5,7 @@
 
 ## 按需引入组件依赖
 
-`fxz-cloud Pro Vue` 默认编码工作并不支持按需引入，不过可以通过以下操作结合 [fxz-cloud Of Vue](https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/) 官方文档来进行按需引入。
+`默认编码工作并不支持按需引入，不过可以通过以下操作结合 (https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/) 官方文档来进行按需引入。
 
 - 增加项目按需引入依赖
 - 修改引入组件方式
@@ -91,5 +91,5 @@
 
 
 
-1.   fxz-cloud Vue 1.2.x 版本起，采用的 ant-design 官方方案 svg Icon 组件，整个项目打包会变大很多，图标进行按需加载可参考 https://github.com/HeskeyBaozi/reduce-antd-icons-bundle-demo
+1. 1.2.x 版本起，采用的 ant-design 官方方案 svg Icon 组件，整个项目打包会变大很多，图标进行按需加载可参考 https://github.com/HeskeyBaozi/reduce-antd-icons-bundle-demo
 2. moment 按需加载 可参考 https://github.com/jmblog/how-to-optimize-momentjs-with-webpack

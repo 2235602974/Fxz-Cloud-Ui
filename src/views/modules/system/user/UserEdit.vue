@@ -177,6 +177,7 @@ export default {
           if (this.tempDeptId && this.tempDeptId.checked) {
             this.form.deptId = this.tempDeptId.checked[0]
           }
+          this.form.avatar = ''
           await updateById(this.form)
           setTimeout(() => {
             this.confirmLoading = false

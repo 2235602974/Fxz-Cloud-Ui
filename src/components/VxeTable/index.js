@@ -1,6 +1,6 @@
-import VTable from './VxeTableDemo'
+import FTable from './MyVxeTable'
 
-VTable.install = function (Vue) {
-  Vue.component(VTable.name, VTable)
+FTable.install = function (Vue) {
+  Vue.component(FTable.name, FTable)
 }
-export default VTable
+export default FTable

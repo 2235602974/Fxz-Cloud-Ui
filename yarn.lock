@@ -11033,10 +11033,10 @@ vuex@^3.1.1:
   resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.3.0.tgz#665b4630ea1347317139fcc5cb495aab3ec5e513"
   integrity sha1-ZltGMOoTRzFxOfzFy0laqz7F5RM=
 
-vxe-table@^2.9.9:
-  version "2.11.0"
-  resolved "https://registry.npmmirror.com/vxe-table/download/vxe-table-2.11.0.tgz#0000e5da80a518ae781fc18ad4a47a94da18f571"
-  integrity sha512-dDLV2Iiy/8Yiy14MX91TQb2HsW9K5ZYS3+xIjBmKc5JFMEHeuB8SxaFShSXhVk9GNTd+/u0GqvQhDoQ1WXAwnw==
+vxe-table@^3.5.4:
+  version "3.5.4"
+  resolved "https://registry.npmmirror.com/vxe-table/-/vxe-table-3.5.4.tgz#6e38951ae2e39b87590795049b26158453e1b750"
+  integrity sha512-P5zrj3yciuYT+lGaWzi6LvDd3t6ZHbwJ2Rict7GvFmo+6pDo4NXNJujBQEXaY2ndgDofD415fawPzhJqWg8ivQ==
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11398,10 +11398,10 @@ ws@^7.0.0:
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.5.tgz#abb1370d4626a5a9cd79d8de404aa18b3465d10d"
   integrity sha1-q7E3DUYmpanNedjeQEqhizRl0Q0=
 
-xe-utils@^2.4.5:
-  version "2.8.3"
-  resolved "https://registry.npmmirror.com/xe-utils/download/xe-utils-2.8.3.tgz#b5cc9e871d1115a7ac3f2a9292c1dea5efe0f2d0"
-  integrity sha1-tcyehx0RFaesPyqSksHepe/g8tA=
+xe-utils@^3.5.4:
+  version "3.5.4"
+  resolved "https://registry.npmmirror.com/xe-utils/-/xe-utils-3.5.4.tgz#d4335633fede280c68c1c0c9a4c8f3a533cfd831"
+  integrity sha512-oH7VOgvHv34pn198dhKPVKnuEHV22Q06YpCTVnAS3JuutylmZj/rtJGvn0BxxWQ37w2LgCknoebLA4uIGXwFtw==
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

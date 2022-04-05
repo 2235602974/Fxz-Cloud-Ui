@@ -20,7 +20,7 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
@@ -37,7 +37,7 @@
           <a href="javascript:;" style="color: red">删除</a>
         </a-popconfirm>
       </template>
-    </v-table>
+    </f-table>
     <Post-edit
       ref="postEdit"
       @ok="handleOk" />

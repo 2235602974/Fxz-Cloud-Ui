@@ -24,7 +24,7 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
@@ -33,7 +33,7 @@
         <a-divider type="vertical" />
         <a href="javascript:" @click="createCode(row)">生成</a>
       </template>
-    </v-table>
+    </f-table>
 
     <show-code
       ref="modalForm"

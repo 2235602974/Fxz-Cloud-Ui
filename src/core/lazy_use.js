@@ -52,7 +52,7 @@ import {
 import Viser from 'viser-vue'
 
 // ext library
-import VTable from '@/components/VxeTable'
+import FTable from '@/components/VxeTable'
 import VueCropper from 'vue-cropper'
 import Dialog from '@/components/Dialog'
 import MultiTab from '@/components/MultiTab'
@@ -62,7 +62,7 @@ import './directives/action'
 import BizCom from '@/components/BaseComp'
 
 Vue.use(BizCom)
-Vue.use(VTable)
+Vue.use(FTable)
 Vue.use(Tree)
 Vue.use(FormModel)
 Vue.use(TreeSelect)

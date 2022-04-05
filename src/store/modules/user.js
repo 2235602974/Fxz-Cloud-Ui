@@ -70,12 +70,18 @@ const user = {
           const role = {
             permissions: perms
           }
-          handleImg(result.principal.avatar).then(res => {
-            Vue.ls.set('Url', result.principal.avatar)
-            commit('SET_URL', result.principal.avatar)
-            Vue.ls.set('Avatar', res)
-            commit('SET_AVATAR', res)
-          })
+          Vue.ls.set('Url', result.principal.avatar)
+          commit('SET_URL', result.principal.avatar)
+          const p = handleImg(result.principal.avatar)
+          if (p) {
+            p.then(res => {
+              Vue.ls.set('Avatar', res)
+              commit('SET_AVATAR', res)
+            })
+          } else {
+            Vue.ls.set('Avatar', '')
+            commit('SET_AVATAR', '')
+          }
 
           Vue.ls.set('Name', { name: result.principal.username, welcome: welcome() })
           Vue.ls.set('Roles', role)
@@ -83,7 +89,6 @@ const user = {
           commit('SET_ROLES', role)
           commit('SET_INFO', result)
           commit('SET_NAME', { name: result.principal.username, welcome: welcome() })
-
           resolve(role)
         }).catch(error => {
           reject(error)

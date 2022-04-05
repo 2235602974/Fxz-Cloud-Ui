@@ -31,7 +31,6 @@ Vue.component('pro-layout', ProLayout)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
 
-// eslint-disable-next-line no-undef
 Vue.use(Storage, {
   namespace: 'Fxz_', // key prefix
   name: 'ls', // name variable Vue.[ls] or this.[$ls],

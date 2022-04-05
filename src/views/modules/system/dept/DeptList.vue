@@ -1,9 +1,10 @@
 <template>
   <a-card :bordered="false">
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       :showPagination="false"
+      :seq="false"
       ref="table"
     >
       <template v-slot:buttons>
@@ -19,7 +20,7 @@
           <a href="javascript:;" style="color: red">删除</a>
         </a-popconfirm>
       </template>
-    </v-table>
+    </f-table>
 
     <dept-add-or-update
       ref="modalForm"

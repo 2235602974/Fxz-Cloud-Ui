@@ -1,10 +1,11 @@
 <template>
   <a-card :bordered="false">
-    <v-table
+    <f-table
       :columns="tableObj.columns"
       :data="loadData"
       :showPagination="false"
       :expandAllTree="false"
+      :seq="false"
       ref="table"
     >
       <template v-slot:buttons>
@@ -24,7 +25,7 @@
           <a href="javascript:;" style="color: red">删除</a>
         </a-popconfirm>
       </span>
-    </v-table>
+    </f-table>
     <permission-add-or-update
       ref="modalForm"
       @ok="handleOk" />
