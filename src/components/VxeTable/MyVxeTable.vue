@@ -26,7 +26,7 @@
       :data="localDataSource"
       :loading="localLoading"
       @sort-change="sortChangeEvent"
-      @cell-click="cellClickEvent"
+      @cell-dblclick="cellClickEvent"
       height="500px"
       :tree-config="{children: 'children',expandAll: expandAllTree}"
       :keyboard-config="{isArrow: true}"
@@ -41,7 +41,7 @@
       <vxe-column type="checkbox" width="60" v-if="checkbox"></vxe-column>
 
       <!--序号列-->
-      <vxe-column type="seq" width="60" fixed="left" v-if="seq" :title="seqTitle"></vxe-column>
+      <vxe-column type="seq" width="60" v-if="seq" :title="seqTitle"></vxe-column>
       <template #empty>
         <span style="color: red;">
           <img src="https://n.sinaimg.cn/sinacn17/w120h120/20180314/89fc-fyscsmv5911424.gif">
@@ -57,7 +57,7 @@
           :sortable="column.sortable || false"
           :tree-node="column.treeNode || false"
           :align="column.align||'left'"
-          :fixed="columns.fixed"
+          :fixed="column.fixed"
         >
 
           <!--该列是否开启插槽-->

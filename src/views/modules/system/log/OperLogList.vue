@@ -1,0 +1,80 @@
+<template>
+  <a-card :bordered="false">
+    <div class="table-page-search-wrapper">
+      <a-form layout="inline">
+        <a-row :gutter="48">
+          <a-col :md="8" :sm="24">
+            <a-form-item label="操作模块">
+              <a-input v-model="queryParam.title" placeholder="请输入操作模块" />
+            </a-form-item>
+          </a-col>
+          <a-col :md="8" :sm="24">
+            <a-button type="primary" @click="queryPage">查询</a-button>
+            <a-button style="margin-left: 8px" @click="restQuery">重置</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </div>
+    <f-table
+      :columns="tableObj.columns"
+      :data="loadData"
+      ref="table">
+      <template v-slot:buttons>
+        <a-button type="primary" icon="plus" @click="add">新建</a-button>
+      </template>
+    </f-table>
+    <OperLog-edit
+      ref="operLogEdit"
+      @ok="handleOk" />
+  </a-card>
+</template>
+
+<script>
+import { tableObj } from './OperLogtemplate'
+import { del, page } from '@/api/sys/operLog'
+import OperLogEdit from './OperLogEdit'
+import { TableMixin } from '@/mixins/TableMixin'
+
+export default {
+  name: 'OperLogList',
+  components: {
+    OperLogEdit
+  },
+  mixins: [TableMixin],
+  data () {
+    return {
+      tableObj,
+      queryParam: {},
+      loadData: (parameter) => {
+        return page(Object.assign(parameter, this.queryParam)).then(res => {
+          return res.data
+        })
+      }
+    }
+  },
+  methods: {
+    handleOk () {
+      this.queryPage()
+    },
+    add () {
+      this.$refs.operLogEdit.init('', 'add')
+    },
+    edit (record) {
+      this.$refs.operLogEdit.init(record.id, 'edit')
+    },
+    show (record) {
+      this.$refs.operLogEdit.init(record.id, 'show')
+    },
+    remove (record) {
+      del(record.id).then(_ => {
+        this.$message.info('删除成功')
+        this.queryPage()
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
