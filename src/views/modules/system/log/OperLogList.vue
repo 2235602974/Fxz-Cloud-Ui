@@ -19,8 +19,13 @@
       :columns="tableObj.columns"
       :data="loadData"
       ref="table">
-      <template v-slot:buttons>
-        <a-button type="primary" icon="plus" @click="add">新建</a-button>
+      <template v-slot:action="{row}">
+        <a href="javascript:;" @click="show(row)">查看</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="是否删除权限" @confirm="remove(row)" okText="是" cancelText="否">
+          <a-icon slot="icon" type="question-circle-o" style="color: red" />
+          <a href="javascript:;" style="color: red">删除</a>
+        </a-popconfirm>
       </template>
     </f-table>
     <OperLog-edit
@@ -55,9 +60,6 @@ export default {
   methods: {
     handleOk () {
       this.queryPage()
-    },
-    add () {
-      this.$refs.operLogEdit.init('', 'add')
     },
     edit (record) {
       this.$refs.operLogEdit.init(record.id, 'edit')

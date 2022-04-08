@@ -73,7 +73,7 @@ export const tableObj = {
     },
     {
       title: '操作',
-      width: '200px',
+      width: '120px',
       field: 'action',
       fixed: 'right',
       slot: true

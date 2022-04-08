@@ -18,98 +18,98 @@
         <a-input v-model="form.id" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item
-        label="主键"
-        prop="id"
-      >
-        <a-input v-model="form.id" :disabled="showable" />
-      </a-form-model-item>
-      <a-form-model-item
         label="模块标题"
         prop="title"
       >
-        <a-input v-model="form.title" :disabled="showable" />
+        {{ form.title }}
       </a-form-model-item>
       <a-form-model-item
-        label="业务类型（0其它 1新增 2修改 3删除）"
+        label="业务类型"
         prop="businessType"
       >
-        <a-input v-model="form.businessType" :disabled="showable" />
+        <a-tag v-if="form.businessType===0" color="pink">其他</a-tag>
+        <a-tag v-if="form.businessType===1" color="purple">新增</a-tag>
+        <a-tag v-if="form.businessType===2" color="orange">修改</a-tag>
+        <a-tag v-if="form.businessType===3" color="green">删除</a-tag>
       </a-form-model-item>
       <a-form-model-item
         label="方法名称"
         prop="method"
       >
-        <a-input v-model="form.method" :disabled="showable" />
+        {{ form.method }}
       </a-form-model-item>
       <a-form-model-item
         label="请求方式"
         prop="requestMethod"
       >
-        <a-input v-model="form.requestMethod" :disabled="showable" />
+        {{ form.requestMethod }}
       </a-form-model-item>
       <a-form-model-item
         label="操作人员"
         prop="operName"
       >
-        <a-input v-model="form.operName" :disabled="showable" />
+        {{ form.operName }}
       </a-form-model-item>
       <a-form-model-item
         label="请求URL"
         prop="operUrl"
       >
-        <a-input v-model="form.operUrl" :disabled="showable" />
+        {{ form.operUrl }}
       </a-form-model-item>
       <a-form-model-item
         label="主机地址"
         prop="operIp"
       >
-        <a-input v-model="form.operIp" :disabled="showable" />
+        {{ form.operIp }}
       </a-form-model-item>
       <a-form-model-item
         label="请求参数"
         prop="operParam"
       >
-        <a-input v-model="form.operParam" :disabled="showable" />
+        {{ form.operParam }}
       </a-form-model-item>
       <a-form-model-item
-        label="操作状态（0正常 1异常）"
+        label="操作状态"
         prop="status"
       >
-        <a-input v-model="form.status" :disabled="showable" />
+        <a-tag v-if="form.status=='0'" color="#2db7f5">正常</a-tag>
+        <a-tag v-if="form.status=='1'" color="#f50">异常</a-tag>
       </a-form-model-item>
       <a-form-model-item
         label="错误消息"
         prop="errorMsg"
       >
-        <a-input v-model="form.errorMsg" :disabled="showable" />
+        {{ form.errorMsg }}
       </a-form-model-item>
       <a-form-model-item
         label="执行时间"
         prop="time"
       >
-        <a-input v-model="form.time" :disabled="showable" />
+        {{ form.time }}
       </a-form-model-item>
       <a-form-model-item
         label="创建时间"
         prop="createTime"
       >
-        <a-input v-model="form.createTime" :disabled="showable" />
+        {{ form.createTime }}
       </a-form-model-item>
       <a-form-model-item
         label="更新时间"
         prop="updateTime"
+        hidden="true"
       >
-        <a-input v-model="form.updateTime" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item
         label="创建人"
         prop="createBy"
+        hidden="true"
       >
         <a-input v-model="form.createBy" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item
         label="更新人"
         prop="updateBy"
+        hidden="true"
       >
         <a-input v-model="form.updateBy" :disabled="showable" />
       </a-form-model-item>
