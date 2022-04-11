@@ -21,8 +21,8 @@
       ref="table">
       <template v-slot:action="{row}">
         <a href="javascript:;" @click="show(row)">查看</a>
-        <a-divider type="vertical" />
-        <a-popconfirm title="是否删除权限" @confirm="remove(row)" okText="是" cancelText="否">
+        <a-divider type="vertical" v-if="row.businessType!==4" />
+        <a-popconfirm title="是否删除权限" @confirm="remove(row)" okText="是" cancelText="否" v-if="row.businessType!==4">
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a href="javascript:;" style="color: red">删除</a>
         </a-popconfirm>
@@ -51,11 +51,19 @@ export default {
       tableObj,
       queryParam: {},
       loadData: (parameter) => {
+        if (this.$route.path.includes('login')) { this.queryParam.businessType = 4 } else this.queryParam.businessType = ''
         return page(Object.assign(parameter, this.queryParam)).then(res => {
           return res.data
         })
       }
     }
+  },
+  watch: {
+    $route (to, from) {
+      this.queryPage()
+    }
+  },
+  comments: {
   },
   methods: {
     handleOk () {

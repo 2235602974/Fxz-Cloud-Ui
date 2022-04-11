@@ -30,11 +30,18 @@
         <a-tag v-if="form.businessType===0" color="pink">其他</a-tag>
         <a-tag v-if="form.businessType===1" color="purple">新增</a-tag>
         <a-tag v-if="form.businessType===2" color="orange">修改</a-tag>
-        <a-tag v-if="form.businessType===3" color="green">删除</a-tag>
+        <a-tag v-if="form.businessType===3" color="#f50">删除</a-tag>
+        <a-tag v-if="form.businessType===4" color="green">登录</a-tag>
+        <a-tag v-if="form.businessType===5" color="cyan">导出</a-tag>
+        <a-tag v-if="form.businessType===6" color="blue">导入</a-tag>
+        <a-tag v-if="form.businessType===7" color="#2db7f5">强退</a-tag>
+        <a-tag v-if="form.businessType===8" color="#87d068">生成代码</a-tag>
+        <a-tag v-if="form.businessType===9" color="#108ee9">清空数据</a-tag>
       </a-form-model-item>
       <a-form-model-item
         label="方法名称"
         prop="method"
+        v-if="form.businessType!==4"
       >
         {{ form.method }}
       </a-form-model-item>
@@ -53,6 +60,7 @@
       <a-form-model-item
         label="请求URL"
         prop="operUrl"
+        v-if="form.businessType!==4"
       >
         {{ form.operUrl }}
       </a-form-model-item>
@@ -78,12 +86,14 @@
       <a-form-model-item
         label="错误消息"
         prop="errorMsg"
+        v-if="form.businessType!==4"
       >
         {{ form.errorMsg }}
       </a-form-model-item>
       <a-form-model-item
         label="执行时间"
         prop="time"
+        v-if="form.businessType!==4"
       >
         {{ form.time }}
       </a-form-model-item>

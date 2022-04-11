@@ -8,7 +8,50 @@ export const tableObj = {
     {
       title: '业务类型',
       field: 'businessType',
-      width: '100px'
+      width: '100px',
+      type: 'dict',
+      options: [
+        {
+          label: '其他',
+          value: '0'
+        },
+        {
+          label: '新增',
+          value: '1'
+        },
+        {
+          label: '修改',
+          value: '2'
+        },
+        {
+          label: '删除',
+          value: '3'
+        },
+        {
+          label: '登录',
+          value: '4'
+        },
+        {
+          label: '导出',
+          value: '5'
+        },
+        {
+          label: '导入',
+          value: '6'
+        },
+        {
+          label: '强退',
+          value: '7'
+        },
+        {
+          label: '生成代码',
+          value: '8'
+        },
+        {
+          label: '清空数据',
+          value: '9'
+        }
+      ]
     },
     {
       title: '方法名称',
