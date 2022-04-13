@@ -96,7 +96,7 @@ data.push({
   }
 })
 data.push({
-  title: 'fxz-cloud',
+  title: 'Fxz-Cloud',
   avatar: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
   description: '生命就像一盒巧克力，结果往往出人意料',
   owner: '林东东',

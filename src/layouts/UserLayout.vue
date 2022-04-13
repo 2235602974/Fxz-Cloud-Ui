@@ -5,11 +5,11 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">fxz-cloud</span>
+            <span class="title">Fxz-Cloud</span>
           </a>
         </div>
         <div class="desc">
-          fxz-cloud 致力于打造全球最牛逼的后台权限管理框架
+          Fxz-Cloud 致力于打造全球最牛逼的后台权限管理框架
         </div>
       </div>
       <router-view />

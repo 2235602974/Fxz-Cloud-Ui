@@ -16,7 +16,7 @@
         <a slot="title" href="https://vue.ant.design/">{{ item.title }}</a>
         <template slot="description">
           <span>
-            <a-tag>fxz-cloud</a-tag>
+            <a-tag>Fxz-Cloud</a-tag>
             <a-tag>设计语言</a-tag>
             <a-tag>蚂蚁金服</a-tag>
           </span>
