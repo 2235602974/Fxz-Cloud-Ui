@@ -19,21 +19,21 @@
         <span v-else>{{ form.id }}</span>
       </a-form-model-item>
       <a-form-model-item
-        label="类型"
+        label="字典编码"
         prop="type"
       >
         <a-input v-model="form.type" v-if="!showable" />
         <span v-else>{{ form.type }}</span>
       </a-form-model-item>
       <a-form-model-item
-        label="描述"
+        label="字典描述"
         prop="description"
       >
         <a-input v-model="form.description" v-if="!showable" />
         <span v-else>{{ form.description }}</span>
       </a-form-model-item>
       <a-form-model-item
-        label="备注"
+        label="字典备注"
         prop="remark"
       >
         <a-input v-model="form.remark" v-if="!showable" />
@@ -122,7 +122,7 @@ export default {
           if (this.type === 'add') {
             await add(this.form)
           } else if (this.type === 'edit') {
-            await update(this.form)
+            await update(this.form).catch(e => { this.$message.error(e.msg) })
           }
           setTimeout(() => {
             this.confirmLoading = false

@@ -1,11 +1,11 @@
 <template>
-  <a-dropdown v-if="currentUser && currentUser.name" placement="bottomRight">
+  <a-dropdown v-if="currentUser && currentUser.username" placement="bottomRight">
     <span class="ant-pro-account-avatar">
       <a-avatar
         size="small"
         :src="$store.getters.avatar"
         class="antd-pro-global-header-index-avatar" />
-      <span>{{ currentUser.name }}</span>
+      <span>{{ currentUser.username }}</span>
     </span>
     <template v-slot:overlay>
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
@@ -57,9 +57,6 @@ export default {
         title: '注销登录?',
         content: '你确定要退出登录吗,小老弟?',
         onOk: () => {
-          // return new Promise((resolve, reject) => {
-          //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
-          // }).catch(() => console.log('Oops errors!'))
           return this.$store.dispatch('Logout').then(() => {
             this.$router.push({ path: '/user/login' })
           })

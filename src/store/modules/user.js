@@ -61,18 +61,18 @@ const user = {
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const result = response
+          const result = response.data
+          console.log('userInfo:', result)
 
-          const perms = []
-          if (result.authorities && result.authorities.length > 0) {
-            result.authorities.map(item => perms.push(item.authority))
-          }
           const role = {
-            permissions: perms
+            permissions: result.permissions
           }
-          Vue.ls.set('Url', result.principal.avatar)
-          commit('SET_URL', result.principal.avatar)
-          const p = handleImg(result.principal.avatar)
+          Vue.ls.set('Url', result.sysUser.avatar)
+         // commit('SET_URL', result.principal.avatar)
+          commit('SET_URL', result.sysUser.avatar)
+          const p = handleImg(result.sysUser.avatar)
+          console.log('avatar:', result.sysUser.avatar)
+          console.log('p:', p)
           if (p) {
             p.then(res => {
               Vue.ls.set('Avatar', res)
@@ -83,12 +83,12 @@ const user = {
             commit('SET_AVATAR', '')
           }
 
-          Vue.ls.set('Name', { name: result.principal.username, welcome: welcome() })
+          Vue.ls.set('Name', { name: result.sysUser.username, welcome: welcome() })
           Vue.ls.set('Roles', role)
           Vue.ls.set('Info', result)
           commit('SET_ROLES', role)
           commit('SET_INFO', result)
-          commit('SET_NAME', { name: result.principal.username, welcome: welcome() })
+          commit('SET_NAME', { name: result.sysUser.username, welcome: welcome() })
           resolve(role)
         }).catch(error => {
           reject(error)

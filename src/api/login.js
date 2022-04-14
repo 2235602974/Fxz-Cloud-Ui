@@ -9,7 +9,8 @@ const userApi = {
   SendSms: '/account/sms',
   SendSmsErr: '/account/sms_err',
   // get my info
-  UserInfo: '/auth/user/info',
+  // UserInfo: '/auth/user/info',
+  UserInfo: '/system/user/info',
   UserMenu: '/system/menu/nav',
   getCaptcha: 'captcha'
 }

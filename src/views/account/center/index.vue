@@ -5,7 +5,7 @@
         <a-card :bordered="false">
           <div class="account-center-avatarHolder">
             <div class="avatar">
-              <img :src="avatar">
+              <img :src="$store.getters.avatar">
             </div>
             <div class="username">{{ nickname }}</div>
             <div class="bio">海纳百川，有容乃大</div>

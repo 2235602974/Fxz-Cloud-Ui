@@ -3,11 +3,11 @@
     <template v-slot:content>
       <div class="page-header-content">
         <div class="avatar">
-          <a-avatar size="large" :src="avatar" />
+          <a-avatar size="large" :src="$store.getters.avatar" />
         </div>
         <div class="content">
           <div class="content-title">
-            {{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome }}</span>
+            {{ timeFix }}，{{ user.username }}<span class="welcome-text">，{{ welcome }}</span>
           </div>
           <div>全栈工程师 | 蚂蚁金服 - 某某某事业群</div>
         </div>
@@ -137,7 +137,6 @@ export default {
   data () {
     return {
       timeFix: timeFix(),
-      avatar: '',
       user: {},
 
       projects: [
@@ -390,8 +389,7 @@ export default {
     }
   },
   created () {
-    this.user = this.userInfo
-    this.avatar = this.$store.getters.avatar
+    this.user = this.userInfo.sysUser
   },
   mounted () {
     this.getProjects()

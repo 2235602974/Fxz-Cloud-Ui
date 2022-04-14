@@ -81,11 +81,11 @@ export default {
       },
       form: {
         avatar: this.$store.getters.url, // 数据库中的地址
-        mobile: this.$store.getters.userInfo.principal.mobile,
-        description: this.$store.getters.userInfo.principal.description,
-        email: this.$store.getters.userInfo.principal.email,
+        mobile: this.$store.getters.userInfo.sysUser.mobile,
+        description: this.$store.getters.userInfo.sysUser.description,
+        email: this.$store.getters.userInfo.sysUser.email,
         password: '',
-        userId: this.$store.getters.userInfo.principal.userId
+        userId: this.$store.getters.userInfo.sysUser.userId
       },
       // cropper
       preview: {},

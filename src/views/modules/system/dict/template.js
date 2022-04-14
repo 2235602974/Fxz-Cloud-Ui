@@ -1,7 +1,7 @@
 export const tableObj = {
   columns: [
     {
-      title: '字典类型',
+      title: '字典编码',
       field: 'type'
     },
     {

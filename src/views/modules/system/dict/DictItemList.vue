@@ -83,7 +83,7 @@ export default {
       itemDel(record.id).then(() => {
         this.$message.info('删除成功')
         this.init()
-      })
+      }).catch(e => { this.$message.error(e.msg) })
     },
     handleCancel () {
       this.visible = false

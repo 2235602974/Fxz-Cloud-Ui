@@ -64,7 +64,6 @@ export default {
       const formData = new FormData()
       formData.append('file', file.file)
       add(formData).then(res => {
-        console.log(res.data.data.url)
         this.options.url = res.data.data.url
          handleImg(res.data.data.url, 'touxiang')
         file.status = 'done'

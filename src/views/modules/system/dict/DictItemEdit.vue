@@ -136,17 +136,15 @@ export default {
       } else {
         this.confirmLoading = false
       }
-      console.log('form:', this.form)
     },
     handleOk () {
       this.$refs.form.validate(async valid => {
         if (valid) {
           this.confirmLoading = true
-          console.log('form1', this.form)
           if (this.type === 'add') {
             await itemAdd(this.form)
           } else if (this.type === 'edit') {
-            await itemUpdate(this.form)
+            await itemUpdate(this.form).catch(e => { this.$message.error(e.msg) })
           }
           setTimeout(() => {
             this.confirmLoading = false

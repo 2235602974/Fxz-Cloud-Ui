@@ -4,7 +4,7 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-form-item label="字典类型">
+            <a-form-item label="字典编码">
               <a-input v-model="queryParam.type" placeholder="字典编码" />
             </a-form-item>
           </a-col>
@@ -120,6 +120,8 @@ export default {
       del(record.id).then(_ => {
         this.$message.info('删除成功')
         this.queryPage()
+      }).catch(e => {
+        this.$message.error(e.msg)
       })
     }
   }

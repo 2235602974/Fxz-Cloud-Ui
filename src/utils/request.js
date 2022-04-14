@@ -15,7 +15,6 @@ const request = axios.create({
 
 // 异常拦截处理器
 const errorHandler = (error) => {
-  console.log('进入了异常拦截器:', error)
   if (error.response) {
     const data = error.response.data
     // 从 localstorage 获取 token
@@ -32,7 +31,6 @@ const errorHandler = (error) => {
         description: '授权验证失败'
       })
       if (token) {
-        console.log('进入了异常拦截器 退出登录:', error)
         store.dispatch('Logout').then(() => {
           setTimeout(() => {
             window.location.reload()
@@ -57,6 +55,9 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
+  if (response.data.code && response.data.code === 'B0001') {
+    return Promise.reject(response.data)
+  }
   return response.data
 }, errorHandler)
 
