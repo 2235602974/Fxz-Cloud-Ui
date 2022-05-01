@@ -85,7 +85,6 @@ export default {
       dictTypes: [],
       loadData: (parameter) => {
         return page(Object.assign(parameter, this.queryParam)).then(res => {
-          console.log('res.data', res.data)
           return res.data
         })
       }

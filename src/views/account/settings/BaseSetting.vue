@@ -33,6 +33,16 @@
             <a-input placeholder="密码" v-model="form.password" />
           </a-form-model-item>
 
+          <a-form-model-item
+            label="性别"
+            :required="false"
+            prop="ssex"
+          >
+            <a-radio-group v-model="form.sex">
+              <a-radio :value="item.value" v-for="item in dictTypes" :key="item.id">{{ item.label }}</a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+
           <a-form-model-item>
             <a-button :loading="confirmLoading" type="primary" @click="handleOk">提交</a-button>
           </a-form-model-item>
@@ -61,6 +71,7 @@ import AvatarModal from './AvatarModal'
 import { handleImg } from '@/utils/util'
 import { updateById } from '@/api/sys/user'
 import { validateEmailRule, validateMobileRule } from '@/utils/validate'
+import { getDictItemsByType } from '@/api/sys/dict'
 
 export default {
   components: {
@@ -68,6 +79,7 @@ export default {
   },
   data () {
     return {
+      dictTypes: [],
       confirmLoading: false,
       rules: {
         mobile: [
@@ -80,11 +92,12 @@ export default {
         ]
       },
       form: {
+        sex: this.$store.getters.userInfo.sysUser.sex,
         avatar: this.$store.getters.url, // 数据库中的地址
         mobile: this.$store.getters.userInfo.sysUser.mobile,
         description: this.$store.getters.userInfo.sysUser.description,
         email: this.$store.getters.userInfo.sysUser.email,
-        password: '',
+        password: undefined,
         userId: this.$store.getters.userInfo.sysUser.userId
       },
       // cropper
@@ -110,6 +123,11 @@ export default {
     userInfo () {
       return this.$store.getters.userInfo
     }
+  },
+  created () {
+    getDictItemsByType('sex_type').then(res => {
+      this.dictTypes = res.data
+    })
   },
   methods: {
     handleOk () {

@@ -62,17 +62,13 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const result = response.data
-          console.log('userInfo:', result)
 
           const role = {
             permissions: result.permissions
           }
           Vue.ls.set('Url', result.sysUser.avatar)
-         // commit('SET_URL', result.principal.avatar)
           commit('SET_URL', result.sysUser.avatar)
           const p = handleImg(result.sysUser.avatar)
-          console.log('avatar:', result.sysUser.avatar)
-          console.log('p:', p)
           if (p) {
             p.then(res => {
               Vue.ls.set('Avatar', res)
