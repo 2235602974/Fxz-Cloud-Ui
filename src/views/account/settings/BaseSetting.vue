@@ -115,6 +115,12 @@ export default {
     handleOk () {
       this.$refs.form.validate(async valid => {
         if (valid) {
+          if (this.form.mobile && this.form.mobile.indexOf('*') > 0) {
+            this.form.mobile = undefined
+          }
+          if (this.form.email && this.form.email.indexOf('*') > 0) {
+            this.form.email = undefined
+          }
           this.confirmLoading = true
           await updateById(this.form).then(res => {
             this.$message.success('更新成功')
@@ -138,7 +144,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 
 .avatar-upload-wrapper {
   height: 200px;
