@@ -34,7 +34,7 @@
           </a-tree>
         </a-form-model-item>
         <a-form-model-item label="数据权限" prop="dataScope">
-          <a-select v-model="form.dataScope">
+          <a-select v-model="form.dataScope" :disabled="showable">
             <a-select-option
               v-for="item in dictTypes"
               :key="item.id"
