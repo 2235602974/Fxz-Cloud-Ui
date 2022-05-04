@@ -1,10 +1,6 @@
 export const tableObj = {
   columns: [
     {
-      title: '主键',
-      field: 'id'
-    },
-    {
       title: '品牌名称',
       field: 'name'
     },
@@ -18,11 +14,7 @@ export const tableObj = {
     },
     {
       title: '创建时间',
-      field: 'gmtCreate'
-    },
-    {
-      title: '更新时间',
-      field: 'gmtModified'
+      field: 'createTime'
     },
     {
       title: '操作',
