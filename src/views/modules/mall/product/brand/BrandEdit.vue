@@ -37,13 +37,18 @@
           name="file"
           action="/api/system/file/add"
           :headers="headers"
+          list-type="picture-card"
+          class="avatar-uploader"
           :customRequest="uploadFunc"
           :showUploadList="false">
-          <a-button icon="upload">上传图片</a-button>
+          <img v-if="options.img" id="logoImg" :src="options.img" alt="logo"/>
+          <div v-else>
+            <a-icon type="plus" />
+            <div class="ant-upload-text">
+              上传图片
+            </div>
+          </div>
         </a-upload>
-        <a-form-item v-if="this.options.img">
-          <img :src="options.img" id="logoImg" style="width: 180px;height: 180px">
-        </a-form-item>
       </a-form-model-item>
     </a-form-model>
 
@@ -58,8 +63,6 @@
 import { FormMixin } from '@/mixins/FormMixin'
 import { add, get, update } from '@/api/mall/product/brand'
 import { add as addFile } from '@/api/sys/file'
-import Vue from 'vue'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { handleImg } from '@/utils/util'
 
 export default {
@@ -69,9 +72,6 @@ export default {
     return {
       options: {
         img: undefined
-      },
-      headers: {
-        authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN)
       },
       form: {
         id: null,

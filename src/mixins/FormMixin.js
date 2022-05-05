@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
+
 export const FormMixin = {
   data () {
     return {
@@ -14,7 +17,10 @@ export const FormMixin = {
       editable: false,
       addable: false,
       showable: false,
-      type: 'add'
+      type: 'add',
+      headers: {
+        authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN)
+      }
     }
   },
   methods: {
