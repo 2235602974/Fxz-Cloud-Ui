@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position:relative;">
     <a-row :gutter="16">
       <a-col :span="14">
         <a-card>
@@ -7,48 +7,56 @@
             <a-icon type="appstore" theme="twoTone" />
             全部分类
           </template>
-          <div>
+          <div style="height: 100%;">
             <a-tree
-              defaultExpandAll
+              v-if="treeData.length>0"
+              default-expand-all
               :replaceFields="{children:'children', title:'name', key:'id' }"
               :tree-data="treeData"
               @select="onSelect"
             >
               <template v-slot:custom="item">
-                <span>
-                  <a-avatar
-                    v-show="item.level===3"
-                    :src="getImg(item.iconUrl)"
-                    shape="square"
-                    size="small"
-                    style="width: 20px; height:20px; vertical-align: middle;margin-top: -5px" />
-                  {{ item.name }}
-                </span>
-                <span>
-                  <a-button
-                    :span="8"
-                    v-show="!item.level||item.level !== 3"
-                    shape="circle"
-                    @click.stop="add(item)">
-                    <a-icon type="plus" />
-                  </a-button>
-                  <a-button
-                    :span="8"
-                    v-show="item.id !== 0"
-                    type="dashed"
-                    shape="circle"
-                    @click.stop="edit(item)">
-                    <a-icon type="edit" />
-                  </a-button>
-                  <a-button
-                    :span="8"
-                    v-show="item.id && (!item.children || item.children.length <= 0)"
-                    type="danger"
-                    shape="circle"
-                    @click.stop="remove(item)">
-                    <a-icon type="delete" />
-                  </a-button>
-                </span>
+                <div>
+                  <span>
+                    <a-avatar
+                      v-show="item.level===3"
+                      :src="getImg(item.iconUrl)"
+                      shape="square"
+                      size="small"
+                      style="width: 20px; height:20px; vertical-align: middle;margin-top: -5px" />
+                    {{ item.name }}
+                  </span>
+                  <span style="position:absolute;right:20px;">
+                    <a-button
+                      size="small"
+                      style="margin-right: 10px"
+                      v-show="!item.level||item.level !== 3"
+                      shape="circle"
+                      @click.stop="add(item)">
+                      <a-icon type="plus" />
+                    </a-button>
+
+                    <a-button
+                      size="small"
+                      style="margin-right: 10px"
+                      v-show="item.id !== 0"
+                      type="dashed"
+                      shape="circle"
+                      @click.stop="edit(item)">
+                      <a-icon type="edit" />
+                    </a-button>
+
+                    <a-button
+                      size="small"
+                      style="margin-right: 10px;"
+                      v-show="item.id && (!item.children || item.children.length <= 0)"
+                      type="danger"
+                      shape="circle"
+                      @click.stop="remove(item)">
+                      <a-icon type="delete" />
+                    </a-button>
+                  </span>
+                </div>
               </template>
             </a-tree>
           </div>
@@ -334,5 +342,20 @@ export default {
 </script>
 
 <style scoped>
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
 
+.el-tree-node__content {
+  height: 40px;
+}
+
+.el-divider--horizontal {
+  margin: 30px 0 15px;
+}
 </style>
