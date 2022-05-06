@@ -88,26 +88,34 @@
                 <a-form-model-item
                   v-for="(item, index) in formData.attributes"
                   :key="index"
+                  :label-col="{ span: 6 }"
+                  :wrapper-col="{ span: 10 }"
                   :label="'基本属性' + (index + 1)"
                   :prop="'attributes.' + index + '.name'"
                   :rules="rules.attribute.name">
-                  <a-input v-model="item.name" style="width: 300px" />
-
-                  <a-button
-                    v-if="index === 0"
-                    @click.prevent="handleAdd"
-                    shape="circle"
-                    style="margin-left: 15px">
-                    <a-icon type="plus" />
-                  </a-button>
-
-                  <a-button
-                    @click.prevent="handleDelete(index)"
-                    type="danger"
-                    shape="circle"
-                    style="margin-left: 15px">
-                    <a-icon type="delete" />
-                  </a-button>
+                  <a-row>
+                    <a-col span="16">
+                      <a-input v-model="item.name" style="width: 100px" />
+                    </a-col>
+                    <a-col span="4">
+                      <a-button
+                        v-if="index === 0"
+                        @click.prevent="handleAdd"
+                        shape="circle"
+                        style="margin-left: 15px">
+                        <a-icon type="plus" />
+                      </a-button>
+                    </a-col>
+                    <a-col span="4">
+                      <a-button
+                        @click.prevent="handleDelete(index)"
+                        type="danger"
+                        shape="circle"
+                        style="margin-left: 25px">
+                        <a-icon type="delete" />
+                      </a-button>
+                    </a-col>
+                  </a-row>
                 </a-form-model-item>
               </a-form-model>
             </a-row>
@@ -128,30 +136,38 @@
 
             <a-row style="margin-top: 10px">
               <a-form-model
-                :model="formData2">
+                :model="formData2"
+                :label-col="{ span: 6 }"
+                :wrapper-col="{ span: 10 }">
                 <a-form-model-item
                   v-for="(item, index) in formData2.attributes"
                   :key="index"
                   :label="'基本属性' + (index + 1)"
                   :prop="'attributes.' + index + '.name'"
                   :rules="rules.attribute.name">
-                  <a-input v-model="item.name" style="width: 300px" />
-
-                  <a-button
-                    v-if="index === 0"
-                    @click.prevent="handleAdd2"
-                    shape="circle"
-                    style="margin-left: 15px">
-                    <a-icon type="plus" />
-                  </a-button>
-
-                  <a-button
-                    @click.prevent="handleDelete2(index)"
-                    type="danger"
-                    shape="circle"
-                    style="margin-left: 15px">
-                    <a-icon type="delete" />
-                  </a-button>
+                  <a-row>
+                    <a-col span="16">
+                      <a-input v-model="item.name" style="width: 100px" />
+                    </a-col>
+                    <a-col span="4">
+                      <a-button
+                        v-if="index === 0"
+                        @click.prevent="handleAdd2"
+                        shape="circle"
+                        style="margin-left: 15px;">
+                        <a-icon type="plus" />
+                      </a-button>
+                    </a-col>
+                    <a-col span="4">
+                      <a-button
+                        @click.prevent="handleDelete2(index)"
+                        type="danger"
+                        shape="circle"
+                        style="margin-left: 25px">
+                        <a-icon type="delete" />
+                      </a-button>
+                    </a-col>
+                  </a-row>
                 </a-form-model-item>
               </a-form-model>
             </a-row>
