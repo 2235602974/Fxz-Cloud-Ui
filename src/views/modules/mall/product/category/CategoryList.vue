@@ -358,20 +358,5 @@ export default {
 </script>
 
 <style scoped>
-.custom-tree-node {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  padding-right: 8px;
-}
 
-.el-tree-node__content {
-  height: 40px;
-}
-
-.el-divider--horizontal {
-  margin: 30px 0 15px;
-}
 </style>

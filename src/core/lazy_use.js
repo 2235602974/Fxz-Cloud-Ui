@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 // base library
 import {
+  Cascader,
   Tree,
   FormModel,
   TreeSelect,
@@ -63,6 +64,7 @@ import BizCom from '@/components/BaseComp'
 
 Vue.use(BizCom)
 Vue.use(FTable)
+Vue.use(Cascader)
 Vue.use(Tree)
 Vue.use(FormModel)
 Vue.use(TreeSelect)
