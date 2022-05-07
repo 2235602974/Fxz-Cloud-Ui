@@ -75,7 +75,7 @@
         <quill-editor @change="editChange"/>
       </a-form-model-item>
     </a-form-model>
-    <div style="position: absolute; bottom: 10px;right: 10px;">
+    <div style="margin-bottom: 10px;">
       <a-button
         type="primary"
         @click="handleNext"

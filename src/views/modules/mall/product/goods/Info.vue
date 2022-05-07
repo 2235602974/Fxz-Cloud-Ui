@@ -1,6 +1,6 @@
 <template>
   <a-card>
-    <a-steps :current="active">
+    <a-steps :current="active" style="margin-top: 10px">
       <a-step title="填写商品信息" />
       <a-step title="设置商品属性" />
       <a-step title="设置商品库存" />
@@ -21,7 +21,7 @@ export default {
   mixins: [],
   data () {
     return {
-      active: 0,
+      active: 1,
       goodsInfo: {}
     }
   },
