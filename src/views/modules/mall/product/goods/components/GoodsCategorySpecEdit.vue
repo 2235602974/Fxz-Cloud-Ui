@@ -109,7 +109,7 @@ export default {
   },
   props: {
     categoryId: {
-      type: Number,
+      type: String,
       default: undefined
     },
     attrType: {

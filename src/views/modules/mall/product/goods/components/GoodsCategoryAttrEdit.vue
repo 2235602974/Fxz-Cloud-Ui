@@ -61,7 +61,7 @@ export default {
   },
   props: {
     categoryId: {
-      type: Number,
+      type: String,
       default: undefined
     },
     attrType: {
@@ -82,6 +82,7 @@ export default {
     },
     categoryId: {
       handler () {
+        console.log('categoryId', this.categoryId)
         this.listAttributes()
       },
       immediate: true

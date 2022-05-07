@@ -35,7 +35,7 @@
       ref="goodsCategoryAttrEdit"
       @ok="handleOk"
       :attrValList="attrValList"
-      :categoryId="Number(this.goodsInfo.categoryId[this.goodsInfo.categoryId.length-1])"
+      :categoryId="this.goodsInfo.categoryId[this.goodsInfo.categoryId.length-1]"
       :attrType="1" />
   </div>
 </template>
