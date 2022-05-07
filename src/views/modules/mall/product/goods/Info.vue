@@ -6,22 +6,24 @@
       <a-step title="设置商品库存" />
     </a-steps>
 
-    <goods-info :goods-info="goodsInfo" v-if="active===0" @next="next"/>
-    <good-attr-val :goods-info="goodsInfo" v-if="active===1" @next="next" @prev="prev"/>
+    <goods-info :goods-info="goodsInfo" v-if="active===0" @next="next" />
+    <good-attr-val :goods-info="goodsInfo" v-if="active===1" @next="next" @prev="prev" />
+    <goods-spec-val :goods-info="goodsInfo" v-if="active===2" @next="next" @prev="prev" />
   </a-card>
 </template>
 
 <script>
 import GoodsInfo from './components/GoodsInfo'
 import GoodAttrVal from '@/views/modules/mall/product/goods/components/GoodsAttrVal'
+import GoodsSpecVal from '@/views/modules/mall/product/goods/components/GoodsSpecVal'
 
 export default {
   name: 'Info',
-  components: { GoodsInfo, GoodAttrVal },
+  components: { GoodsInfo, GoodAttrVal, GoodsSpecVal },
   mixins: [],
   data () {
     return {
-      active: 1,
+      active: 0,
       goodsInfo: {}
     }
   },

@@ -3,7 +3,7 @@
     <div style="margin-top: 20px;margin-bottom: 30px">
       <f-table
         :showPagination="false"
-        :columns="tableObj.columns"
+        :columns="tableObj.specColumns"
         :data="loadData"
         ref="table">
         <template v-slot:buttons>
@@ -23,36 +23,37 @@
     <div style="margin-bottom: 10px;">
       <a-button
         @click="handlePrev"
-        style="margin-right: 10px">上一步，填写商品信息
+        style="margin-right: 10px">上一步，填写商品属性
       </a-button>
       <a-button
         type="primary"
         @click="handleNext"
-        style="margin-right: 10px">下一步，设置商品规格
+        style="margin-right: 10px">提交
       </a-button>
     </div>
-    <goods-category-attr-edit
+    <goods-category-spec-edit
       ref="goodsCategoryAttrEdit"
       @ok="handleOk"
       :attrValList="attrValList"
       :categoryId="Number(this.goodsInfo.categoryId[this.goodsInfo.categoryId.length-1])"
-      :attrType="2" />
+      :attrType="1" />
   </div>
 </template>
 
 <script>
+import { addGoods } from '@/api/mall/product/goods'
 import { tableObj } from '@/views/modules/mall/product/goods/components/template'
 import { TableMixin } from '@/mixins/TableMixin'
-import GoodsCategoryAttrEdit from '@/views/modules/mall/product/goods/components/GoodsCategoryAttrEdit'
+import GoodsCategorySpecEdit from '@/views/modules/mall/product/goods/components/GoodsCategorySpecEdit'
 
 export default {
-  name: 'GoodAttrVal',
+  name: 'GoodSpecVal',
   mixins: [TableMixin],
-  components: { GoodsCategoryAttrEdit },
+  components: { GoodsCategorySpecEdit },
   data () {
     return {
       tableObj,
-      attrValList: [],
+      attrValList: [], // 当前填写完成的属性以及属性值
       loadData: () => {
         return new Promise(resolve => {
           const res = {}
@@ -65,27 +66,33 @@ export default {
   props: {
     goodsInfo: {
       type: Object,
-      default: () => {}
+      default: () => {
+      }
     }
   },
   methods: {
     handleOk (v) {
       this.attrValList = v
-      this.goodsInfo.attrList = this.attrValList
+      this.goodsInfo.skuList = this.attrValList
       this.queryPage()
     },
     addAttr () {
       this.$refs.goodsCategoryAttrEdit.init('', 'add')
     },
     remove (row) {
-      this.attrValList = this.attrValList.filter(item => item.attributeId !== row.attributeId)
+      this.attrValList = this.attrValList.filter(item => item.name !== row.name)
       this.queryPage()
     },
     handlePrev () {
       this.$emit('prev')
     },
     handleNext () {
-      this.$emit('next')
+      this.goodsInfo.categoryId = this.goodsInfo.categoryId[this.goodsInfo.categoryId.length - 1]
+      console.log('this.goodsInfo', this.goodsInfo)
+      addGoods(this.goodsInfo).then(_ => {
+        this.$message.success('保存成功!')
+        this.$emit('next')
+      })
     }
   }
 }

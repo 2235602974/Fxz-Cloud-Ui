@@ -16,7 +16,7 @@
           placeholder="请选择商品分类" />
       </a-form-model-item>
       <a-form-model-item label="品牌名称" prop="brandId">
-        <a-select v-model="goodsInfo.brandId" >
+        <a-select v-model="goodsInfo.brandId">
           <a-select-option :key="item.id" v-for="item in brandList ">{{ item.name }}</a-select-option>
         </a-select>
       </a-form-model-item>
@@ -57,8 +57,12 @@
                   alt="logo"
                   style="width: 100px;height: 100px;"
                 />
-                <a-icon type="plus" v-if="!item.url"/>
-                <a-icon type="close" v-if="item.url" style="position:absolute;margin-top: -8px;right: 12px;color: #f5222d" @click.stop="removeImg(index)"/>
+                <a-icon type="plus" v-if="!item.url" />
+                <a-icon
+                  type="close"
+                  v-if="item.url"
+                  style="position:absolute;margin-top: -8px;right: 12px;color: #f5222d"
+                  @click.stop="removeImg(index)" />
               </a-upload>
               <div v-if="item.url">
                 <span v-if="item.main === true" style="color: #ff4d51;">商品主图</span>
@@ -72,14 +76,15 @@
         </a-row>
       </a-form-model-item>
       <a-form-model-item label="商品详情" prop="detail">
-        <quill-editor @change="editChange"/>
+        <quill-editor @change="editChange" />
       </a-form-model-item>
     </a-form-model>
     <div style="margin-bottom: 10px;">
       <a-button
         type="primary"
         @click="handleNext"
-        style="margin-right: 10px">下一步，设置商品属性</a-button>
+        style="margin-right: 10px">下一步，设置商品属性
+      </a-button>
     </div>
   </div>
 </template>
@@ -151,13 +156,6 @@ export default {
         }
       })
     },
-    editChange (html) {
-      this.goodsInfo.detail = html
-    },
-    removeImg (index) {
-      this.$message.success('删除图片成功')
-      this.$set(this.pictures, index, { url: undefined })
-    },
     changeMainPicture (changeIndex) {
       this.$message.success('设为主图')
       const currMainPicture = { ...this.pictures[0] }
@@ -165,6 +163,13 @@ export default {
 
       this.pictures[0].url = nextMainPicture.url
       this.pictures[changeIndex].url = currMainPicture.url
+    },
+    editChange (html) {
+      this.goodsInfo.detail = html
+    },
+    removeImg (index) {
+      this.$message.success('删除图片成功')
+      this.$set(this.pictures, index, { url: undefined })
     },
     uploadFunc (file, index) {
       file = file[0]

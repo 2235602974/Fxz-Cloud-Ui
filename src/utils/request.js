@@ -26,6 +26,7 @@ const errorHandler = (error) => {
       })
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+      debugger
       notification.error({
         message: '未经授权',
         description: '授权验证失败'

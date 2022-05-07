@@ -28,7 +28,7 @@
       @sort-change="sortChangeEvent"
       @cell-dblclick="cellClickEvent"
       height="500px"
-      :tree-config="{children: 'children',expandAll: expandAllTree}"
+      :tree-config="{children: children,expandAll: expandAllTree}"
       :keyboard-config="{isArrow: true}"
       :row-style="rowStyle"
       :cell-class-name="cellClassName"
@@ -141,6 +141,10 @@ export default {
     }
   },
   props: {
+    children: {
+      type: String,
+      default: 'children'
+    },
     columns: { // 表格的列数据
       type: Array,
       default: function () {

@@ -1,12 +1,13 @@
 <template>
   <a-modal
-    :title="title"
+    :title="'添加'"
     :width="modalWidth"
     :visible="visible"
     :confirmLoading="confirmLoading"
     :maskClosable="false"
     @cancel="handleCancel"
   >
+    <a-alert message="选择商品分类相关属性" type="info" close-text="关闭" />
     <a-form-model
       ref="form"
       :model="form"
@@ -14,8 +15,19 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="主键" prop="id" hidden="true">
-        <a-input v-model="form.id" :disabled="showable" />
+      <a-form-model-item label="属性名称" prop="attr">
+        <a-select v-model="form.attr">
+          <a-select-option
+            v-for="item in attrList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+            {{ item.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+      <a-form-model-item label="属性值" prop="attrVal" v-if="form.attr">
+        <a-input v-model="form.attrVal" />
       </a-form-model-item>
     </a-form-model>
 
@@ -28,17 +40,23 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { add, get, update } from '@/api/mall/product/category'
+import { listAttributes } from '@/api/mall/product/attribute'
 
 export default {
-  name: 'GoodsAttrVal',
+  name: 'GoodsCategoryAttr',
   mixins: [FormMixin],
   data () {
     return {
       form: {
-        id: null
+        attr: undefined,
+        attrVal: undefined
       },
-      rules: {}
+      rules: {
+        attr: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        attrVal: [{ required: true, message: '不能为空', trigger: 'blur' }]
+      },
+      attrList: [],
+      tmp: []
     }
   },
   props: {
@@ -49,50 +67,56 @@ export default {
     attrType: {
       type: Number,
       default: undefined
+    },
+    attrValList: {
+      type: Array,
+      default: () => []
     }
   },
   watch: {
     attrType: {
-      handler (newName, oldName) {
+      handler () {
+        this.listAttributes()
       },
       immediate: true
     },
     categoryId: {
-      handler (newName, oldName) {
+      handler () {
+        this.listAttributes()
+      },
+      immediate: true
+    },
+    attrValList: {
+      handler () {
+        this.tmp = this.attrValList
       },
       immediate: true
     }
   },
   methods: {
-    edit (id, type) {
+    listAttributes () {
+      listAttributes(this.categoryId, this.attrType).then(res => {
+        this.attrList = res.data
+      })
+    },
+    edit () {
       this.resetForm()
-      this.options.img = undefined
-      if (['edit', 'show'].includes(type)) {
-        this.confirmLoading = true
-        get(id).then(res => {
-          this.form = res.data
-          this.confirmLoading = false
-        })
-      } else {
-        this.confirmLoading = false
-      }
     },
     handleOk () {
       this.$refs.form.validate(async valid => {
         if (valid) {
-          this.confirmLoading = true
-          if (this.type === 'add') {
-            this.form.level = this.pNode.level + 1
-            this.form.parentId = this.pNode.id
-            await add(this.form)
-          } else if (this.type === 'edit') {
-            await update(this.form)
+          const data = {
+            attributeId: this.form.attr,
+            value: this.form.attrVal,
+            name: this.attrList.filter(item => item.id === this.form.attr)[0].name,
+            type: this.attrType
           }
-          setTimeout(() => {
-            this.confirmLoading = false
-            this.$emit('ok')
-            this.visible = false
-          }, 200)
+          this.tmp = this.tmp.filter(item => item.attributeId !== data.attributeId)
+
+          this.tmp.push(data)
+
+          this.$emit('ok', this.tmp)
+          this.visible = false
         } else {
           return false
         }
