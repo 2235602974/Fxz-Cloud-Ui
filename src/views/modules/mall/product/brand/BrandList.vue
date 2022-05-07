@@ -57,6 +57,7 @@ export default {
       queryParam: {},
       loadData: (parameter) => {
         return page(Object.assign(parameter, this.queryParam)).then(res => {
+          console.log(res.data)
           return res.data
         })
       }

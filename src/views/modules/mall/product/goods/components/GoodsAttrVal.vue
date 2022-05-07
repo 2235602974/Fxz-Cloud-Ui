@@ -1,17 +1,24 @@
 <template>
   <div>
     <div style="margin-top: 20px;margin-bottom: 30px">
-      <a-table :columns="tableObj.columns" :data-source="attrValList" :pagination="false">
-        <template v-slot:myAction="text, record">
+      <f-table
+        :showPagination="false"
+        :columns="tableObj.columns"
+        :data="loadData"
+        ref="table">
+        <template v-slot:buttons>
+          <a-button type="primary" icon="plus" @click="addAttr">新建</a-button>
+        </template>
+        <template v-slot:action="{row}">
           <a-button
             size="small"
             type="danger"
             shape="circle"
-            @click.stop="remove(record)">
+            @click.stop="remove(row)">
             <a-icon type="delete" />
           </a-button>
         </template>
-      </a-table>
+      </f-table>
     </div>
     <div style="margin-bottom: 10px;">
       <a-button
@@ -24,25 +31,38 @@
         style="margin-right: 10px">下一步，设置商品规格
       </a-button>
     </div>
+    <goods-category-attr-edit
+      ref="goodsCategoryAttrEdit"
+      @ok="handleOk"
+      :categoryId="this.goodsInfo.categoryId[this.goodsInfo.categoryId.length-1]"
+      :attrType="2"/>
   </div>
 </template>
 
 <script>
 import { tableObj } from '@/views/modules/mall/product/goods/components/template'
-
+import { TableMixin } from '@/mixins/TableMixin'
+import GoodsCategoryAttrEdit from '@/views/modules/mall/product/goods/components/GoodsCategoryAttrEdit'
 export default {
   name: 'GoodAttrVal',
-  mixins: [],
-  components: {},
+  mixins: [TableMixin],
+  components: { GoodsCategoryAttrEdit },
   data () {
     return {
       tableObj,
       attrValList: [
         {
           name: 'fxz',
-          value: '111'
+          value: 'fxzz'
         }
-      ]
+      ],
+      loadData: (parameter) => {
+        return new Promise(resolve => {
+          const res = {}
+          res.records = this.attrValList
+          resolve(this.attrValList)
+        })
+      }
     }
   },
   props: {
@@ -56,9 +76,14 @@ export default {
     this.init()
   },
   methods: {
+    handleOk () {
+
+    },
     addAttr () {
+      this.$refs.goodsCategoryAttrEdit.init('', 'add')
     },
     remove (item) {
+      this.queryPage()
     },
     handlePrev () {
       this.$emit('prev')
