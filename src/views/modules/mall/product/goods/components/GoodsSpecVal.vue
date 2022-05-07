@@ -89,6 +89,16 @@ export default {
     handleNext () {
       this.goodsInfo.categoryId = this.goodsInfo.categoryId[this.goodsInfo.categoryId.length - 1]
       console.log('this.goodsInfo', this.goodsInfo)
+
+      this.goodsInfo.price = this.goodsInfo.price * 100
+      this.goodsInfo.originPrice = this.goodsInfo.originPrice * 100
+      const skus = JSON.parse(JSON.stringify(this.goodsInfo.skuList))
+      skus.map((item) => {
+        item.price *= 100
+        return item
+      })
+      this.goodsInfo.skuList = skus
+
       addGoods(this.goodsInfo).then(_ => {
         this.$message.success('保存成功!')
         this.$emit('next')
