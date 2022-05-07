@@ -27,8 +27,26 @@
       <a-form-model-item label="库存" prop="stockNum">
         <a-input-number v-model="form.stockNum" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="商品图片" prop="picUrl">
-        <a-input v-model="form.picUrl" />
+      <a-form-model-item
+        label="商品图片"
+        prop="picUrl"
+      >
+        <a-upload
+          name="file"
+          action="/api/system/file/add"
+          :headers="headers"
+          list-type="picture-card"
+          class="avatar-uploader"
+          :customRequest="uploadFunc"
+          :showUploadList="false">
+          <img v-if="form.picUrl" id="logoImg" :src="getImg(form.picUrl)" alt="img" />
+          <div v-else>
+            <a-icon type="plus" />
+            <div class="ant-upload-text">
+              上传图片
+            </div>
+          </div>
+        </a-upload>
       </a-form-model-item>
       <a-form-model-item label="商品规格" prop="specIdList">
         <a-select v-model="form.specIdList" mode="multiple" @change="handleChange">
@@ -61,6 +79,7 @@
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
 import { listAttributes } from '@/api/mall/product/attribute'
+import { add as addFile } from '@/api/sys/file'
 
 export default {
   name: 'GoodsCategorySpec',
@@ -171,6 +190,20 @@ export default {
       this.$nextTick(() => {
         this.$refs.form.resetFields()
       })
+    },
+    uploadFunc (file) {
+      const formData = new FormData()
+      formData.append('file', file.file)
+      addFile(formData).then(res => {
+        this.form.picUrl = res.data.data.url
+        file.status = 'done'
+        this.$message.success('上传成功')
+      }).catch(_ => {
+        this.$message.error('上传失败')
+      })
+    },
+    getImg (icon) {
+      return 'http://127.0.0.1:8301' + icon
     }
   }
 }
