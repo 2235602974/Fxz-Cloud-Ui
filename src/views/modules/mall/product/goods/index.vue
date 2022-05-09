@@ -9,6 +9,12 @@
         <template v-slot:picUrl="text">
           <img :src="getImg(text)" width="40" />
         </template>
+        <template v-slot:originPrice="text">
+          {{ text | moneyFormatter() }}
+        </template>
+        <template v-slot:price="text">
+          {{ text | moneyFormatter() }}
+        </template>
         <template v-slot:detail="text">
           <a href="javascript:" @click="spuInfo(text)">详情</a>
         </template>
@@ -24,6 +30,9 @@
             :columns="tableObj.skuColumns"
             :dataSource="record.skuList"
             :loading="tableLoading">
+            <template v-slot:price="text">
+              {{ text | moneyFormatter() }}
+            </template>
             <template v-slot:picUrl="text">
               <img :src="getImg(text)" width="40" />
             </template>
@@ -39,7 +48,7 @@
 
 <script>
 import { tableObj } from '@/views/modules/mall/product/goods/template'
-import { page, del } from '@/api/mall/product/goods'
+import { del, page } from '@/api/mall/product/goods'
 
 export default {
   name: 'GoodsIndex',

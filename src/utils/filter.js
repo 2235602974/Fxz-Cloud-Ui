@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+
 moment.locale('zh-cn')
 
 Vue.filter('NumberFormat', function (value) {
@@ -25,4 +26,8 @@ Vue.filter('dictFilter', function (data, list = []) {
   } catch (e) {
     return data
   }
+})
+
+Vue.filter('moneyFormatter', function (num) {
+  return '¥' + (isNaN(num) ? 0.00 : parseFloat((num / 100).toFixed(2)))
 })

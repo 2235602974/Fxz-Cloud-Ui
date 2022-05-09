@@ -101,7 +101,9 @@ export default {
 
       addGoods(this.goodsInfo).then(_ => {
         this.$message.success('保存成功!')
+        this.goodsInfo = {}
         this.$emit('next')
+        this.$router.push({ name: 'goodsList' })
       })
     }
   }

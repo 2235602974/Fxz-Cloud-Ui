@@ -39,7 +39,7 @@
           class="avatar-uploader"
           :customRequest="uploadFunc"
           :showUploadList="false">
-          <img v-if="form.picUrl" id="logoImg" :src="getImg(form.picUrl)" alt="img" />
+          <img v-if="form.picUrl" id="logoImg" :src="getImg(form.picUrl)" alt="img" width="150px"/>
           <div v-else>
             <a-icon type="plus" />
             <div class="ant-upload-text">

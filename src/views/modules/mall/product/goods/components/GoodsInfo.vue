@@ -184,7 +184,6 @@ export default {
       })
     },
     init () {
-      this.goodsInfo = {}
       list().then(res => {
         this.CateGoryList = res.data
       })
