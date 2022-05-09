@@ -61,17 +61,19 @@ const user = {
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
+          const expire = 60 * 60 * 24 * 100
+
           const result = response.data
 
           const role = {
             permissions: result.permissions
           }
-          Vue.ls.set('Url', result.sysUser.avatar)
+          Vue.ls.set('Url', result.sysUser.avatar, expire)
           commit('SET_URL', result.sysUser.avatar)
           const p = handleImg(result.sysUser.avatar)
           if (p) {
             p.then(res => {
-              Vue.ls.set('Avatar', res)
+              Vue.ls.set('Avatar', res, expire)
               commit('SET_AVATAR', res)
             })
           } else {
@@ -79,9 +81,9 @@ const user = {
             commit('SET_AVATAR', '')
           }
 
-          Vue.ls.set('Name', { name: result.sysUser.username, welcome: welcome() })
-          Vue.ls.set('Roles', role)
-          Vue.ls.set('Info', result)
+          Vue.ls.set('Name', { name: result.sysUser.username, welcome: welcome() }, expire)
+          Vue.ls.set('Roles', role, expire)
+          Vue.ls.set('Info', result, expire)
           commit('SET_ROLES', role)
           commit('SET_INFO', result)
           commit('SET_NAME', { name: result.sysUser.username, welcome: welcome() })

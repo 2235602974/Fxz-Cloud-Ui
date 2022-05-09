@@ -21,3 +21,14 @@ export function page (params) {
     params: params
   })
 }
+
+/**
+ * 删除
+ */
+export function del (id) {
+  return axios({
+    url: '/product/goods/delete',
+    params: { id },
+    method: 'DELETE'
+  })
+}

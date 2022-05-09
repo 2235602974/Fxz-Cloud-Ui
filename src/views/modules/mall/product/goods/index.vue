@@ -12,6 +12,11 @@
         <template v-slot:detail="text">
           <a href="javascript:" @click="spuInfo(text)">详情</a>
         </template>
+        <template v-slot:action="text,row">
+          <a-popconfirm title="是否删除权限" @confirm="deleteItem(row)" okText="是" cancelText="否">
+            <a href="javascript:;" style="color: red">删除</a>
+          </a-popconfirm>
+        </template>
         <template v-slot:expandedRowRender="record" style="margin: 0">
           <a-table
             size="small"
@@ -34,7 +39,7 @@
 
 <script>
 import { tableObj } from '@/views/modules/mall/product/goods/template'
-import { page } from '@/api/mall/product/goods'
+import { page, del } from '@/api/mall/product/goods'
 
 export default {
   name: 'GoodsIndex',
@@ -55,6 +60,12 @@ export default {
     this.queryData()
   },
   methods: {
+    deleteItem (row) {
+      del(row.id).then(_ => {
+        this.$message.success('删除成功')
+        this.queryData()
+      })
+    },
     spuInfo (info) {
       if (this.visible) {
         this.visible = false
