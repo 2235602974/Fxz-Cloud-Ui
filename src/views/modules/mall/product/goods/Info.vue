@@ -38,6 +38,7 @@ export default {
     prev () {
       if (this.active-- <= 0) {
         this.active = 0
+        this.goodsInfo = {}
       }
     }
   }

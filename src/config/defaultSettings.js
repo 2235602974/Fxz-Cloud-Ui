@@ -14,7 +14,7 @@
 
 export default {
   navTheme: 'dark', // theme for nav menu
-  primaryColor: '#1890ff', // primary color of fxz-cloud
+  primaryColor: '#188cff', // primary color of fxz-cloud
   layout: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`
   contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
   fixedHeader: false, // sticky header
@@ -24,7 +24,7 @@ export default {
   menu: {
     locale: true
   },
-  title: 'Fxz-Cloud',
+  title: 'Fxz-Mall',
   pwa: false,
   iconfontUrl: '',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
