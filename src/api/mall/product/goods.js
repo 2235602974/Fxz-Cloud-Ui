@@ -10,3 +10,14 @@ export function addGoods (obj) {
     data: obj
   })
 }
+
+/**
+ * 分页
+ */
+export function page (params) {
+  return axios({
+    url: '/product/goods/page',
+    method: 'GET',
+    params: params
+  })
+}

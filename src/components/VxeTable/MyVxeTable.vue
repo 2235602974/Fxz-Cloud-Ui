@@ -42,12 +42,14 @@
 
       <!--序号列-->
       <vxe-column type="seq" width="60" v-if="seq" :title="seqTitle"></vxe-column>
+
       <template #empty>
         <span style="color: red;">
           <img src="https://n.sinaimg.cn/sinacn17/w120h120/20180314/89fc-fyscsmv5911424.gif">
           <p>不用再看了，没有更多数据了！</p>
         </span>
       </template>
+
       <template v-for="(column,index) in columns">
         <vxe-column
           :key="index"
