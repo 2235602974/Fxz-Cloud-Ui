@@ -8,7 +8,8 @@ export const tableObj = {
     { title: '促销价', dataIndex: 'price', key: 'price' },
     { title: '销量', dataIndex: 'sales', key: 'sales' },
     { title: '单位', dataIndex: 'unit', key: 'unit' },
-    { title: '描述', dataIndex: 'description', key: 'description' }
+    { title: '描述', dataIndex: 'description', key: 'description' },
+    { title: '商品详情', dataIndex: 'detail', key: 'detail', scopedSlots: { customRender: 'detail' } }
   ],
   skuColumns: [
     { title: '库存编码', dataIndex: 'skuSn', key: 'skuSn' },
