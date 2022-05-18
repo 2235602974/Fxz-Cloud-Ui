@@ -1,44 +1,29 @@
 <template>
   <div>
     <a-card>
-      <a-table
-        bordered
+      <f-table
+        :expandConfig="expandConfig"
         :columns="tableObj.columns"
-        :dataSource="tableData"
-        :loading="tableLoading"
-      >
-        <template v-slot:picUrl="text">
-          <img :src="getImg(text)" width="40" />
+        :data="loadData"
+        ref="table">
+        <template v-slot:picUrl="{row}">
+          <img :src="getImg(row.picUrl)" width="40" />
         </template>
-        <template v-slot:originPrice="text">
-          {{ text | moneyFormatter() }}
+        <template v-slot:originPrice="{row}">
+          {{ row.originPrice | moneyFormatter() }}
         </template>
-        <template v-slot:price="text">
-          {{ text | moneyFormatter() }}
+        <template v-slot:price="{row}">
+          {{ row.price | moneyFormatter() }}
         </template>
-        <template v-slot:detail="text">
-          <a href="javascript:" @click="spuInfo(text)">详情</a>
+        <template v-slot:detail="{row}">
+          <a href="javascript:" @click="spuInfo(row.detail)">详情</a>
         </template>
-        <template v-slot:action="text,row">
+        <template v-slot:action="{row}">
           <a-popconfirm title="是否删除权限" @confirm="deleteItem(row)" okText="是" cancelText="否">
             <a href="javascript:;" style="color: red">删除</a>
           </a-popconfirm>
         </template>
-        <template v-slot:expandedRowRender="record">
-          <a-table
-            :pagination="false"
-            :columns="tableObj.skuColumns"
-            :dataSource="record.skuList"
-            :loading="tableLoading">
-            <template v-slot:price="text">
-              {{ text | moneyFormatter() }}
-            </template>
-            <template v-slot:picUrl="text">
-              <img :src="getImg(text)" width="40" />
-            </template>
-          </a-table>
-        </template>
-      </a-table>
+      </f-table>
     </a-card>
     <a-modal v-model="visible" title="商品详情" @ok="spuInfo" :footer="null">
       <div v-html="goodDetail"></div>
@@ -49,11 +34,17 @@
 <script>
 import { tableObj } from '@/views/modules/mall/product/goods/template'
 import { del, page } from '@/api/mall/product/goods'
-
+import { TableMixin } from '@/mixins/TableMixin'
 export default {
   name: 'GoodsIndex',
+  mixins: [TableMixin],
   data () {
     return {
+      expandConfig: {
+        expand: true,
+        expandField: 'skuList',
+        columns: tableObj.skuColumns
+      },
       tableObj,
       tableData: [],
       tableLoading: false,
@@ -62,17 +53,23 @@ export default {
       defaultCurrent: 1,
       total: 0,
       visible: false,
-      goodDetail: undefined
+      goodDetail: undefined,
+      loadData: (parameter) => {
+        const params = {
+          current: this.current,
+          pageSize: this.pageSize
+        }
+        return page(Object.assign(parameter, params)).then(res => {
+          return res.data
+        })
+      }
     }
-  },
-  created () {
-    this.queryData()
   },
   methods: {
     deleteItem (row) {
       del(row.id).then(_ => {
         this.$message.success('删除成功')
-        this.queryData()
+        this.restQuery()
       })
     },
     spuInfo (info) {
@@ -83,18 +80,6 @@ export default {
         this.visible = true
         this.goodDetail = info
       }
-    },
-    queryData () {
-      this.tableLoading = true
-      const params = {
-        current: this.current,
-        pageSize: this.pageSize
-      }
-      page(params).then(res => {
-        this.tableData = res.data.records
-        this.total = res.data.total
-        this.tableLoading = false
-      })
     },
     getImg (icon) {
       return 'http://127.0.0.1:8301' + icon

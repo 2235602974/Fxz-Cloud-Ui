@@ -43,6 +43,74 @@
       <!--序号列-->
       <vxe-column type="seq" width="60" v-if="seq" :title="seqTitle"></vxe-column>
 
+      <!--展开行-->
+      <vxe-column type="expand" width="60" v-if="expandConfig&&expandConfig.expand">
+        <template v-slot:content="{ row, rowIndex }">
+          <template>
+            <vxe-table border :data="row[expandConfig.expandField]" size="small">
+
+              <template v-for="(column,index) in expandConfig.columns">
+                <vxe-column
+                  :key="index"
+                  :field="column.field"
+                  :title="column.title"
+                  :width="column.width"
+                  :sortable="column.sortable || false"
+                  :tree-node="column.treeNode || false"
+                  :align="column.align||'left'"
+                  :fixed="column.fixed"
+                >
+
+                  <!--该列是否开启插槽-->
+                  <template slot-scope="scope">
+
+                    <!--不开启插槽，也没有type，直接显示内容-->
+                    <span v-if="column.slot !== true && !column.type">
+                      {{ scope.row[column.field] }}
+                    </span>
+
+                    <!--开启了插槽，那么根据字典名生成一个插槽-->
+                    <slot
+                      v-else-if="column.slot"
+                      :row="scope.row"
+                      :text="scope.row[column.field]"
+                      :name="column.field"
+                    >
+                    </slot>
+
+                    <!--否则根据列的type显示内容-->
+                    <template v-else>
+
+                      <!--input类型，直接显示内容-->
+                      <span v-if="['input'].includes(column.type)">
+                        {{ scope.row[column.field] }}
+                      </span>
+
+                      <!--如果是url类型，那么生成一个超链接-->
+                      <span v-if="['url'].includes(column.type)">
+                        <a :href="scope.row[column.field]" :target="column.target || '_blank'">{{ scope.row[column.prop] }}</a>
+                      </span>
+
+                      <!--如果是img类型，那么生成img标签-->
+                      <span v-if="['url'].includes(column.type)">
+                        <img :src="scope.row[column.field]" alt="FxzMall" />
+                      </span>
+
+                      <!--如果是字典类型，那么过滤出字典内容-->
+                      <span v-if="['dict'].includes(column.type)">
+                        <span>{{ scope.row[column.field] | dictFilter(column.options) }}</span>
+                      </span>
+
+                    </template>
+
+                  </template>
+                </vxe-column>
+              </template>
+            </vxe-table>
+          </template>
+        </template>
+      </vxe-column>
+
       <template #empty>
         <span style="color: red;">
           <img src="https://n.sinaimg.cn/sinacn17/w120h120/20180314/89fc-fyscsmv5911424.gif">
@@ -143,6 +211,10 @@ export default {
     }
   },
   props: {
+    expandConfig: {
+      type: Object,
+      default: () => null
+    },
     children: {
       type: String,
       default: 'children'
