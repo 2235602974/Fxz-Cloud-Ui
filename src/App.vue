@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider :locale="locale">
+  <a-config-provider :locale="zh_CN">
     <div id="app">
       <router-view/>
     </div>
@@ -9,10 +9,13 @@
 <script>
 import { domTitle, setDocumentTitle } from '@/utils/domUtil'
 import { i18nRender } from '@/locales'
+// eslint-disable-next-line camelcase
+import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 
 export default {
   data () {
     return {
+      zh_CN
     }
   },
   computed: {

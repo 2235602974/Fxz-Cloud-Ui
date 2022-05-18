@@ -1,3 +1,50 @@
+export const statusArr = [
+  {
+    label: '待付款',
+    value: '101'
+  },
+  {
+    label: '用户取消',
+    value: '102'
+  },
+  {
+    label: '系统取消',
+    value: '103'
+  },
+  {
+    label: '已付款',
+    value: '201'
+  },
+  {
+    label: '申请退款',
+    value: '202'
+  },
+  {
+    label: '已退款',
+    value: '203'
+  },
+  {
+    label: '待发货',
+    value: '301'
+  },
+  {
+    label: '已发货',
+    value: '401'
+  },
+  {
+    label: '用户收货',
+    value: '501'
+  },
+  {
+    label: '系统收货',
+    value: '502'
+  },
+  {
+    label: '已完成',
+    value: '901'
+  }
+]
+
 export const tableObj = {
   columns: [
     {
@@ -31,52 +78,7 @@ export const tableObj = {
       title: '订单状态',
       field: 'status',
       type: 'dict',
-      options: [
-        {
-          label: '待付款',
-          value: '101'
-        },
-        {
-          label: '用户取消',
-          value: '102'
-        },
-        {
-          label: '系统取消',
-          value: '103'
-        },
-        {
-          label: '已付款',
-          value: '201'
-        },
-        {
-          label: '申请退款',
-          value: '202'
-        },
-        {
-          label: '已退款',
-          value: '203'
-        },
-        {
-          label: '待发货',
-          value: '301'
-        },
-        {
-          label: '已发货',
-          value: '401'
-        },
-        {
-          label: '用户收货',
-          value: '501'
-        },
-        {
-          label: '系统收货',
-          value: '502'
-        },
-        {
-          label: '已完成',
-          value: '901'
-        }
-      ]
+      options: statusArr
     },
     {
       title: '支付金额',

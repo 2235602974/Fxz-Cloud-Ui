@@ -1,5 +1,20 @@
 <template>
   <a-card :bordered="false">
+    <div class="table-page-search-wrapper">
+      <a-form layout="inline">
+        <a-row :gutter="48">
+          <a-col :md="6" :sm="12">
+            <a-form-item >
+              <a-input v-model="queryParam.nickName" placeholder="会员名称" />
+            </a-form-item>
+          </a-col>
+          <a-col :md="8" :sm="24">
+            <a-button type="primary" @click="queryPage">查询</a-button>
+            <a-button style="margin-left: 8px" @click="restQuery">重置</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </div>
     <f-table
       :expandConfig="expandConfig"
       :columns="tableObj.columns"
