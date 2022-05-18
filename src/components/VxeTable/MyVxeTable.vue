@@ -300,7 +300,7 @@ export default {
   methods: {
     // 当排序条件发生变化时会触发该事件
     sortChangeEvent ({ column, property, order }) {
-      console.info(column, property, order, 'column, property, order')
+      console.info(column, property, order, 'column, property, orders')
       let orders = order
       if (order) {
         orders = order === 'desc' ? 'descend' : 'ascend'
