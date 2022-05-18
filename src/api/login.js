@@ -27,7 +27,7 @@ const userApi = {
  * @returns {*}
  */
 export function login (parameter) {
-  // 密码模式
+  // 自定义验证码模式
   // eslint-disable-next-line camelcase
   const grant_type = 'captcha'
   return request({
@@ -39,7 +39,13 @@ export function login (parameter) {
       // fxz:123456
       'Authorization': 'Basic Znh6OjEyMzQ1Ng=='
     },
-    params: { grant_type, validateCode: parameter.validateCode, uuid: parameter.uuid, username: parameter.username, password: parameter.password }
+    params: {
+      grant_type,
+      validateCode: parameter.validateCode,
+      uuid: parameter.uuid,
+      username: parameter.username,
+      password: parameter.password
+    }
   })
 }
 
@@ -61,6 +67,7 @@ export function getSmsCaptcha (parameter) {
 export function getInfo () {
   return request({
     url: userApi.UserInfo,
+    params: { client_id: 'fxz' },
     method: 'get'
   })
 }

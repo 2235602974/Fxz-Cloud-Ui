@@ -53,7 +53,7 @@ export default {
       },
       fileList: [],
       headers: {
-        authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN)
+        Authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN)
       }
     }
   },

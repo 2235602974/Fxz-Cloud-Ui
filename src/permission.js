@@ -24,9 +24,9 @@ router.beforeEach((to, from, next) => {
       next({ path: defaultRoutePath })
       NProgress.done()
     } else {
-      // check login user.roles is null 如果没有路由信息 调后端接口获取路由菜单
+      // 如果没有路由信息 调后端接口获取路由菜单
       if (store.getters.addRouters.length === 0) {
-        // request login userInfo
+        console.log('store.getters.addRouters:', store.getters.addRouters)
         store
           .dispatch('GetInfo')
           .then(res => {

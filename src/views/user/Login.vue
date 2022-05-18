@@ -189,7 +189,7 @@ export default {
     getValidateCode () {
       getCaptcha().then(res => {
         const { img, uuid } = res.data
-        this.captchaUrl = 'data:image/gif;base64,' + img
+        this.captchaUrl = img
         this.uuid = uuid
       })
     },

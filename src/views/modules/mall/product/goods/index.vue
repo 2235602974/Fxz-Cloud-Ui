@@ -2,6 +2,7 @@
   <div>
     <a-card>
       <a-table
+        bordered
         :columns="tableObj.columns"
         :dataSource="tableData"
         :loading="tableLoading"
@@ -23,9 +24,8 @@
             <a href="javascript:;" style="color: red">删除</a>
           </a-popconfirm>
         </template>
-        <template v-slot:expandedRowRender="record" style="margin: 0">
+        <template v-slot:expandedRowRender="record">
           <a-table
-            size="small"
             :pagination="false"
             :columns="tableObj.skuColumns"
             :dataSource="record.skuList"
