@@ -6,7 +6,7 @@ const userApi = {
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',
-  SendSms: '/account/sms',
+  SendSms: '/system/sms/sendSms',
   SendSmsErr: '/account/sms_err',
   // get my info
   // UserInfo: '/auth/user/info',
@@ -27,9 +27,6 @@ const userApi = {
  * @returns {*}
  */
 export function login (parameter) {
-  // 自定义验证码模式
-  // eslint-disable-next-line camelcase
-  const grant_type = 'captcha'
   return request({
     url: userApi.Login,
     method: 'post',
@@ -39,13 +36,7 @@ export function login (parameter) {
       // fxz:123456
       'Authorization': 'Basic Znh6OjEyMzQ1Ng=='
     },
-    params: {
-      grant_type,
-      validateCode: parameter.validateCode,
-      uuid: parameter.uuid,
-      username: parameter.username,
-      password: parameter.password
-    }
+    params: parameter
   })
 }
 
@@ -59,8 +50,8 @@ export function getCaptcha () {
 export function getSmsCaptcha (parameter) {
   return request({
     url: userApi.SendSms,
-    method: 'post',
-    data: parameter
+    method: 'get',
+    params: parameter
   })
 }
 
