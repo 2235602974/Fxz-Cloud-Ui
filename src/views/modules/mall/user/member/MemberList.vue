@@ -21,7 +21,7 @@
       :data="loadData"
       ref="table">
       <template v-slot:avatarUrl="{row}">
-        <img :src="getImg(row.picUrl)" width="40"/>
+        <img :src="row.avatarUrl" width="40"/>
       </template>
       <template v-slot:balance="{row}">
         {{ row.balance | moneyFormatter }}
@@ -57,9 +57,6 @@ export default {
   methods: {
     handleOk () {
       this.queryPage()
-    },
-    getImg (icon) {
-      return 'http://127.0.0.1:8301' + icon
     }
   }
 }

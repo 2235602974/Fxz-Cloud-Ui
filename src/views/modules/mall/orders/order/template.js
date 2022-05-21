@@ -109,6 +109,10 @@ export const tableObj = {
       ]
     },
     {
+      title: '备注',
+      field: 'remark'
+    },
+    {
       title: '创建时间',
       field: 'createTime'
     }
