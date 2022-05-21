@@ -254,15 +254,16 @@ export default {
         if (!err) {
           state.smsSendBtn = true
 
-          const interval = window.setInterval(() => {
-            if (state.time-- <= 0) {
-              state.time = 60
-              state.smsSendBtn = false
-              window.clearInterval(interval)
-            }
-          }, 1000)
           const hide = this.$message.loading('验证码发送中..', 0)
           getSmsCaptcha({ phoneNumber: values.mobile }).then(res => {
+            const interval = window.setInterval(() => {
+              if (state.time-- <= 0) {
+                state.time = 60
+                state.smsSendBtn = false
+                window.clearInterval(interval)
+              }
+            }, 1000)
+
             setTimeout(hide, 2500)
             this.$notification['success']({
               message: '提示',
@@ -271,7 +272,6 @@ export default {
             })
           }).catch(err => {
             setTimeout(hide, 1)
-            clearInterval(interval)
             state.time = 60
             state.smsSendBtn = false
             this.requestFailed(err)
