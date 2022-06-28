@@ -41,7 +41,7 @@
       </template>
 
       <template v-slot:picUrl="{row}">
-        <img :src="getImg(row.picUrl)" width="40"/>
+        <img :src="row.picUrl" width="40"/>
       </template>
 
     </f-table>
@@ -82,9 +82,6 @@ export default {
     },
     handleOk () {
       this.queryPage()
-    },
-    getImg (icon) {
-      return 'http://127.0.0.1:8301' + icon
     },
     restQuery () {
       this.time2 = undefined

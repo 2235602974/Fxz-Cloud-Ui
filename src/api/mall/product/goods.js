@@ -16,7 +16,7 @@ export function addGoods (obj) {
  */
 export function page (params) {
   return axios({
-    url: '/product/goods/page',
+    url: '/search/goods/page',
     method: 'GET',
     params: params
   })

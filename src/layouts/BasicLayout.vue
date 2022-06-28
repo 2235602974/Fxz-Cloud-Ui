@@ -33,6 +33,8 @@
       <global-footer />
     </template>
 
+    <global-web-socket uri="/websocket/user"/>
+
   </pro-layout>
 </template>
 
@@ -48,10 +50,11 @@ import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import Ads from '@/components/Other/CarbonAds'
 import LogoSvg from '../assets/logo.svg?inline'
-
+import GlobalWebSocket from '@/components/websocket/GlobalWebSocket'
 export default {
   name: 'BasicLayout',
   components: {
+    GlobalWebSocket,
     SettingDrawer,
     RightContent,
     GlobalFooter,

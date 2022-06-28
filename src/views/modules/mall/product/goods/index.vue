@@ -7,7 +7,7 @@
         :data="loadData"
         ref="table">
         <template v-slot:picUrl="{row}">
-          <img :src="getImg(row.picUrl)" width="40" />
+          <img :src="row.picUrl" width="40" />
         </template>
         <template v-slot:originPrice="{row}">
           {{ row.originPrice | moneyFormatter() }}
@@ -80,9 +80,6 @@ export default {
         this.visible = true
         this.goodDetail = info
       }
-    },
-    getImg (icon) {
-      return 'http://127.0.0.1:8301' + icon
     }
   }
 }
