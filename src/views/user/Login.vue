@@ -225,7 +225,7 @@ export default {
             loginParams.uuid = this.uuid
             delete loginParams.username
             loginParams[!state.loginType ? 'email' : 'username'] = values.username
-            loginParams.grant_type = 'password'
+            loginParams.grant_type = 'captcha'
           } else {
             loginParams.code = loginParams.captcha
             loginParams.auth_type = 'sms'
